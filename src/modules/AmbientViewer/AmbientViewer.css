@@ -1,0 +1,42 @@
+.ambient-viewer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #1a1a1a;
+  border-radius: 8px;
+  user-select: none;
+
+  .ambient-base,
+  .ambient-selected-render {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ambient-selected-render {
+    opacity: 0;
+    transition: opacity 0.35s ease;
+
+    &.is-loaded {
+      opacity: 1;
+    }
+
+    &.slider-split {
+      clip-path: inset(0 0 0 var(--slider-x, 50%));
+    }
+  }
+
+  .ambient-actions {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 5;
+  }
+}

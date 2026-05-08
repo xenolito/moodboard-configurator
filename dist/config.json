@@ -1,0 +1,123 @@
+{
+  "ambients": [
+    {
+      "id": "adoquines",
+      "name": "Adoquines",
+      "base": "ambients/adoquines/base.webp",
+      "zones": [
+        {
+          "id": "z1",
+          "maskColor": [0, 0, 0],
+          "label": "Pavimento",
+          "mask": "ambients/adoquines/mask.webp",
+          "models": [
+            {
+              "id": "adoquin_toro_20x10",
+              "name": "Adoquín Toro 20×10",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco",
+                  "variants": [
+                    { "id": "blanco", "name": "Blanco",  "value": "" },
+                    { "id": "rojo",   "name": "Rojo",    "value": "f1a99f" },
+                    { "id": "crema",  "name": "Crema",   "value": "fedd83" },
+                    { "id": "gris",   "name": "Gris",    "value": "d2d2d2" },
+                    { "id": "negro",  "name": "Negro",   "value": "6a6a6a" },
+                    { "id": "tostado","name": "Tostado", "value": "efc9ac" }
+                  ]
+                },
+                {
+                  "name": "Fusión®",
+                  "mode": "texture",
+                  "variants": [
+                    { "id": "fusion_calib_jupiter", "name": "Jupiter" },
+                    { "id": "fusion_calib_venus",   "name": "Venus" },
+                    { "id": "fusion_calib_saturno", "name": "Saturno" },
+                    { "id": "fusion_calib_moon",    "name": "Moon" },
+                    { "id": "fusion_calib_mizar",   "name": "Mizar" },
+                    { "id": "fusion_calib_mercury", "name": "Mercury" },
+                    { "id": "fusion_calib_mars",    "name": "Mars" },
+                    { "id": "fusion_calib_leonis",  "name": "Leonis" },
+                    { "id": "fusion_calib_altair",  "name": "Altair" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "baldosas-1",
+      "name": "Baldosas 1",
+      "base": "ambients/baldosas-1/base.webp",
+      "zones": [
+        {
+          "id": "z1",
+          "maskColor": [0, 0, 0],
+          "label": "Pavimento",
+          "mask": "ambients/baldosas-1/mask.webp",
+          "models": []
+        }
+      ]
+    },
+    {
+      "id": "baldosas-2",
+      "name": "Baldosas 2",
+      "base": "ambients/baldosas-2/base.webp",
+      "zones": [
+        {
+          "id": "z1",
+          "maskColor": [0, 0, 0],
+          "label": "Pavimento",
+          "mask": "ambients/baldosas-2/mask.webp",
+          "models": []
+        }
+      ]
+    },
+    {
+      "id": "bloques-1",
+      "name": "Bloques 1",
+      "base": "ambients/bloques-1/base.webp",
+      "zones": [
+        {
+          "id": "z1",
+          "maskColor": [0, 0, 0],
+          "label": "Muro",
+          "mask": "ambients/bloques-1/mask.webp",
+          "models": []
+        }
+      ]
+    },
+    {
+      "id": "bloques-2",
+      "name": "Bloques 2",
+      "base": "ambients/bloques-2/base.webp",
+      "zones": [
+        {
+          "id": "z1",
+          "maskColor": [0, 0, 0],
+          "label": "Muro",
+          "mask": "ambients/bloques-2/mask.webp",
+          "models": []
+        }
+      ]
+    },
+    {
+      "id": "baldosa-tecnica",
+      "name": "Baldosa Técnica",
+      "base": "ambients/baldosa-tecnica/base.webp",
+      "zones": [
+        {
+          "id": "z1",
+          "maskColor": [0, 0, 0],
+          "label": "Pavimento",
+          "mask": "ambients/baldosa-tecnica/mask.webp",
+          "models": []
+        }
+      ]
+    }
+  ]
+}

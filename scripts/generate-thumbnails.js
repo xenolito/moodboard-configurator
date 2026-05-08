@@ -1,125 +1,93 @@
 #!/usr/bin/env node
 
 /**
- * Script para generar thumbnails de las texturas diffuse
- * Uso: node scripts/generate-thumbnails.js [modelId]
+ * Genera thumbnails 128×128 de las texturas de tile para los botones UI del configurador.
  *
- * Si no se especifica modelId, procesa todos los modelos
- * Las texturas input y output están en public/textures/
+ * Input:  src-assets/textures/{variantId}.webp   (texturas fuente del 3D visualizer)
+ * Output: public/textures/thumb_{variantId}.webp
+ *
+ * Uso: node scripts/generate-thumbnails.js
  */
 
 import sharp from 'sharp'
-import { readdir, readFile } from 'fs/promises'
+import { readFile, mkdir } from 'fs/promises'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { existsSync } from 'fs'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const ROOT        = join(__dirname, '..')
+const CONFIG_FILE = join(ROOT, 'public/config.json')
+const INPUT_DIR   = join(ROOT, 'src-assets/textures')
+const OUTPUT_DIR  = join(ROOT, 'public/textures')
+const THUMB_SIZE  = 128
+const QUALITY     = 85
 
-const MODELS_DIR = join(__dirname, '../public/models')
-const TEXTURES_DIR = join(__dirname, '../public/textures')
-const THUMB_SIZE = 128
-const THUMB_QUALITY = 85
-
-async function processModel(modelId) {
-  console.log(`\n📦 Procesando modelo: ${modelId}`)
-
-  const modelDir = join(MODELS_DIR, modelId)
-
-  // Leer config.json
-  let config
-  try {
-    const configPath = join(modelDir, 'config.json')
-    const configData = await readFile(configPath, 'utf-8')
-    config = JSON.parse(configData)
-  } catch (error) {
-    console.error(`  ❌ Error leyendo config.json: ${error.message}`)
-    return
-  }
-
-  const format = config.textures?.format || 'webp'
-
-  // Obtener todas las variantes de color de todos los grupos
-  const colorVariants = new Set()
-
-  if (config.textures?.Diffuse?.groups) {
-    for (const group of config.textures.Diffuse.groups) {
-      if (group.mode === 'tint') {
-        // En modo tint, solo procesamos la baseTexture
-        if (group.baseTexture) {
-          colorVariants.add(group.baseTexture)
-        }
-      } else {
-        // En modo texture, procesamos todas las variantes
-        if (group.variants) {
-          Object.values(group.variants).forEach(value => {
-            if (value) colorVariants.add(value)
-          })
+async function collectTextureIds(config) {
+  const ids = new Set()
+  for (const ambient of config.ambients) {
+    for (const zone of ambient.zones) {
+      for (const model of (zone.models ?? [])) {
+        for (const group of (model.groups ?? [])) {
+          if (group.mode === 'tint') {
+            if (group.baseTexture) ids.add(group.baseTexture)
+          } else {
+            for (const variant of (group.variants ?? [])) {
+              if (variant.id) ids.add(variant.id)
+            }
+          }
         }
       }
     }
   }
-
-  if (colorVariants.size === 0) {
-    console.log('  ⚠️  No hay variantes de color para procesar')
-    return
-  }
-
-  console.log(`  🎨 Variantes encontradas: ${colorVariants.size}`)
-
-  let processed = 0
-  let skipped = 0
-  let errors = 0
-
-  // Procesar cada variante
-  for (const colorValue of colorVariants) {
-    const inputFile = join(TEXTURES_DIR, `texture_diffuse_${colorValue}.${format}`)
-    const outputFile = join(TEXTURES_DIR, `texture_diffuse_${colorValue}_thumb.${format}`)
-
-    try {
-      await sharp(inputFile)
-        .resize(THUMB_SIZE, THUMB_SIZE, {
-          fit: 'cover',
-          position: 'center'
-        })
-        .webp({ quality: THUMB_QUALITY })
-        .toFile(outputFile)
-
-      processed++
-      process.stdout.write('.')
-    } catch (error) {
-      if (error.code === 'ENOENT') {
-        console.log(`\n  ⚠️  Textura no encontrada: texture_diffuse_${colorValue}.${format}`)
-        skipped++
-      } else {
-        console.log(`\n  ❌ Error procesando ${colorValue}: ${error.message}`)
-        errors++
-      }
-    }
-  }
-
-  console.log(`\n  ✅ Procesadas: ${processed} | ⚠️  Omitidas: ${skipped} | ❌ Errores: ${errors}`)
+  return ids
 }
 
 async function main() {
-  console.log('🖼️  Generador de Thumbnails\n')
+  console.log('🖼️  Generador de Thumbnails — Moodboard Configurator\n')
 
-  const targetModel = process.argv[2]
+  if (!existsSync(CONFIG_FILE)) {
+    console.error('❌ No se encontró public/config.json')
+    process.exit(1)
+  }
 
-  if (targetModel) {
-    // Procesar un modelo específico
-    await processModel(targetModel)
-  } else {
-    // Procesar todos los modelos
-    const models = await readdir(MODELS_DIR, { withFileTypes: true })
+  const config = JSON.parse(await readFile(CONFIG_FILE, 'utf-8'))
+  const ids    = await collectTextureIds(config)
 
-    for (const model of models) {
-      if (model.isDirectory()) {
-        await processModel(model.name)
-      }
+  if (ids.size === 0) {
+    console.log('⚠️  No hay texturas para procesar en config.json')
+    return
+  }
+
+  await mkdir(OUTPUT_DIR, { recursive: true })
+  console.log(`🎨 Texturas únicas encontradas: ${ids.size}\n`)
+
+  let ok = 0, skipped = 0, errors = 0
+
+  for (const id of ids) {
+    const inputFile  = join(INPUT_DIR,  `${id}.webp`)
+    const outputFile = join(OUTPUT_DIR, `thumb_${id}.webp`)
+
+    if (!existsSync(inputFile)) {
+      console.log(`  ⚠️  No encontrada: src-assets/textures/${id}.webp`)
+      skipped++
+      continue
+    }
+
+    try {
+      await sharp(inputFile)
+        .resize(THUMB_SIZE, THUMB_SIZE, { fit: 'cover', position: 'center' })
+        .webp({ quality: QUALITY })
+        .toFile(outputFile)
+      process.stdout.write('.')
+      ok++
+    } catch (err) {
+      console.log(`\n  ❌ Error procesando ${id}: ${err.message}`)
+      errors++
     }
   }
 
+  console.log(`\n\n✅ Generadas: ${ok} | ⚠️  Omitidas: ${skipped} | ❌ Errores: ${errors}`)
   console.log('\n✨ Proceso completado\n')
 }
 

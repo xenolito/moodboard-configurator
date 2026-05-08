@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# Texturas fuente (assets grandes del 3D visualizer, no van en el repo)
+src-assets/
+
 # Production
 # dist/
 

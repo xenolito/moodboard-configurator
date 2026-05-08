@@ -1,0 +1,75 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --amb-radius: 8px;
+  --amb-panel-width: 320px;
+  --amb-panel-bg: hsl(0 0% 100% / 0.97);
+  --amb-panel-shadow: 0 4px 24px hsl(0 0% 0% / 0.16);
+  --amb-accent: #1a3c6e;
+  --amb-accent-hover: #122d54;
+  --amb-thumb-size: 56px;
+  --amb-transition: 0.25s ease;
+  --amb-tab-height: 44px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: #f4f4f4;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.app-loading,
+.app-error {
+  padding: 2rem;
+  text-align: center;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.app-error {
+  color: #c0392b;
+}
+
+.ambient-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-bottom: 0.75rem;
+}
+
+.ambient-tab {
+  height: var(--amb-tab-height);
+  padding: 0 1rem;
+  border: 2px solid transparent;
+  border-radius: var(--amb-radius);
+  background: white;
+  color: #444;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--amb-transition), color var(--amb-transition), background var(--amb-transition);
+
+  &:hover {
+    border-color: var(--amb-accent);
+    color: var(--amb-accent);
+  }
+
+  &.is-active {
+    background: var(--amb-accent);
+    border-color: var(--amb-accent);
+    color: white;
+  }
+}
+
+.app-viewer-wrap {
+  position: relative;
+}

@@ -1,7 +1,7 @@
 {
   "name": "moodboards-configurator",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.9.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -9,9 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "thumbs": "node scripts/generate-thumbnails.js",
-    "thumbs:model": "node scripts/generate-thumbnails.js",
-    "deploy:wp": "rsync -av --delete --exclude='*.css' dist/ /Volumes/KRAKEN/HTDOCS/prefabricadosduero/app/public/wp-content/plugins/pd-moodboard-configurator/dist/",
-    "build:wp": "VITE_WP_BUILD=true vite build && npm run deploy:wp"
+    "deploy:wp": "rsync -av --delete dist/ /Volumes/KRAKEN/HTDOCS/prefabricadosduero/app/public/wp-content/plugins/pct-ambientes-moodboards/dist/ && rsync -av --exclude '.DS_Store' public/ambients/ /Volumes/KRAKEN/HTDOCS/prefabricadosduero/app/public/wp-content/plugins/pct-ambientes-moodboards/dist/ambients/ && rsync -av --exclude '.DS_Store' public/textures/ /Volumes/KRAKEN/HTDOCS/prefabricadosduero/app/public/wp-content/plugins/pct-ambientes-moodboards/dist/textures/ && cp public/config.json /Volumes/KRAKEN/HTDOCS/prefabricadosduero/app/public/wp-content/plugins/pct-ambientes-moodboards/dist/",
+    "build:wp": "vite build && npm run deploy:wp"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
