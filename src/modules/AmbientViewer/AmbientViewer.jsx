@@ -25,7 +25,13 @@ const AmbientViewer = ({
   const [hintActive, setHintActive]           = useState(false)
   const zone     = ambient?.zones?.[0]
   const maskUrl  = zone ? buildMaskPath(ambient.id, zone.mask) : null
-  const hintSrc  = useZoneHintMask(maskUrl, zone?.hintZone?.color ?? 'ffffff', zone?.hintZone?.opacity ?? 0.7)
+  const hintSrc  = useZoneHintMask(
+    maskUrl,
+    zone?.hintZone?.color       ?? 'ffffff',
+    zone?.hintZone?.opacity     ?? 0.7,
+    zone?.hintZone?.type        ?? 'layer',
+    zone?.hintZone?.strokeWidth ?? 3
+  )
   const { getZoneAtPoint } = useMaskDetection(zone?.mask)
   const { download } = useDownload()
 

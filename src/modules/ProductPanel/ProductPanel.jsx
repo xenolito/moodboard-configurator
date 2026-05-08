@@ -17,7 +17,7 @@ const ProductPanel = ({
   const selectedModel = zone?.models?.find(m => m.id === selectedModelId)
 
   return (
-    <aside className={`product-panel${isOpen ? ' is-open' : ''}`} aria-hidden={!isOpen}>
+    <aside className={`product-panel${isOpen ? ' is-open' : ''}`} inert={!isOpen || undefined}>
       <div className="panel-header">
         <h3 className="panel-title">{zone?.label ?? 'Selección'}</h3>
         <div className="panel-header-actions">

@@ -153,8 +153,10 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
 | `group.baseTexture` | `string` | ID de variante a usar como textura base en modo `tint` |
 | `variant.value` | `string` | Hex sin `#` del color tint (vacío = sin tint, textura natural) |
 | `zone.hintZone` | `object` | Configuración del hint de zona clicable (opcional; si ausente se usan defaults) |
-| `zone.hintZone.color` | `string` | Hex sin `#` del color del tint aplicado sobre la zona clicable (por defecto `ffffff`) |
-| `zone.hintZone.opacity` | `number` | Opacidad del tint, de `0` a `1` (por defecto `0.7`) |
+| `zone.hintZone.type` | `"layer"` \| `"stroke"` | Modo de visualización: capa de color sobre la zona (`layer`) o borde exterior (`stroke`). Por defecto `layer` |
+| `zone.hintZone.color` | `string` | Hex sin `#` del color del hint (por defecto `ffffff`) |
+| `zone.hintZone.opacity` | `number` | Opacidad del hint, de `0` a `1` (por defecto `0.7`) |
+| `zone.hintZone.strokeWidth` | `number` | Grosor en píxeles del borde, solo para `type: "stroke"` (por defecto `3`) |
 | `zone.hintZone.animationTime` | `number` | Milisegundos que permanece visible el hint antes de desvanecerse (por defecto `500`) |
 
 ### Modos de variante
@@ -200,7 +202,10 @@ Para modo `tint`, el script recoge el `baseTexture` del grupo (no los `id` de ca
 
 Cuando el usuario clica en un área sin zona asignada, se activa `.zone-hint`: una imagen generada en canvas que aplica un tint de color exclusivamente sobre los píxeles negros (zona clicable) de la `mask.webp`, dejando el resto completamente transparente. El resultado es un overlay que resalta solo la zona clicable sin afectar el resto de la imagen. Se desvanece tras `animationTime` ms.
 
-El hook `useZoneHintMask(maskUrl, tintHex, opacity)` procesa la máscara una sola vez por ambient (canvas off-screen), devuelve un Object URL y lo revoca al desmontar. Si la zona no tiene `hintZone`, el hint se muestra igualmente con los valores por defecto (`ffffff` / `0.7` / `500 ms`).
+El hook `useZoneHintMask(maskUrl, tintHex, opacity, type, strokeWidth)` procesa la máscara una sola vez por ambient (canvas off-screen), devuelve un Object URL y lo revoca al desmontar. Si la zona no tiene `hintZone`, el hint se muestra con los valores por defecto (`ffffff` / `0.7` / `layer` / `500 ms`).
+
+- **`type: "layer"`** — pinta con el color los píxeles negros (clickables) de la máscara, dejando el resto transparente.
+- **`type: "stroke"`** — detecta los píxeles negros fronterizos (donde negro toca blanco), los dilata hacia el exterior mediante dos pasadas separables (horizontal + vertical), y pinta solo esa franja de `strokeWidth` px en los píxeles blancos adyacentes. El interior de la zona queda transparente.
 
 ### Detección de zona clicable (`useMaskDetection`)
 
