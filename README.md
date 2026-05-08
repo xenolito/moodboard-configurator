@@ -11,7 +11,7 @@ Configurador y visualizador de ambientes de pavimento exterior para Prefabricado
 - **6 ambientes** seleccionables (adoquines, baldosas, bloques, baldosa técnica)
 - **Detección de zona clicable** mediante máscara de color en canvas oculto (sin DOM)
 - **Cursor dinámico** — cambia a `pointer` al pasar sobre la zona del pavimento
-- **Hint de zona clicable** — al clicar fuera de zona se activa un tint de color generado en canvas sobre las zonas clicables; configurable por zona en `config.json` (`hintZone`: `color`, `opacity`, `animationTime`)
+- **Hint de zona clicable** — al clicar fuera de zona se activa un tint generado en canvas sobre las zonas clicables; configurable por zona en `config.json` (`hintZone`: `type`, `color`, `opacity`, `strokeWidth`, `animationTime`)
 - **Panel de producto** — bottom sheet en móvil, panel lateral en desktop
 - **2 modos de variante:** color (tint con CSS `mix-blend-mode: multiply`) y textura Fusión®
 - **Slider antes/después** — `clip-path` CSS + CSS custom property `--slider-x`, drag con Pointer Events + `setPointerCapture`, cero re-renders durante el arrastre
@@ -109,7 +109,7 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
           "maskColor": [0, 0, 0],
           "label": "Pavimento",
           "mask": "ambients/adoquines/mask.webp",
-          "hintZone": { "color": "ffffff", "opacity": 0.7, "animationTime": 500 },
+          "hintZone": { "type": "layer", "color": "ffffff", "opacity": 0.7, "strokeWidth": 3, "animationTime": 500 },
           "models": [
             {
               "id": "adoquin_toro_20x10",
