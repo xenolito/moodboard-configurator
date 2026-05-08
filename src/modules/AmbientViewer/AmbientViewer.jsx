@@ -4,7 +4,8 @@ import { useMaskDetection } from '../../hooks/useMaskDetection.js'
 import { useDownload } from '../Download/useDownload.js'
 import BeforeAfterSlider from '../Slider/BeforeAfterSlider.jsx'
 import IconButton from '../../ui/IconButton.jsx'
-import { buildBasePath } from '../../utils/buildPaths.js'
+import { buildBasePath, buildMaskPath } from '../../utils/buildPaths.js'
+import { useZoneHintMask } from '../../hooks/useZoneHintMask.js'
 import './AmbientViewer.css'
 
 const AmbientViewer = ({
@@ -15,12 +16,16 @@ const AmbientViewer = ({
   children
 }) => {
   const containerRef = useRef(null)
+  const hintTimerRef = useRef(null)
   const [sliderActive, setSliderActive]       = useState(false)
   const [baseDisplayUrl, setBaseDisplayUrl]   = useState(null)
   const [selectedUrl, setSelectedUrl]         = useState(null)
   const [incomingUrl, setIncomingUrl]         = useState(null)
   const [incomingVisible, setIncomingVisible] = useState(false)
-  const zone = ambient?.zones?.[0]
+  const [hintActive, setHintActive]           = useState(false)
+  const zone     = ambient?.zones?.[0]
+  const maskUrl  = zone ? buildMaskPath(ambient.id, zone.mask) : null
+  const hintSrc  = useZoneHintMask(maskUrl, zone?.hintZone?.color ?? 'ffffff', zone?.hintZone?.opacity ?? 0.7)
   const { getZoneAtPoint } = useMaskDetection(zone?.mask)
   const { download } = useDownload()
 
@@ -40,6 +45,7 @@ const AmbientViewer = ({
       setIncomingUrl(null)
       setIncomingVisible(false)
       setSliderActive(false)
+      setHintActive(false)
     }
   }, [renderUrl, renderLoading])
 
@@ -60,8 +66,16 @@ const AmbientViewer = ({
   const handleClick = useCallback((e) => {
     if (!zone || sliderActive) return
     const zoneId = getZoneAtPoint(e.clientX, e.clientY, containerRef.current, ambient.zones)
-    if (zoneId) onZoneClick?.(zoneId)
+    if (zoneId) {
+      onZoneClick?.(zoneId)
+    } else {
+      setHintActive(true)
+      clearTimeout(hintTimerRef.current)
+      hintTimerRef.current = setTimeout(() => setHintActive(false), zone?.hintZone?.animationTime ?? 500)
+    }
   }, [ambient, zone, sliderActive, getZoneAtPoint, onZoneClick])
+
+  useEffect(() => () => clearTimeout(hintTimerRef.current), [])
 
   const handleMouseLeave = useCallback(() => {
     if (containerRef.current) containerRef.current.style.cursor = 'default'
@@ -104,6 +118,15 @@ const AmbientViewer = ({
           alt=""
           draggable={false}
           onTransitionEnd={handleIncomingEnd}
+        />
+      )}
+
+      {hintSrc && (
+        <img
+          className={`zone-hint${hintActive ? ' is-active' : ''}`}
+          src={hintSrc}
+          alt=""
+          draggable={false}
         />
       )}
 

@@ -11,6 +11,7 @@ Configurador y visualizador de ambientes de pavimento exterior para Prefabricado
 - **6 ambientes** seleccionables (adoquines, baldosas, bloques, baldosa técnica)
 - **Detección de zona clicable** mediante máscara de color en canvas oculto (sin DOM)
 - **Cursor dinámico** — cambia a `pointer` al pasar sobre la zona del pavimento
+- **Hint de zona clicable** — al clicar fuera de zona se activa un tint de color generado en canvas sobre las zonas clicables; configurable por zona en `config.json` (`hintZone`: `color`, `opacity`, `animationTime`)
 - **Panel de producto** — bottom sheet en móvil, panel lateral en desktop
 - **2 modos de variante:** color (tint con CSS `mix-blend-mode: multiply`) y textura Fusión®
 - **Slider antes/después** — `clip-path` CSS + CSS custom property `--slider-x`, drag con Pointer Events + `setPointerCapture`, cero re-renders durante el arrastre
@@ -40,11 +41,12 @@ PD-MOODBOARDS/
 │   │   ├── useAmbientConfig.js       ← fetch de config.json
 │   │   ├── useMaskDetection.js       ← canvas oculto + detección de zona por pixel
 │   │   ├── useRenderLoader.js        ← preload de imagen de render
-│   │   └── useBeforeAfter.js         ← estado y handlers del slider drag
+│   │   ├── useBeforeAfter.js         ← handlers del slider drag (CSS custom property, sin re-renders)
+│   │   └── useZoneHintMask.js        ← genera imagen de tint para hint de zona (canvas off-screen)
 │   ├── modules/
 │   │   ├── AmbientViewer/            ← visor de imagen + acciones
 │   │   ├── ProductPanel/             ← panel con ModelSelector, GroupSelector, VariantButton
-│   │   ├── Slider/BeforeAfterSlider  ← slider canvas antes/después
+│   │   ├── Slider/BeforeAfterSlider  ← slider CSS clip-path antes/después
 │   │   └── Download/useDownload.js   ← descarga de render como JPEG
 │   ├── ui/
 │   │   ├── IconButton.jsx            ← botón redondo con icono Lucide + Radix Tooltip (negro, flecha, Portal)
@@ -107,6 +109,7 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
           "maskColor": [0, 0, 0],
           "label": "Pavimento",
           "mask": "ambients/adoquines/mask.webp",
+          "hintZone": { "color": "ffffff", "opacity": 0.7, "animationTime": 500 },
           "models": [
             {
               "id": "adoquin_toro_20x10",
@@ -149,6 +152,10 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
 | `group.mode` | `"tint"` \| `"texture"` | Modo de visualización de variantes |
 | `group.baseTexture` | `string` | ID de variante a usar como textura base en modo `tint` |
 | `variant.value` | `string` | Hex sin `#` del color tint (vacío = sin tint, textura natural) |
+| `zone.hintZone` | `object` | Configuración del hint de zona clicable (opcional; si ausente se usan defaults) |
+| `zone.hintZone.color` | `string` | Hex sin `#` del color del tint aplicado sobre la zona clicable (por defecto `ffffff`) |
+| `zone.hintZone.opacity` | `number` | Opacidad del tint, de `0` a `1` (por defecto `0.7`) |
+| `zone.hintZone.animationTime` | `number` | Milisegundos que permanece visible el hint antes de desvanecerse (por defecto `500`) |
 
 ### Modos de variante
 
@@ -188,6 +195,12 @@ Para modo `tint`, el script recoge el `baseTexture` del grupo (no los `id` de ca
 ---
 
 ## Arquitectura técnica
+
+### Hint de zona clicable (`.zone-hint`)
+
+Cuando el usuario clica en un área sin zona asignada, se activa `.zone-hint`: una imagen generada en canvas que aplica un tint de color exclusivamente sobre los píxeles negros (zona clicable) de la `mask.webp`, dejando el resto completamente transparente. El resultado es un overlay que resalta solo la zona clicable sin afectar el resto de la imagen. Se desvanece tras `animationTime` ms.
+
+El hook `useZoneHintMask(maskUrl, tintHex, opacity)` procesa la máscara una sola vez por ambient (canvas off-screen), devuelve un Object URL y lo revoca al desmontar. Si la zona no tiene `hintZone`, el hint se muestra igualmente con los valores por defecto (`ffffff` / `0.7` / `500 ms`).
 
 ### Detección de zona clicable (`useMaskDetection`)
 

@@ -10,6 +10,7 @@
           "maskColor": [0, 0, 0],
           "label": "Pavimento",
           "mask": "ambients/adoquines/mask.webp",
+          "hintZone": { "color": "ffffff", "opacity": 0.7, "animationTime": 500 },
           "models": [
             {
               "id": "adoquin_toro_20x10",

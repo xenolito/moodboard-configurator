@@ -8,7 +8,8 @@
   user-select: none;
 
   .ambient-base,
-  .ambient-selected-render {
+  .ambient-selected-render,
+  .zone-hint {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -27,6 +28,17 @@
 
     &.slider-split {
       clip-path: inset(0 0 0 var(--slider-x, 50%));
+    }
+  }
+
+  .zone-hint {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 2;
+
+    &.is-active {
+      opacity: 1;
     }
   }
 
