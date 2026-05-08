@@ -1,8 +1,8 @@
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip'
+import { Tooltip, TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip'
 import './IconButton.css'
 
 const IconButton = ({ icon: Icon, label, onClick, disabled, active, size = 36 }) => (
-  <TooltipProvider delayDuration={400}>
+  <TooltipProvider delayDuration={300}>
     <Tooltip>
       <TooltipTrigger asChild>
         <button
@@ -15,9 +15,12 @@ const IconButton = ({ icon: Icon, label, onClick, disabled, active, size = 36 })
           <Icon size={18} strokeWidth={1.75} />
         </button>
       </TooltipTrigger>
-      <TooltipContent side="bottom" sideOffset={6}>
-        <span>{label}</span>
-      </TooltipContent>
+      <TooltipPortal>
+        <TooltipContent className="tooltip-content" side="top" sideOffset={8}>
+          {label}
+          <TooltipArrow className="tooltip-arrow" />
+        </TooltipContent>
+      </TooltipPortal>
     </Tooltip>
   </TooltipProvider>
 )

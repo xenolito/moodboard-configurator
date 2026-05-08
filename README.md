@@ -13,7 +13,7 @@ Configurador y visualizador de ambientes de pavimento exterior para Prefabricado
 - **Cursor dinámico** — cambia a `pointer` al pasar sobre la zona del pavimento
 - **Panel de producto** — bottom sheet en móvil, panel lateral en desktop
 - **2 modos de variante:** color (tint con CSS `mix-blend-mode: multiply`) y textura Fusión®
-- **Slider antes/después** — canvas con clip, drag con Pointer Events + `setPointerCapture`
+- **Slider antes/después** — `clip-path` CSS + CSS custom property `--slider-x`, drag con Pointer Events + `setPointerCapture`, cero re-renders durante el arrastre
 - **Descarga de imagen** — `OffscreenCanvas.convertToBlob`, fallback `toBlob` para iOS Safari
 - **Plugin WordPress** — shortcode `[pct_ambient_viewer ambient="adoquines"]`
 - **Generador de thumbnails** — script `sharp` que lee `config.json` y procesa texturas fuente
@@ -47,7 +47,7 @@ PD-MOODBOARDS/
 │   │   ├── Slider/BeforeAfterSlider  ← slider canvas antes/después
 │   │   └── Download/useDownload.js   ← descarga de render como JPEG
 │   ├── ui/
-│   │   ├── IconButton.jsx            ← botón con icono Lucide + Radix Tooltip
+│   │   ├── IconButton.jsx            ← botón redondo con icono Lucide + Radix Tooltip (negro, flecha, Portal)
 │   │   └── Spinner.jsx               ← spinner SVG
 │   └── utils/
 │       ├── baseUrl.js                ← lee window.pdMoodboardConfig.baseUrl (WP) o '/'
@@ -199,13 +199,14 @@ No se usa `mask-image` CSS. La imagen de render es una fotografía completa del 
 
 ### Slider antes/después (`BeforeAfterSlider`)
 
-Un `<canvas>` superpuesto cubre el viewer cuando el slider está activo. En cada frame:
-1. `ctx.drawImage(base, 0, 0, W, H)` — imagen base completa
-2. `ctx.save(); ctx.rect(px, 0, W - px, H); ctx.clip()` — recorte derecho
-3. `ctx.drawImage(render, 0, 0, W, H)` — render en zona recortada
-4. Línea divisoria blanca de 2px
+Sin canvas. Las dos imágenes ya existen como `<img>` absolutas en el DOM; el slider solo controla qué parte de cada una es visible:
 
-El drag usa Pointer Events con `setPointerCapture` (mouse y touch unificados). `ResizeObserver` actualiza las dimensiones del canvas cuando el contenedor cambia de tamaño.
+- `ambient-base` muestra la imagen anterior (o la foto original en la primera selección)
+- `ambient-selected-render` con `clip-path: inset(0 0 0 var(--slider-x, 50%))` revela el render actual por la derecha
+- El handle `div.slider-handle` escribe directamente `containerRef.current.style.setProperty('--slider-x', x + '%')` en cada `pointermove` — sin `setState`, sin re-renders React
+- El drag usa Pointer Events con `setPointerCapture` (mouse y touch unificados)
+
+**Base deslizante (rolling base):** La foto original actúa como base hasta la segunda selección confirmada. A partir de la segunda, `ambient-base` muestra la penúltima selección, de modo que el slider compara siempre penúltima vs última.
 
 ### Descarga (`useDownload`)
 

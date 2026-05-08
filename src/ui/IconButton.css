@@ -32,10 +32,26 @@
   pointer-events: none;
 }
 
-[data-radix-tooltip-content] {
-  background: #222;
+.tooltip-content {
+  background-color: rgba(0, 0, 0, 0.9);
   color: white;
-  font-size: 0.75rem;
-  padding: 0.25rem 0.6rem;
-  border-radius: 4px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 250px;
+  user-select: none;
+  animation: tooltip-fade-in 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10000;
+}
+
+.tooltip-arrow {
+  fill: rgba(0, 0, 0, 0.9);
+}
+
+@keyframes tooltip-fade-in {
+  from { opacity: 0; transform: translateY(2px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

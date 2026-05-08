@@ -35,7 +35,7 @@
     bottom: 0.75rem;
     right: 0.75rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 0.5rem;
     z-index: 5;
   }
