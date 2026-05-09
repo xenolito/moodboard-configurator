@@ -6,6 +6,7 @@
       "base": "ambients/adoquines/base.webp",
       "autoHint": { "timeToShow": 5 },
       "panelSelectorPosition": "right",
+      "panelOpenDelay": 1,
       "zones": [
         {
           "id": "z1",
@@ -22,18 +23,19 @@
             {
               "id": "adoquin_toro_20x10",
               "name": "Adoquín Toro 20×10",
+              "model_image": "thumb_adoquin_toro_20x10.webp",
               "groups": [
                 {
                   "name": "Color",
                   "mode": "tint",
                   "baseTexture": "blanco",
                   "variants": [
-                    { "id": "blanco", "name": "Blanco",  "value": "" },
-                    { "id": "rojo",   "name": "Rojo",    "value": "f1a99f" },
-                    { "id": "crema",  "name": "Crema",   "value": "fedd83" },
-                    { "id": "gris",   "name": "Gris",    "value": "d2d2d2" },
-                    { "id": "negro",  "name": "Negro",   "value": "6a6a6a" },
-                    { "id": "tostado","name": "Tostado", "value": "efc9ac" }
+                    { "id": "blanco",   "name": "Blanco",   "value": "" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "crema",    "name": "Crema",    "value": "fedd83" },
+                    { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
+                    { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
                   ]
                 },
                 {
@@ -49,6 +51,141 @@
                     { "id": "fusion_mars",    "name": "Mars" },
                     { "id": "fusion_leonis",  "name": "Leonis" },
                     { "id": "fusion_altair",  "name": "Altair" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "adoquin_alcanices_12x12",
+              "name": "Adoquín Alcañices 12×12",
+              "model_image": "thumb_adoquin_alcanices_12x12.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "blanco",   "name": "Blanco",   "value": "" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "crema",    "name": "Crema",    "value": "fedd83" },
+                    { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
+                    { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "adoquin_benavente_20x16",
+              "name": "Adoquín Benavente 20×16",
+              "model_image": "thumb_adoquin_benavente_20x16.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco",
+                  "variants": [
+                    { "id": "blanco",   "name": "Blanco",   "value": "" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "crema",    "name": "Crema",    "value": "fedd83" },
+                    { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
+                    { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "adoquin_castellano_18-12-9x12",
+              "name": "Adoquín Castellano 18-12-9×12",
+              "model_image": "thumb_adoquin_castellano_18-12-9x12.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "blanco",   "name": "Blanco",   "value": "" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "crema",    "name": "Crema",    "value": "fedd83" },
+                    { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
+                    { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                  ]
+                },
+                {
+                  "name": "Fusión®",
+                  "mode": "texture",
+                  "variants": [
+                    { "id": "fusion_jupiter", "name": "Jupiter" },
+                    { "id": "fusion_venus",   "name": "Venus" },
+                    { "id": "fusion_saturno", "name": "Saturno" },
+                    { "id": "fusion_moon",    "name": "Moon" },
+                    { "id": "fusion_mizar",   "name": "Mizar" },
+                    { "id": "fusion_mercury", "name": "Mercury" },
+                    { "id": "fusion_mars",    "name": "Mars" },
+                    { "id": "fusion_leonis",  "name": "Leonis" },
+                    { "id": "fusion_altair",  "name": "Altair" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "adoquin_coreses_23x12",
+              "name": "Adoquín Coreses 23×12",
+              "model_image": "thumb_adoquin_coreses_23x12.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco",
+                  "variants": [
+                    { "id": "blanco",   "name": "Blanco",   "value": "" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "crema",    "name": "Crema",    "value": "fedd83" },
+                    { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
+                    { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "adoquin_guarena_24x12",
+              "name": "Adoquín Guareña 24×12",
+              "model_image": "thumb_adoquin_guarena_24x12.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "blanco",   "name": "Blanco",   "value": "" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "crema",    "name": "Crema",    "value": "fedd83" },
+                    { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
+                    { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "adoquin_morales_10x10",
+              "name": "Adoquín Morales 10×10",
+              "model_image": "thumb_adoquin_morales_10x10.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco",
+                  "variants": [
+                    { "id": "blanco",   "name": "Blanco",   "value": "" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "crema",    "name": "Crema",    "value": "fedd83" },
+                    { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
+                    { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
                   ]
                 }
               ]

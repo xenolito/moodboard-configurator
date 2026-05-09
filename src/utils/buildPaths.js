@@ -11,3 +11,6 @@ export const buildMaskPath    = (ambientId, maskFile) =>
 
 export const buildThumbPath   = (variantId) =>
   `${getBaseUrl()}textures/thumb_${variantId}.webp`
+
+export const buildModelThumbPath = (modelImage) =>
+  `${getBaseUrl()}models/${modelImage}`

@@ -12,9 +12,13 @@ Configurador y visualizador de ambientes de pavimento exterior para Prefabricado
 - **Detección de zona clicable** mediante máscara de color en canvas oculto (sin DOM)
 - **Cursor dinámico** — cambia a `pointer` al pasar sobre la zona del pavimento
 - **Hint de zona clicable** — al clicar fuera de zona se activa un tint generado en canvas sobre las zonas clicables; configurable por zona en `config.json` (`hintZone`: `type`, `color`, `opacity`, `strokeWidth`, `animationTime`)
-- **Auto-hint** — si el usuario no clica ninguna zona en `autoHint.timeToShow` segundos, la animación del hint se dispara automáticamente y se repite como `setInterval` hasta que el usuario interactúe con una zona; configurable por ambient en `config.json` (`autoHint: { timeToShow: 5 }`)
-- **Panel de producto** — bottom sheet en móvil, panel lateral en desktop
+- **Auto-hint** — si el usuario no clica ninguna zona en `autoHint.timeToShow` segundos, la animación del hint se dispara automáticamente y se repite como `setInterval` hasta que el usuario interactúe con una zona; solo activo cuando el ambient tiene más de una zona; configurable por ambient en `config.json` (`autoHint: { timeToShow: 5 }`)
+- **Panel de producto** — bottom sheet con scroll en móvil (siempre visible debajo del viewer), panel lateral en desktop con altura igual al viewer; posición izquierda/derecha configurable (`panelSelectorPosition`)
+- **Apertura automática del panel** — si el ambient tiene una sola zona, el panel se abre automáticamente al cargar con animación de slide; el delay es configurable (`panelOpenDelay` en segundos)
+- **Selección automática de primera variante** — al clicar un modelo, se auto-selecciona la primera variante del primer grupo y se carga el render correspondiente; re-clicar el mismo modelo o la zona no resetea la selección activa
 - **2 modos de variante:** color (tint con CSS `mix-blend-mode: multiply`) y textura Fusión®
+- **Botones de acción siempre visibles** — comparar y descargar están siempre habilitados; sin render seleccionado, el slider compara la imagen base consigo misma y la descarga recae sobre la imagen base
+- **Selector de modelo con thumbnail** — cada modelo muestra una imagen cuadrada (`public/models/thumb_{id}.webp`) y su nombre, con el mismo layout que los botones de variante
 - **Slider antes/después** — `clip-path` CSS + CSS custom property `--slider-x`, drag con Pointer Events + `setPointerCapture`, cero re-renders durante el arrastre
 - **Descarga de imagen** — `OffscreenCanvas.convertToBlob`, fallback `toBlob` para iOS Safari
 - **Plugin WordPress** — shortcode `[pct_ambient_viewer ambient="adoquines"]`
@@ -34,8 +38,10 @@ PD-MOODBOARDS/
 │   │       ├── mask.webp             ← máscara para detección de click
 │   │       └── renders/
 │   │           └── {modelId}__{variantId}.webp   ← imagen completa con producto colocado
-│   └── textures/
-│       └── thumb_{variantId}.webp    ← thumbnails 128×128 para los botones UI
+│   ├── textures/
+│   │   └── thumb_{variantId}.webp    ← thumbnails 128×128 para los botones de variante
+│   └── models/
+│       └── thumb_{modelId}.webp      ← thumbnails 128×128 para los botones de modelo
 ├── src/
 │   ├── App.jsx                       ← estado global, switcher de ambientes, composición
 │   ├── hooks/
@@ -54,7 +60,7 @@ PD-MOODBOARDS/
 │   │   └── Spinner.jsx               ← spinner SVG
 │   └── utils/
 │       ├── baseUrl.js                ← lee window.pdMoodboardConfig.baseUrl (WP) o '/'
-│       ├── buildPaths.js             ← buildRenderPath, buildBasePath, buildMaskPath, buildThumbPath
+│       ├── buildPaths.js             ← buildRenderPath, buildBasePath, buildMaskPath, buildThumbPath, buildModelThumbPath
 │       ├── colorUtils.js             ← colorDistance, isColorMatch (para máscara)
 │       ├── isIOSSafari.js
 │       └── isTouch.js
@@ -75,6 +81,7 @@ PD-MOODBOARDS/
 | Base | `public/ambients/{id}/base.webp` | Fotografía sin producto (1920×1080 recomendado) |
 | Máscara | `public/ambients/{id}/mask.webp` | Negra = clicable, blanca = no clicable |
 | Render | `public/ambients/{id}/renders/{modelId}__{variantId}.webp` | Fotografía completa con producto colocado |
+| Thumb modelo | `public/models/thumb_{modelId}.webp` | Thumbnail 128×128 para el botón de modelo en el panel |
 
 **Separador de render:** doble guion bajo `__` entre `modelId` y `variantId` (nunca aparece en los IDs).
 
@@ -104,6 +111,9 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
       "id": "adoquines",
       "name": "Adoquines",
       "base": "ambients/adoquines/base.webp",
+      "panelSelectorPosition": "right",
+      "panelOpenDelay": 1,
+      "autoHint": { "timeToShow": 5 },
       "zones": [
         {
           "id": "z1",
@@ -115,6 +125,7 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
             {
               "id": "adoquin_toro_20x10",
               "name": "Adoquín Toro 20×10",
+              "model_image": "thumb_adoquin_toro_20x10.webp",
               "groups": [
                 {
                   "name": "Color",
@@ -160,8 +171,10 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
 | `zone.hintZone.strokeWidth` | `number` | Grosor en píxeles del borde, solo para `type: "stroke"` (por defecto `3`) |
 | `zone.hintZone.animationTime` | `number` | Milisegundos que permanece visible el hint antes de desvanecerse (por defecto `500`) |
 | `ambient.autoHint` | `object` | Configuración del auto-hint (opcional). Si ausente, no hay auto-hint |
-| `ambient.autoHint.timeToShow` | `number` | Segundos de inactividad antes de disparar el hint automáticamente; se repite como intervalo hasta que el usuario clica una zona |
+| `ambient.autoHint.timeToShow` | `number` | Segundos de inactividad antes de disparar el hint automáticamente; se repite como intervalo hasta que el usuario clica una zona. Solo activo cuando el ambient tiene más de una zona |
 | `ambient.panelSelectorPosition` | `"right"` \| `"left"` | Posición del panel de producto en desktop. Por defecto `"right"`. Los botones de acción (comparar/descargar) se alinean en el lado opuesto automáticamente |
+| `ambient.panelOpenDelay` | `number` | Segundos de espera antes de abrir el panel automáticamente cuando el ambient tiene una sola zona. Si se omite o es `0`, el panel aparece inmediatamente con su transición CSS |
+| `model.model_image` | `string` | Nombre del archivo de thumbnail del modelo (ej. `thumb_adoquin_toro_20x10.webp`), ubicado en `public/models/` |
 
 ### Modos de variante
 

@@ -96,7 +96,7 @@ const AmbientViewer = ({
     autoHintIntervalRef.current = null
 
     const timeToShow = ambient?.autoHint?.timeToShow
-    if (!timeToShow || !hintSrc) return
+    if (!timeToShow || !hintSrc || (ambient?.zones?.length ?? 0) <= 1) return
 
     const delayMs = timeToShow * 1000
     autoHintIntervalRef.current = setInterval(() => {
@@ -168,26 +168,22 @@ const AmbientViewer = ({
         />
       )}
 
-      {sliderActive && selectedUrl && (
+      {sliderActive && (
         <BeforeAfterSlider containerRef={containerRef} />
       )}
 
       <div className="ambient-actions">
-        {selectedUrl && (
-          <IconButton
-            icon={SplitSquareHorizontal}
-            label={sliderActive ? 'Ocultar comparativa' : 'Comparar antes/después'}
-            active={sliderActive}
-            onClick={(e) => { e.stopPropagation(); setSliderActive(v => !v) }}
-          />
-        )}
-        {selectedUrl && (
-          <IconButton
-            icon={Download}
-            label="Descargar imagen"
-            onClick={(e) => { e.stopPropagation(); download(selectedUrl, ambient.id) }}
-          />
-        )}
+        <IconButton
+          icon={SplitSquareHorizontal}
+          label={sliderActive ? 'Ocultar comparativa' : 'Comparar antes/después'}
+          active={sliderActive}
+          onClick={(e) => { e.stopPropagation(); setSliderActive(v => !v) }}
+        />
+        <IconButton
+          icon={Download}
+          label="Descargar imagen"
+          onClick={(e) => { e.stopPropagation(); download(selectedUrl || effectiveBaseUrl, ambient.id) }}
+        />
       </div>
 
       {children}

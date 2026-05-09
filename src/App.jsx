@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAmbientConfig } from './hooks/useAmbientConfig.js'
 import { useRenderLoader } from './hooks/useRenderLoader.js'
 import AmbientViewer from './modules/AmbientViewer/AmbientViewer.jsx'
@@ -27,6 +27,19 @@ const App = () => {
     selectedVariant?.variantId ?? null
   )
 
+  useEffect(() => {
+    if (!ambient || ambient.zones?.length !== 1) return
+    setSelectedZoneId(ambient.zones[0].id)
+    setSelectedModelId(null)
+    setSelectedVariant(null)
+    const delayMs = (ambient.panelOpenDelay ?? 0) * 1000
+    let r1, r2
+    const timer = setTimeout(() => {
+      r1 = requestAnimationFrame(() => { r2 = requestAnimationFrame(() => setPanelOpen(true)) })
+    }, delayMs)
+    return () => { clearTimeout(timer); cancelAnimationFrame(r1); cancelAnimationFrame(r2) }
+  }, [ambient?.id])
+
   const handleAmbientSwitch = (id) => {
     setSelectedAmbientId(id)
     setSelectedZoneId(null)
@@ -36,9 +49,17 @@ const App = () => {
     setPanelOpen(false)
   }
 
+  const getFirstVariant = (model) => {
+    const group = model?.groups?.[0]
+    const variant = group?.variants?.[0]
+    return variant ? { groupName: group.name, variantId: variant.id } : null
+  }
+
   const handleModelSelect = (modelId) => {
+    if (modelId === selectedModelId) return
+    const model = activeZone?.models?.find(m => m.id === modelId)
     setSelectedModelId(modelId)
-    setSelectedVariant(null)
+    setSelectedVariant(getFirstVariant(model))
   }
 
   const handleVariantSelect = (variant) => {
@@ -73,10 +94,10 @@ const App = () => {
           onSliderChange={setSliderActive}
           onZoneClick={(zoneId) => {
             setSelectedZoneId(zoneId)
-            setPanelOpen(true)
-            if (!selectedModelId && ambient?.zones?.find(z => z.id === zoneId)?.models?.length > 0) {
-              setSelectedModelId(ambient.zones.find(z => z.id === zoneId).models[0].id)
+            if (!selectedModelId) {
+              setSelectedVariant(null)
             }
+            setPanelOpen(true)
           }}
         />
 
