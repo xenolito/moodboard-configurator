@@ -4,6 +4,8 @@
       "id": "adoquines",
       "name": "Adoquines",
       "base": "ambients/adoquines/base.webp",
+      "autoHint": { "timeToShow": 5 },
+      "panelSelectorPosition": "right",
       "zones": [
         {
           "id": "z1",

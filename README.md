@@ -12,6 +12,7 @@ Configurador y visualizador de ambientes de pavimento exterior para Prefabricado
 - **Detección de zona clicable** mediante máscara de color en canvas oculto (sin DOM)
 - **Cursor dinámico** — cambia a `pointer` al pasar sobre la zona del pavimento
 - **Hint de zona clicable** — al clicar fuera de zona se activa un tint generado en canvas sobre las zonas clicables; configurable por zona en `config.json` (`hintZone`: `type`, `color`, `opacity`, `strokeWidth`, `animationTime`)
+- **Auto-hint** — si el usuario no clica ninguna zona en `autoHint.timeToShow` segundos, la animación del hint se dispara automáticamente y se repite como `setInterval` hasta que el usuario interactúe con una zona; configurable por ambient en `config.json` (`autoHint: { timeToShow: 5 }`)
 - **Panel de producto** — bottom sheet en móvil, panel lateral en desktop
 - **2 modos de variante:** color (tint con CSS `mix-blend-mode: multiply`) y textura Fusión®
 - **Slider antes/después** — `clip-path` CSS + CSS custom property `--slider-x`, drag con Pointer Events + `setPointerCapture`, cero re-renders durante el arrastre
@@ -158,6 +159,9 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
 | `zone.hintZone.opacity` | `number` | Opacidad del hint, de `0` a `1` (por defecto `0.7`) |
 | `zone.hintZone.strokeWidth` | `number` | Grosor en píxeles del borde, solo para `type: "stroke"` (por defecto `3`) |
 | `zone.hintZone.animationTime` | `number` | Milisegundos que permanece visible el hint antes de desvanecerse (por defecto `500`) |
+| `ambient.autoHint` | `object` | Configuración del auto-hint (opcional). Si ausente, no hay auto-hint |
+| `ambient.autoHint.timeToShow` | `number` | Segundos de inactividad antes de disparar el hint automáticamente; se repite como intervalo hasta que el usuario clica una zona |
+| `ambient.panelSelectorPosition` | `"right"` \| `"left"` | Posición del panel de producto en desktop. Por defecto `"right"`. Los botones de acción (comparar/descargar) se alinean en el lado opuesto automáticamente |
 
 ### Modos de variante
 

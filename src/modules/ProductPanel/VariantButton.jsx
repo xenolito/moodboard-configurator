@@ -1,6 +1,4 @@
 import { buildThumbPath } from '../../utils/buildPaths.js'
-import './VariantButton.css'
-
 const VariantButton = ({ variant, mode, baseTexture, isSelected, onClick }) => {
   const thumbSrc = mode === 'tint'
     ? buildThumbPath(baseTexture)

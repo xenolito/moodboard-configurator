@@ -2,7 +2,12 @@
 
 ## Verificación de errores con Playwright
 
-Después de añadir cualquier nueva funcionalidad o realizar cualquier cambio en el código, verificar siempre con el MCP de Playwright que no hay errores en la consola devtools. Navegar a `http://localhost:5173`, comprobar los mensajes de consola de nivel `error` y corregir cualquier error antes de dar la tarea por completada.
+Después de añadir cualquier nueva funcionalidad o realizar cualquier cambio en el código, verificar siempre con el MCP de Playwright:
+
+1. **Errores de consola**: Navegar a `http://localhost:5173`, comprobar los mensajes de consola de nivel `error` y corregir cualquier error encontrado.
+2. **Verificación visual**: Tomar un screenshot con `browser_take_screenshot` y revisar que no hay problemas visuales evidentes.
+
+Ambas verificaciones son obligatorias antes de dar la tarea por completada. Limpiar el directorio `.playwright-mcp/` con `rm -rf .playwright-mcp` al terminar.
 
 ## Documentación
 

@@ -3,7 +3,6 @@ import { useAmbientConfig } from './hooks/useAmbientConfig.js'
 import { useRenderLoader } from './hooks/useRenderLoader.js'
 import AmbientViewer from './modules/AmbientViewer/AmbientViewer.jsx'
 import ProductPanel from './modules/ProductPanel/ProductPanel.jsx'
-import './style.css'
 
 const rootEl = document.getElementById('ambient_viewer')
 const initialAmbientId = rootEl?.dataset?.ambientId ?? 'adoquines'
@@ -15,9 +14,12 @@ const App = () => {
   const [selectedZoneId, setSelectedZoneId]       = useState(null)
   const [selectedModelId, setSelectedModelId]     = useState(null)
   const [selectedVariant, setSelectedVariant]     = useState(null)
+  const [sliderActive, setSliderActive]           = useState(false)
+  const [panelOpen, setPanelOpen]                 = useState(false)
 
-  const ambient    = config?.ambients?.find(a => a.id === selectedAmbientId)
-  const activeZone = ambient?.zones?.find(z => z.id === selectedZoneId) ?? null
+  const ambient       = config?.ambients?.find(a => a.id === selectedAmbientId)
+  const activeZone    = ambient?.zones?.find(z => z.id === selectedZoneId) ?? null
+  const panelPosition = ambient?.panelSelectorPosition ?? 'right'
 
   const { url: renderUrl, loading: renderLoading } = useRenderLoader(
     selectedAmbientId,
@@ -30,6 +32,8 @@ const App = () => {
     setSelectedZoneId(null)
     setSelectedModelId(null)
     setSelectedVariant(null)
+    setSliderActive(false)
+    setPanelOpen(false)
   }
 
   const handleModelSelect = (modelId) => {
@@ -63,10 +67,13 @@ const App = () => {
       <div className="app-viewer-wrap">
         <AmbientViewer
           ambient={ambient}
+          panelPosition={panelPosition}
           renderUrl={renderUrl}
           renderLoading={renderLoading}
+          onSliderChange={setSliderActive}
           onZoneClick={(zoneId) => {
             setSelectedZoneId(zoneId)
+            setPanelOpen(true)
             if (!selectedModelId && ambient?.zones?.find(z => z.id === zoneId)?.models?.length > 0) {
               setSelectedModelId(ambient.zones.find(z => z.id === zoneId).models[0].id)
             }
@@ -75,12 +82,15 @@ const App = () => {
 
         <ProductPanel
           zone={activeZone}
+          panelOpen={panelOpen}
+          panelPosition={panelPosition}
+          comparing={sliderActive}
           selectedModelId={selectedModelId}
           selectedVariant={selectedVariant}
           renderLoading={renderLoading}
           onModelSelect={handleModelSelect}
           onVariantSelect={handleVariantSelect}
-          onClose={() => setSelectedZoneId(null)}
+          onClose={() => setPanelOpen(false)}
         />
       </div>
     </div>

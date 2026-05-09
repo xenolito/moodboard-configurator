@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
 import { useBeforeAfter } from '../../hooks/useBeforeAfter.js'
-import './BeforeAfterSlider.css'
-
 const BeforeAfterSlider = ({ containerRef }) => {
   const { sliderHandlers } = useBeforeAfter(containerRef)
 

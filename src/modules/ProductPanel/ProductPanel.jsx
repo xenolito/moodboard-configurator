@@ -2,10 +2,12 @@ import { X } from 'lucide-react'
 import ModelSelector from './ModelSelector.jsx'
 import GroupSelector from './GroupSelector.jsx'
 import Spinner from '../../ui/Spinner.jsx'
-import './ProductPanel.css'
 
 const ProductPanel = ({
   zone,
+  panelOpen = false,
+  panelPosition = 'right',
+  comparing = false,
   selectedModelId,
   selectedVariant,
   renderLoading,
@@ -13,11 +15,12 @@ const ProductPanel = ({
   onVariantSelect,
   onClose
 }) => {
-  const isOpen = !!zone
+  const isOpen = !!zone && panelOpen && !comparing
   const selectedModel = zone?.models?.find(m => m.id === selectedModelId)
+  const posClass = panelPosition === 'left' ? ' panel-left' : ''
 
   return (
-    <aside className={`product-panel${isOpen ? ' is-open' : ''}`} inert={!isOpen || undefined}>
+    <aside className={`product-panel${posClass}${isOpen ? ' is-open' : ''}`} inert={!isOpen || undefined}>
       <div className="panel-header">
         <h3 className="panel-title">{zone?.label ?? 'Selección'}</h3>
         <div className="panel-header-actions">

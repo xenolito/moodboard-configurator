@@ -1,6 +1,4 @@
 import { Tooltip, TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip'
-import './IconButton.css'
-
 const IconButton = ({ icon: Icon, label, onClick, disabled, active, size = 36 }) => (
   <TooltipProvider delayDuration={300}>
     <Tooltip>

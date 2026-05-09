@@ -1,6 +1,4 @@
 import VariantButton from './VariantButton.jsx'
-import './GroupSelector.css'
-
 const GroupSelector = ({ groups, selectedVariant, onVariantSelect }) => (
   <div className="group-selector">
     {groups.map(group => (

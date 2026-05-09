@@ -6,18 +6,22 @@ import BeforeAfterSlider from '../Slider/BeforeAfterSlider.jsx'
 import IconButton from '../../ui/IconButton.jsx'
 import { buildBasePath, buildMaskPath } from '../../utils/buildPaths.js'
 import { useZoneHintMask } from '../../hooks/useZoneHintMask.js'
-import './AmbientViewer.css'
 
 const AmbientViewer = ({
   ambient,
+  panelPosition = 'right',
   renderUrl,
   renderLoading,
   onZoneClick,
+  onSliderChange,
   children
 }) => {
-  const containerRef = useRef(null)
-  const hintTimerRef = useRef(null)
+  const containerRef       = useRef(null)
+  const hintTimerRef       = useRef(null)
+  const autoHintIntervalRef = useRef(null)
+  const autoHintDoneRef    = useRef(false)
   const [sliderActive, setSliderActive]       = useState(false)
+  useEffect(() => { onSliderChange?.(sliderActive) }, [sliderActive, onSliderChange])
   const [baseDisplayUrl, setBaseDisplayUrl]   = useState(null)
   const [selectedUrl, setSelectedUrl]         = useState(null)
   const [incomingUrl, setIncomingUrl]         = useState(null)
@@ -73,6 +77,9 @@ const AmbientViewer = ({
     if (!zone || sliderActive) return
     const zoneId = getZoneAtPoint(e.clientX, e.clientY, containerRef.current, ambient.zones)
     if (zoneId) {
+      autoHintDoneRef.current = true
+      clearInterval(autoHintIntervalRef.current)
+      autoHintIntervalRef.current = null
       onZoneClick?.(zoneId)
     } else {
       setHintActive(true)
@@ -82,6 +89,31 @@ const AmbientViewer = ({
   }, [ambient, zone, sliderActive, getZoneAtPoint, onZoneClick])
 
   useEffect(() => () => clearTimeout(hintTimerRef.current), [])
+
+  useEffect(() => {
+    autoHintDoneRef.current = false
+    clearInterval(autoHintIntervalRef.current)
+    autoHintIntervalRef.current = null
+
+    const timeToShow = ambient?.autoHint?.timeToShow
+    if (!timeToShow || !hintSrc) return
+
+    const delayMs = timeToShow * 1000
+    autoHintIntervalRef.current = setInterval(() => {
+      if (autoHintDoneRef.current) return
+      setHintActive(true)
+      clearTimeout(hintTimerRef.current)
+      hintTimerRef.current = setTimeout(
+        () => setHintActive(false),
+        zone?.hintZone?.animationTime ?? 500
+      )
+    }, delayMs)
+
+    return () => {
+      clearInterval(autoHintIntervalRef.current)
+      autoHintIntervalRef.current = null
+    }
+  }, [ambient?.id, ambient?.autoHint?.timeToShow, hintSrc])
 
   const handleMouseLeave = useCallback(() => {
     if (containerRef.current) containerRef.current.style.cursor = 'default'
@@ -94,7 +126,7 @@ const AmbientViewer = ({
 
   return (
     <div
-      className={`ambient-viewer${sliderActive ? ' slider-active' : ''}`}
+      className={`ambient-viewer${sliderActive ? ' slider-active' : ''}${panelPosition === 'left' ? ' actions-right' : ''}`}
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onClick={handleClick}

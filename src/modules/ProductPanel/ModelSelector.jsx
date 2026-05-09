@@ -1,5 +1,3 @@
-import './ModelSelector.css'
-
 const ModelSelector = ({ models, selectedModelId, onModelSelect }) => (
   <div className="model-selector">
     <h4 className="model-selector-title">Modelo</h4>
