@@ -1,7 +1,6 @@
 import { X } from 'lucide-react'
 import ModelSelector from './ModelSelector.jsx'
 import GroupSelector from './GroupSelector.jsx'
-import Spinner from '../../ui/Spinner.jsx'
 
 const ProductPanel = ({
   zone,
@@ -10,7 +9,6 @@ const ProductPanel = ({
   comparing = false,
   selectedModelId,
   selectedVariant,
-  renderLoading,
   onModelSelect,
   onVariantSelect,
   onClose
@@ -24,7 +22,6 @@ const ProductPanel = ({
       <div className="panel-header">
         <h3 className="panel-title">{zone?.label ?? 'Selección'}</h3>
         <div className="panel-header-actions">
-          {renderLoading && <Spinner size={20} />}
           <button className="panel-close" onClick={onClose} aria-label="Cerrar panel">
             <X size={18} strokeWidth={2} />
           </button>

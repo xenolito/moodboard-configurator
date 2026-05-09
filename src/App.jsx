@@ -87,7 +87,6 @@ const App = () => {
           comparing={sliderActive}
           selectedModelId={selectedModelId}
           selectedVariant={selectedVariant}
-          renderLoading={renderLoading}
           onModelSelect={handleModelSelect}
           onVariantSelect={handleVariantSelect}
           onClose={() => setPanelOpen(false)}
