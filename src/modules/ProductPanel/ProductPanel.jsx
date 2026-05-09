@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ModelSelector from './ModelSelector.jsx'
 import GroupSelector from './GroupSelector.jsx'
 
@@ -11,24 +11,33 @@ const ProductPanel = ({
   selectedVariant,
   onModelSelect,
   onVariantSelect,
-  onClose
+  onToggle
 }) => {
-  const isOpen = !!zone && panelOpen && !comparing
+  const isOpen = !!zone && panelOpen
   const selectedModel = zone?.models?.find(m => m.id === selectedModelId)
   const posClass = panelPosition === 'left' ? ' panel-left' : ''
+  const ToggleIcon = panelPosition === 'right'
+    ? (panelOpen ? ChevronRight : ChevronLeft)
+    : (panelOpen ? ChevronLeft : ChevronRight)
 
   return (
-    <aside className={`product-panel${posClass}${isOpen ? ' is-open' : ''}`} inert={!isOpen || undefined}>
+    <aside className={`product-panel${posClass}${isOpen ? ' is-open' : ''}`}>
       <div className="panel-header">
         <h3 className="panel-title">{zone?.label ?? 'Selección'}</h3>
         <div className="panel-header-actions">
-          <button className="panel-close" onClick={onClose} aria-label="Cerrar panel">
-            <X size={18} strokeWidth={2} />
-          </button>
+          {zone && (
+            <button
+              className="panel-close"
+              onClick={onToggle}
+              aria-label={panelOpen ? 'Cerrar panel' : 'Abrir panel'}
+            >
+              <ToggleIcon size={18} strokeWidth={2} />
+            </button>
+          )}
         </div>
       </div>
 
-      <div className="panel-body">
+      <div className="panel-body" inert={!isOpen || undefined}>
         {zone?.models?.length > 0 ? (
           <>
             <ModelSelector

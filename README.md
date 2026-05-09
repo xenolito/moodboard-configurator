@@ -14,12 +14,13 @@ Configurador y visualizador de ambientes de pavimento exterior para Prefabricado
 - **Hint de zona clicable** — al clicar fuera de zona se activa un tint generado en canvas sobre las zonas clicables; si `autohidePanel: true` el panel se cierra automáticamente en ese mismo click; configurable por zona en `config.json` (`hintZone`: `type`, `color`, `opacity`, `strokeWidth`, `animationTime`)
 - **Auto-hint** — si el usuario no clica ninguna zona en `autoHint.timeToShow` segundos, la animación del hint se dispara automáticamente y se repite como `setInterval` hasta que el usuario interactúe con una zona; solo activo cuando el ambient tiene más de una zona; configurable por ambient en `config.json` (`autoHint: { timeToShow: 5 }`)
 - **Panel de producto** — bottom sheet con scroll en móvil (siempre visible debajo del viewer), panel lateral en desktop con altura igual al viewer; posición izquierda/derecha configurable (`panelSelectorPosition`)
+- **Botón toggle siempre visible** — el botón de mostrar/ocultar el panel sobresale del borde del panel (izquierdo en panel-right, derecho en panel-left) y permanece siempre visible e interactivo; el icono cambia de dirección según posición y estado del panel
 - **Apertura automática del panel** — si el ambient tiene una sola zona, el panel se abre automáticamente al cargar con animación de slide; el delay es configurable (`panelOpenDelay` en segundos)
 - **Selección automática de primera variante** — al clicar un modelo, se auto-selecciona la primera variante del primer grupo y se carga el render correspondiente; re-clicar el mismo modelo o la zona no resetea la selección activa
 - **2 modos de variante:** color (tint con CSS `mix-blend-mode: multiply`) y textura Fusión®
 - **Botones de acción siempre visibles** — comparar y descargar están siempre habilitados; sin render seleccionado, el slider compara la imagen base consigo misma y la descarga recae sobre la imagen base
 - **Selector de modelo con thumbnail** — cada modelo muestra una imagen cuadrada (`public/models/thumb_{id}.webp`) y su nombre, con el mismo layout que los botones de variante
-- **Slider antes/después** — `clip-path` CSS + CSS custom property `--slider-x`, drag con Pointer Events + `setPointerCapture`, cero re-renders durante el arrastre
+- **Slider antes/después compatible con panel** — al activar el compare el panel se oculta automáticamente, pero el usuario puede reabrirlo con el toggle; al cambiar modelo/color con compare activo, el render del lado derecho se actualiza instantáneamente (sin animación); el lado izquierdo permanece fijo como referencia
 - **Descarga de imagen** — `OffscreenCanvas.convertToBlob`, fallback `toBlob` para iOS Safari
 - **Plugin WordPress** — shortcode `[pct_ambient_viewer ambient="adoquines"]`
 - **Generador de thumbnails** — script `sharp` que lee `config.json` y procesa texturas fuente

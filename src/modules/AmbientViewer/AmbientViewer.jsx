@@ -23,6 +23,8 @@ const AmbientViewer = ({
   const autoHintIntervalRef = useRef(null)
   const autoHintDoneRef    = useRef(false)
   const [sliderActive, setSliderActive]       = useState(false)
+  const sliderActiveRef = useRef(false)
+  sliderActiveRef.current = sliderActive
   useEffect(() => { onSliderChange?.(sliderActive) }, [sliderActive, onSliderChange])
   const [baseDisplayUrl, setBaseDisplayUrl]   = useState(null)
   const [selectedUrl, setSelectedUrl]         = useState(null)
@@ -43,6 +45,12 @@ const AmbientViewer = ({
 
   useEffect(() => {
     if (renderUrl) {
+      if (sliderActiveRef.current) {
+        setSelectedUrl(renderUrl)
+        setIncomingUrl(null)
+        setIncomingVisible(false)
+        return
+      }
       setIncomingUrl(renderUrl)
       setIncomingVisible(false)
       let inner

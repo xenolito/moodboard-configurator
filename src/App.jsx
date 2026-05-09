@@ -28,6 +28,10 @@ const App = () => {
   )
 
   useEffect(() => {
+    if (sliderActive) setPanelOpen(false)
+  }, [sliderActive])
+
+  useEffect(() => {
     if (!ambient || ambient.zones?.length !== 1) return
     setSelectedZoneId(ambient.zones[0].id)
     setSelectedModelId(null)
@@ -112,7 +116,7 @@ const App = () => {
           selectedVariant={selectedVariant}
           onModelSelect={handleModelSelect}
           onVariantSelect={handleVariantSelect}
-          onClose={() => setPanelOpen(false)}
+          onToggle={() => setPanelOpen(v => !v)}
         />
       </div>
     </div>
