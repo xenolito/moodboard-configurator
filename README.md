@@ -11,7 +11,7 @@ Configurador y visualizador de ambientes de pavimento exterior para Prefabricado
 - **6 ambientes** seleccionables (adoquines, baldosas, bloques, baldosa técnica)
 - **Detección de zona clicable** mediante máscara de color en canvas oculto (sin DOM)
 - **Cursor dinámico** — cambia a `pointer` al pasar sobre la zona del pavimento
-- **Hint de zona clicable** — al clicar fuera de zona se activa un tint generado en canvas sobre las zonas clicables; configurable por zona en `config.json` (`hintZone`: `type`, `color`, `opacity`, `strokeWidth`, `animationTime`)
+- **Hint de zona clicable** — al clicar fuera de zona se activa un tint generado en canvas sobre las zonas clicables; si `autohidePanel: true` el panel se cierra automáticamente en ese mismo click; configurable por zona en `config.json` (`hintZone`: `type`, `color`, `opacity`, `strokeWidth`, `animationTime`)
 - **Auto-hint** — si el usuario no clica ninguna zona en `autoHint.timeToShow` segundos, la animación del hint se dispara automáticamente y se repite como `setInterval` hasta que el usuario interactúe con una zona; solo activo cuando el ambient tiene más de una zona; configurable por ambient en `config.json` (`autoHint: { timeToShow: 5 }`)
 - **Panel de producto** — bottom sheet con scroll en móvil (siempre visible debajo del viewer), panel lateral en desktop con altura igual al viewer; posición izquierda/derecha configurable (`panelSelectorPosition`)
 - **Apertura automática del panel** — si el ambient tiene una sola zona, el panel se abre automáticamente al cargar con animación de slide; el delay es configurable (`panelOpenDelay` en segundos)
@@ -174,6 +174,7 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
 | `ambient.autoHint.timeToShow` | `number` | Segundos de inactividad antes de disparar el hint automáticamente; se repite como intervalo hasta que el usuario clica una zona. Solo activo cuando el ambient tiene más de una zona |
 | `ambient.panelSelectorPosition` | `"right"` \| `"left"` | Posición del panel de producto en desktop. Por defecto `"right"`. Los botones de acción (comparar/descargar) se alinean en el lado opuesto automáticamente |
 | `ambient.panelOpenDelay` | `number` | Segundos de espera antes de abrir el panel automáticamente cuando el ambient tiene una sola zona. Si se omite o es `0`, el panel aparece inmediatamente con su transición CSS |
+| `ambient.autohidePanel` | `boolean` | Si es `true`, al clicar fuera de cualquier zona clicable (lo que dispara el hint) el panel de producto se oculta automáticamente. Por defecto `false` (panel permanece abierto) |
 | `model.model_image` | `string` | Nombre del archivo de thumbnail del modelo (ej. `thumb_adoquin_toro_20x10.webp`), ubicado en `public/models/` |
 
 ### Modos de variante

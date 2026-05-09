@@ -10,9 +10,11 @@ import { useZoneHintMask } from '../../hooks/useZoneHintMask.js'
 const AmbientViewer = ({
   ambient,
   panelPosition = 'right',
+  panelOpen = false,
   renderUrl,
   renderLoading,
   onZoneClick,
+  onOutsideZoneClick,
   onSliderChange,
   children
 }) => {
@@ -81,12 +83,14 @@ const AmbientViewer = ({
       clearInterval(autoHintIntervalRef.current)
       autoHintIntervalRef.current = null
       onZoneClick?.(zoneId)
+    } else if (onOutsideZoneClick && panelOpen) {
+      onOutsideZoneClick()
     } else {
       setHintActive(true)
       clearTimeout(hintTimerRef.current)
       hintTimerRef.current = setTimeout(() => setHintActive(false), zone?.hintZone?.animationTime ?? 500)
     }
-  }, [ambient, zone, sliderActive, getZoneAtPoint, onZoneClick])
+  }, [ambient, zone, sliderActive, panelOpen, getZoneAtPoint, onZoneClick, onOutsideZoneClick])
 
   useEffect(() => () => clearTimeout(hintTimerRef.current), [])
 

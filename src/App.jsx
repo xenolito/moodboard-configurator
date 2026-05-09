@@ -92,6 +92,8 @@ const App = () => {
           renderUrl={renderUrl}
           renderLoading={renderLoading}
           onSliderChange={setSliderActive}
+          panelOpen={panelOpen}
+          onOutsideZoneClick={ambient?.autohidePanel ? () => setPanelOpen(false) : undefined}
           onZoneClick={(zoneId) => {
             setSelectedZoneId(zoneId)
             if (!selectedModelId) {

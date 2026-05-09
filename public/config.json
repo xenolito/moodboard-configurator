@@ -5,6 +5,7 @@
       "name": "Adoquines",
       "base": "ambients/adoquines/base.webp",
       "autoHint": { "timeToShow": 5 },
+      "autohidePanel": true,
       "panelSelectorPosition": "right",
       "panelOpenDelay": 1,
       "zones": [
