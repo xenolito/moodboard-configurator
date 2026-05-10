@@ -5,7 +5,6 @@ const IconButton = ({ icon: Icon, label, onClick, disabled, active, size = 36 })
       <TooltipTrigger asChild>
         <button
           className={`icon-btn${active ? ' is-active' : ''}`}
-          style={{ '--icon-btn-size': `${size}px` }}
           onClick={onClick}
           disabled={disabled}
           aria-label={label}
