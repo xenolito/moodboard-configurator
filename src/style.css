@@ -10,6 +10,7 @@
   --amb-panel-width: 320px;
   --amb-panel-width: 390px;
   --amb-panel-columns: 4;
+  --amb-panel-columns-mobile: 4;
   --amb-panel-bg: hsl(0 0% 100% / 0.97);
   --amb-panel-shadow: 0 4px 24px hsl(0 0% 0% / 0.16);
   --cta-color: hsl(354, 73%, 46%);
@@ -288,6 +289,9 @@ body {
     gap: 1.25rem;
     overflow-y: auto;
     scrollbar-gutter: stable;
+    @media only screen and (max-width : 639px) {
+      padding-left: 1rem;
+    }
   }
 
   .panel-empty {
@@ -319,7 +323,9 @@ body {
   grid-template-columns: repeat(var(--amb-panel-columns), 1fr);
   /* display: flex;
   flex-wrap: wrap; */
-
+  @media only screen and (max-width: 639px) {
+    grid-template-columns: repeat(var(--amb-panel-columns-mobile), 1fr);
+  }
   gap: 0.5rem;
 }
 
@@ -393,6 +399,11 @@ body {
   display: grid;
   grid-template-columns: repeat(var(--amb-panel-columns), 1fr);
   gap: 0.5rem;
+
+  @media only screen and (max-width: 639px) {
+    grid-template-columns: repeat(var(--amb-panel-columns-mobile), 1fr);
+  }
+
 }
 
 /* ── VariantButton ── */

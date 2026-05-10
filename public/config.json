@@ -23,7 +23,7 @@
           "models": [
             {
               "id": "adoquin_toro_20x10",
-              "name": "Adoquín Toro 20×10",
+              "name": "Toro 20×10",
               "model_image": "thumb_adoquin_toro_20x10.webp",
               "groups": [
                 {
@@ -31,12 +31,12 @@
                   "mode": "tint",
                   "baseTexture": "blanco",
                   "variants": [
-                    { "id": "blanco",   "name": "Blanco",   "value": "" },
                     { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
-                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" },
+                    { "id": "blanco",   "name": "Blanco",   "value": "" }
                   ]
                 },
                 {
@@ -58,7 +58,7 @@
             },
             {
               "id": "adoquin_toro_20x10_bisel",
-              "name": "Adoquín Toro 20×10 Bisel",
+              "name": "Toro 20×10 Bisel",
               "model_image": "thumb_adoquin_toro_20x10_bisel.webp",
               "groups": [
                 {
@@ -78,7 +78,7 @@
             },
             {
               "id": "adoquin_alcanices_12x12",
-              "name": "Adoquín Alcañices 12×12 Recto",
+              "name": "Alcañices 12×12 Recto",
               "model_image": "thumb_adoquin_alcanices_12x12.webp",
               "groups": [
                 {
@@ -98,7 +98,7 @@
             },
             {
               "id": "adoquin_alcanices_12x12_bisel",
-              "name": "Adoquín Alcañices 12×12 Redondo",
+              "name": "Alcañices 12×12 Redondo",
               "model_image": "thumb_adoquin_alcanices_12x12_bisel.webp",
               "groups": [
                 {
@@ -118,7 +118,7 @@
             },
             {
               "id": "adoquin_benavente_20x16",
-              "name": "Adoquín Benavente 20×16",
+              "name": "Benavente 20×16",
               "model_image": "thumb_adoquin_benavente_20x16.webp",
               "groups": [
                 {
@@ -138,7 +138,7 @@
             },
             {
               "id": "adoquin_castellano_18-12-9x12",
-              "name": "Adoquín Castellano 18-12-9×12",
+              "name": "Castellano 18-12-9×12",
               "model_image": "thumb_adoquin_castellano_18-12-9x12.webp",
               "groups": [
                 {
@@ -173,7 +173,7 @@
             },
             {
               "id": "adoquin_castellano_18-12-9x12_bisel",
-              "name": "Adoquín Castellano 18-12-9×12 Bisel",
+              "name": "Castellano 18-12-9×12 Bisel",
               "model_image": "thumb_adoquin_castellano_18-12-9x12_bisel.webp",
               "groups": [
                 {
@@ -193,7 +193,7 @@
             },
             {
               "id": "adoquin_coreses_23x12",
-              "name": "Adoquín Coreses 23×12",
+              "name": "Coreses 23×12",
               "model_image": "thumb_adoquin_coreses_23x12.webp",
               "groups": [
                 {
@@ -213,7 +213,7 @@
             },
             {
               "id": "adoquin_guarena_24x12",
-              "name": "Adoquín Guareña 24×12 Recto",
+              "name": "Guareña 24×12 Recto",
               "model_image": "thumb_adoquin_guarena_24x12.webp",
               "groups": [
                 {
@@ -233,7 +233,7 @@
             },
             {
               "id": "adoquin_guarena_24x12_bisel",
-              "name": "Adoquín Guareña 24×12 Redondo",
+              "name": "Guareña 24×12 Redondo",
               "model_image": "thumb_adoquin_guarena_24x12_bisel.webp",
               "groups": [
                 {
@@ -253,7 +253,7 @@
             },
             {
               "id": "adoquin_morales_10x10",
-              "name": "Adoquín Morales 10×10",
+              "name": "Morales 10×10",
               "model_image": "thumb_adoquin_morales_10x10.webp",
               "groups": [
                 {

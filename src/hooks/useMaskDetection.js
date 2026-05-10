@@ -30,9 +30,14 @@ export const useMaskDetection = (maskPath) => {
     const rect = containerEl.getBoundingClientRect()
     const relX = clientX - rect.left
     const relY = clientY - rect.top
-    const maskX = Math.round((relX / rect.width)  * sizeRef.current.w)
-    const maskY = Math.round((relY / rect.height) * sizeRef.current.h)
-    if (maskX < 0 || maskY < 0 || maskX >= sizeRef.current.w || maskY >= sizeRef.current.h) return null
+    const { w: maskW, h: maskH } = sizeRef.current
+    // object-fit: cover; object-position: bottom center
+    const scale = Math.max(rect.width / maskW, rect.height / maskH)
+    const offsetX = (rect.width  - maskW * scale) / 2  // centered horizontally
+    const offsetY =  rect.height - maskH * scale        // bottom-aligned
+    const maskX = Math.round((relX - offsetX) / scale)
+    const maskY = Math.round((relY - offsetY) / scale)
+    if (maskX < 0 || maskY < 0 || maskX >= maskW || maskY >= maskH) return null
     const [r, g, b] = ctxRef.current.getImageData(maskX, maskY, 1, 1).data
     for (const zone of zones) {
       if (isColorMatch(r, g, b, zone.maskColor)) return zone.id
