@@ -66,12 +66,12 @@
                   "mode": "tint",
                   "baseTexture": "blanco",
                   "variants": [
-                    { "id": "blanco",   "name": "Blanco",   "value": "" },
                     { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
-                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" },
+                    { "id": "blanco",   "name": "Blanco",   "value": "" }
                   ]
                 }
               ]
@@ -86,12 +86,12 @@
                   "mode": "tint",
                   "baseTexture": "blanco_b",
                   "variants": [
-                    { "id": "blanco",   "name": "Blanco",   "value": "" },
                     { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
-                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" },
+                    { "id": "blanco",   "name": "Blanco",   "value": "" }
                   ]
                 }
               ]
@@ -106,12 +106,12 @@
                   "mode": "tint",
                   "baseTexture": "blanco_b",
                   "variants": [
-                    { "id": "blanco",   "name": "Blanco",   "value": "" },
                     { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
-                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" },
+                    { "id": "blanco",   "name": "Blanco",   "value": "" }
                   ]
                 }
               ]
@@ -126,12 +126,12 @@
                   "mode": "tint",
                   "baseTexture": "blanco",
                   "variants": [
-                    { "id": "blanco",   "name": "Blanco",   "value": "" },
                     { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
-                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" },
+                    { "id": "blanco",   "name": "Blanco",   "value": "" }
                   ]
                 }
               ]
@@ -146,12 +146,12 @@
                   "mode": "tint",
                   "baseTexture": "blanco_b",
                   "variants": [
-                    { "id": "blanco",   "name": "Blanco",   "value": "" },
                     { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
-                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" },
+                    { "id": "blanco",   "name": "Blanco",   "value": "" }
                   ]
                 },
                 {
@@ -181,12 +181,12 @@
                   "mode": "tint",
                   "baseTexture": "blanco_b",
                   "variants": [
-                    { "id": "blanco",   "name": "Blanco",   "value": "" },
                     { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
-                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" },
+                    { "id": "blanco",   "name": "Blanco",   "value": "" }
                   ]
                 }
               ]
@@ -201,12 +201,12 @@
                   "mode": "tint",
                   "baseTexture": "blanco",
                   "variants": [
-                    { "id": "blanco",   "name": "Blanco",   "value": "" },
                     { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
-                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" },
+                    { "id": "blanco",   "name": "Blanco",   "value": "" }
                   ]
                 }
               ]
@@ -221,12 +221,12 @@
                   "mode": "tint",
                   "baseTexture": "blanco_b",
                   "variants": [
-                    { "id": "blanco",   "name": "Blanco",   "value": "" },
                     { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
-                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" },
+                    { "id": "blanco",   "name": "Blanco",   "value": "" }
                   ]
                 }
               ]
@@ -241,12 +241,12 @@
                   "mode": "tint",
                   "baseTexture": "blanco_b",
                   "variants": [
-                    { "id": "blanco",   "name": "Blanco",   "value": "" },
                     { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
-                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" },
+                    { "id": "blanco",   "name": "Blanco",   "value": "" }
                   ]
                 }
               ]
@@ -261,12 +261,12 @@
                   "mode": "tint",
                   "baseTexture": "blanco",
                   "variants": [
-                    { "id": "blanco",   "name": "Blanco",   "value": "" },
                     { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
-                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" },
+                    { "id": "blanco",   "name": "Blanco",   "value": "" }
                   ]
                 }
               ]

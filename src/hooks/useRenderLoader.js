@@ -14,7 +14,12 @@ export const useRenderLoader = (ambientId, modelId, variantId) => {
     let cancelled = false
     const img = new Image()
     img.onload  = () => { if (!cancelled) setLoadedUrl(expectedUrl) }
-    img.onerror = () => { if (!cancelled) setErrorUrl(expectedUrl) }
+    img.onerror = () => {
+      if (!cancelled) {
+        console.warn(`[useRenderLoader] Render not found: ${expectedUrl}`)
+        setErrorUrl(expectedUrl)
+      }
+    }
     img.src = expectedUrl
     return () => { cancelled = true }
   }, [expectedUrl])
