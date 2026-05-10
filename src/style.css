@@ -282,10 +282,12 @@ body {
     flex: 1;
     overflow-y: auto;
     padding: 1rem;
+    padding-left: 2rem;
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    overflow: scroll;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
   }
 
   .panel-empty {
