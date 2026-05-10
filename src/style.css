@@ -23,6 +23,8 @@
   --panel-toggler-dim: 60px;
   --panel-toggler-yoffset: 2rem;
   --icon-btn-size: 26px;
+  --icon-btn-size-mobile: 18px;
+  --panel-selector-item-max-width: 60px;
   font-family: system-ui, -apple-system, sans-serif;
 }
 
@@ -325,6 +327,7 @@ body {
   flex-wrap: wrap; */
   @media only screen and (max-width: 639px) {
     grid-template-columns: repeat(var(--amb-panel-columns-mobile), 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(60px, 80px));
   }
   gap: 0.5rem;
 }
@@ -358,6 +361,7 @@ body {
     border-radius: 4px;
     object-fit: cover;
     display: block;
+    max-width: var(--panel-selector-item-max-width);
   }
 
   .model-name {
@@ -401,7 +405,9 @@ body {
   gap: 0.5rem;
 
   @media only screen and (max-width: 639px) {
-    grid-template-columns: repeat(var(--amb-panel-columns-mobile), 1fr);
+    /* grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); */
+    grid-template-columns: repeat(auto-fit, 60px);
+
   }
 
 }
@@ -435,6 +441,7 @@ body {
     width: 100%;
     border-radius: 4px;
     overflow: hidden;
+    /* max-width: var(--panel-selector-item-max-width); */
   }
 
   .variant-thumb-img {
@@ -517,8 +524,6 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  /* width: var(--icon-btn-size, 36px);
-  height: var(--icon-btn-size, 36px); */
   border: none;
   border-radius: 50%;
   background: hsl(0 0% 100% / 0.9);
@@ -546,6 +551,14 @@ body {
   &:disabled {
     opacity: 0.4;
     cursor: default;
+  }
+
+  @media only screen and (max-width : 639px) {
+    padding: calc( var(--icon-btn-size-mobile, 18px) * 0.5 );
+     svg {
+      width: var(--icon-btn-size-mobile, 18px);
+      height: var(--icon-btn-size-mobile, 18px);
+  }
   }
 }
 
