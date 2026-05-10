@@ -57,9 +57,49 @@
               ]
             },
             {
+              "id": "adoquin_toro_20x10_bisel",
+              "name": "Adoquín Toro 20×10 Bisel",
+              "model_image": "thumb_adoquin_toro_20x10_bisel.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco",
+                  "variants": [
+                    { "id": "blanco",   "name": "Blanco",   "value": "" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "crema",    "name": "Crema",    "value": "fedd83" },
+                    { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
+                    { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                  ]
+                }
+              ]
+            },
+            {
               "id": "adoquin_alcanices_12x12",
-              "name": "Adoquín Alcañices 12×12",
+              "name": "Adoquín Alcañices 12×12 Recto",
               "model_image": "thumb_adoquin_alcanices_12x12.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "blanco",   "name": "Blanco",   "value": "" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "crema",    "name": "Crema",    "value": "fedd83" },
+                    { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
+                    { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "adoquin_alcanices_12x12_bisel",
+              "name": "Adoquín Alcañices 12×12 Redondo",
+              "model_image": "thumb_adoquin_alcanices_12x12_bisel.webp",
               "groups": [
                 {
                   "name": "Color",
@@ -132,6 +172,26 @@
               ]
             },
             {
+              "id": "adoquin_castellano_18-12-9x12_bisel",
+              "name": "Adoquín Castellano 18-12-9×12 Bisel",
+              "model_image": "thumb_adoquin_castellano_18-12-9x12_bisel.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "blanco",   "name": "Blanco",   "value": "" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "crema",    "name": "Crema",    "value": "fedd83" },
+                    { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
+                    { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                  ]
+                }
+              ]
+            },
+            {
               "id": "adoquin_coreses_23x12",
               "name": "Adoquín Coreses 23×12",
               "model_image": "thumb_adoquin_coreses_23x12.webp",
@@ -153,8 +213,28 @@
             },
             {
               "id": "adoquin_guarena_24x12",
-              "name": "Adoquín Guareña 24×12",
+              "name": "Adoquín Guareña 24×12 Recto",
               "model_image": "thumb_adoquin_guarena_24x12.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "blanco",   "name": "Blanco",   "value": "" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "crema",    "name": "Crema",    "value": "fedd83" },
+                    { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
+                    { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
+                    { "id": "tostado",  "name": "Tostado",  "value": "efc9ac" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "adoquin_guarena_24x12_bisel",
+              "name": "Adoquín Guareña 24×12 Redondo",
+              "model_image": "thumb_adoquin_guarena_24x12_bisel.webp",
               "groups": [
                 {
                   "name": "Color",

@@ -178,6 +178,12 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
 | `ambient.autohidePanel` | `boolean` | Si es `true`, al clicar fuera de cualquier zona clicable (lo que dispara el hint) el panel de producto se oculta automáticamente. Por defecto `false` (panel permanece abierto) |
 | `model.model_image` | `string` | Nombre del archivo de thumbnail del modelo (ej. `thumb_adoquin_toro_20x10.webp`), ubicado en `public/models/` |
 
+### Variaciones con bisel
+
+Los modelos cuyo `config.json` en PD-3D_VISUALIZER incluye `geometry.hasBisel: true` generan una entrada adicional en la lista de modelos con el sufijo `_bisel` en el `id`, colocada inmediatamente después del modelo base. Los grupos de la variación bisel incluyen sólo los grupos cuyo `availableFor` es `"both"` o está ausente; los grupos con `availableFor: "sin_bisel"` se excluyen (ej. el grupo Fusión® no está disponible para bisel).
+
+Modelos con variación bisel actualmente: `adoquin_toro_20x10`, `adoquin_alcanices_12x12`, `adoquin_castellano_18-12-9x12`, `adoquin_guarena_24x12`.
+
 ### Modos de variante
 
 **`mode: "tint"`** — todas las variantes comparten la misma textura base (`baseTexture`). El thumbnail muestra esa textura y un overlay `::after` con `mix-blend-mode: multiply` aplica el color `#value` sobre ella. Si `value` es vacío (`""`), se muestra la textura natural (color base).

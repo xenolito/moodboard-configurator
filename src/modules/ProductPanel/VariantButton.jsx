@@ -16,12 +16,14 @@ const VariantButton = ({ variant, mode, baseTexture, isSelected, onClick }) => {
       title={variant.name}
       aria-pressed={isSelected}
     >
-      <img
-        className="variant-thumb"
-        src={thumbSrc}
-        alt={variant.name}
-        draggable={false}
-      />
+      <div className="variant-thumb">
+        <img
+          className="variant-thumb-img"
+          src={thumbSrc}
+          alt={variant.name}
+          draggable={false}
+        />
+      </div>
       <span className="variant-name">{variant.name}</span>
     </button>
   )

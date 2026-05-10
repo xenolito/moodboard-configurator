@@ -8,12 +8,15 @@
   --amb-radius: 8px;
   --def-border-radius: 4px;
   --amb-panel-width: 320px;
+  --amb-panel-width: 390px;
+  --amb-panel-columns: 4;
   --amb-panel-bg: hsl(0 0% 100% / 0.97);
   --amb-panel-shadow: 0 4px 24px hsl(0 0% 0% / 0.16);
   --cta-color: hsl(354, 73%, 46%);
   --amb-accent: var(--cta-color);
   --amb-accent-hover: #122d54;
   --amb-thumb-size: 56px;
+  --amb-thumb-size: 80px;
   --amb-transition: 0.6s cubic-bezier(0.2, 1, 0.3, 1);
   --amb-tab-height: 44px;
   --panel-toggler-dim: 60px;
@@ -282,6 +285,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
+    overflow: scroll;
   }
 
   .panel-empty {
@@ -309,8 +313,11 @@ body {
 }
 
 .model-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(var(--amb-panel-columns), 1fr);
+  /* display: flex;
+  flex-wrap: wrap; */
+
   gap: 0.5rem;
 }
 
@@ -336,8 +343,10 @@ body {
   }
 
   .model-thumb {
-    width: var(--amb-thumb-size);
-    height: var(--amb-thumb-size);
+    /* width: var(--amb-thumb-size);
+    height: var(--amb-thumb-size); */
+    width: 100%;
+    height: auto;
     border-radius: 4px;
     object-fit: cover;
     display: block;
@@ -348,9 +357,9 @@ body {
     color: #444;
     text-align: center;
     max-width: var(--amb-thumb-size);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+    /* white-space: nowrap; */
   }
 }
 
@@ -377,8 +386,10 @@ body {
 }
 
 .group-variants {
-  display: flex;
-  flex-wrap: wrap;
+  /* display: flex;
+  flex-wrap: wrap; */
+  display: grid;
+  grid-template-columns: repeat(var(--amb-panel-columns), 1fr);
   gap: 0.5rem;
 }
 
@@ -408,26 +419,24 @@ body {
 
   .variant-thumb {
     position: relative;
-    width: var(--amb-thumb-size);
-    height: var(--amb-thumb-size);
+    width: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .variant-thumb-img {
+    width: 100%;
+    height: auto;
     border-radius: 4px;
     object-fit: cover;
     display: block;
   }
 
   &.has-tint {
-    .variant-thumb {
-      position: relative;
-    }
-
-    &::after {
+    .variant-thumb::after {
       content: '';
       position: absolute;
-      top: 0.25rem;
-      left: 0.25rem;
-      width: var(--amb-thumb-size);
-      height: var(--amb-thumb-size);
-      border-radius: 4px;
+      inset: 0;
       background: var(--tint-color);
       mix-blend-mode: multiply;
       pointer-events: none;
