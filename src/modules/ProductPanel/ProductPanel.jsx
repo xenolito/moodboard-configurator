@@ -7,6 +7,7 @@ const ProductPanel = ({
   panelOpen = false,
   panelPosition = 'right',
   comparing = false,
+  compareSlot = null,
   selectedModelId,
   selectedVariant,
   onModelSelect,
@@ -24,6 +25,11 @@ const ProductPanel = ({
     <aside className={`product-panel${posClass}${isOpen ? ' is-open' : ''}`}>
       <div className="panel-header">
         <h3 className="panel-title">{zone?.label ?? 'Selección'}</h3>
+        {compareSlot && (
+          <span className="panel-compare-badge">
+            {compareSlot === 'left' ? 'Antes' : 'Después'}
+          </span>
+        )}
         <div className="panel-header-actions">
           {zone && (
             <button

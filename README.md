@@ -11,8 +11,9 @@ Configurador y visualizador de ambientes de pavimento exterior para Prefabricado
 - **6 ambientes** seleccionables (adoquines, baldosas, bloques, baldosa técnica)
 - **Detección de zona clicable** mediante máscara de color en canvas oculto (sin DOM)
 - **Cursor dinámico** — cambia a `pointer` al pasar sobre la zona del pavimento
-- **Hint de zona clicable** — al clicar fuera de zona se activa un tint generado en canvas sobre las zonas clicables; si `autohidePanel: true` el panel se cierra automáticamente en ese mismo click; configurable por zona en `config.json` (`hintZone`: `type`, `color`, `opacity`, `strokeWidth`, `animationTime`)
-- **Auto-hint** — si el usuario no clica ninguna zona en `autoHint.timeToShow` segundos, la animación del hint se dispara automáticamente y se repite como `setInterval` hasta que el usuario interactúe con una zona; solo activo cuando el ambient tiene más de una zona; configurable por ambient en `config.json` (`autoHint: { timeToShow: 5 }`)
+- **Hint de zona clicable** — al clicar fuera de zona se activa un tint generado en canvas sobre las zonas clicables; si el ambient tiene varias zonas se muestran secuencialmente una tras otra con el delay configurable (`hintSequenceDelay`); si `autohidePanel: true` el panel se cierra automáticamente en ese mismo click; configurable por zona en `config.json` (`hintZone`: `type`, `color`, `opacity`, `strokeWidth`, `animationTime`)
+- **Auto-hint** — si el usuario no clica ninguna zona en `autoHint.timeToShow` segundos, la secuencia de hints se dispara automáticamente y se repite como `setInterval`; el timer se detiene permanentemente en cuanto el usuario clica una zona o selecciona un modelo/variante en el panel; activo cuando el ambient tiene zonas con `hintZone` definido; configurable por ambient en `config.json` (`autoHint: { timeToShow: 5 }`)
+- **Botón volver** — muestra un botón `←` en la esquina inferior izquierda del viewer; la URL de destino se configura con `data-back-url` en el div raíz (`#ambient_viewer`) o con `backUrl` en el objeto ambient de `config.json`; si no se configura, el botón no aparece
 - **Panel de producto** — bottom sheet con scroll en móvil (siempre visible debajo del viewer), panel lateral en desktop con altura igual al viewer; posición izquierda/derecha configurable (`panelSelectorPosition`)
 - **Botón toggle siempre visible** — el botón de mostrar/ocultar el panel sobresale del borde del panel (izquierdo en panel-right, derecho en panel-left) y permanece siempre visible e interactivo; el icono cambia de dirección según posición y estado del panel
 - **Apertura automática del panel** — si el ambient tiene una sola zona, el panel se abre automáticamente al cargar con animación de slide; el delay es configurable (`panelOpenDelay` en segundos)
@@ -20,7 +21,7 @@ Configurador y visualizador de ambientes de pavimento exterior para Prefabricado
 - **2 modos de variante:** color (tint con CSS `mix-blend-mode: multiply`) y textura Fusión®
 - **Botones de acción siempre visibles** — comparar y descargar están siempre habilitados; sin render seleccionado, el slider compara la imagen base consigo misma y la descarga recae sobre la imagen base
 - **Selector de modelo con thumbnail** — cada modelo muestra una imagen cuadrada (`public/models/thumb_{id}.webp`) y su nombre, con el mismo layout que los botones de variante
-- **Slider antes/después compatible con panel** — al activar el compare el panel se oculta automáticamente, pero el usuario puede reabrirlo con el toggle; al cambiar modelo/color con compare activo, el render del lado derecho se actualiza instantáneamente (sin animación); el lado izquierdo permanece fijo como referencia
+- **Slider antes/después con compare independiente** — al activar el compare el panel se oculta; cada mitad (izquierda/derecha) tiene un estado de modelo y color propio; clicar en una zona del viewer en compare abre el panel para esa mitad (el slot activo — «Antes»/«Después» — cambia según dónde se clicó respecto al handle del slider); clicar fuera de zona siempre oculta el panel; el cursor cambia a `pointer` sobre zonas clicables en ambas mitades; `baseRender` en `config.json` define el modelo/color inicial del lado izquierdo (sin él, se usa `base.webp`); al desactivar compare solo el lado derecho permanece visible
 - **Descarga de imagen** — `OffscreenCanvas.convertToBlob`, fallback `toBlob` para iOS Safari
 - **Plugin WordPress** — shortcode `[pct_ambient_viewer ambient="adoquines"]`
 - **Generador de thumbnails** — script `sharp` que lee `config.json` y procesa texturas fuente
@@ -48,9 +49,9 @@ PD-MOODBOARDS/
 │   ├── hooks/
 │   │   ├── useAmbientConfig.js       ← fetch de config.json
 │   │   ├── useMaskDetection.js       ← canvas oculto + detección de zona por pixel
-│   │   ├── useRenderLoader.js        ← preload de imagen de render
+│   │   ├── useRenderLoader.js        ← preload de imagen de render; console.warn si falla la carga
 │   │   ├── useBeforeAfter.js         ← handlers del slider drag (CSS custom property, sin re-renders)
-│   │   └── useZoneHintMask.js        ← genera imagen de tint para hint de zona (canvas off-screen)
+│   │   └── useZoneHintMasks.js       ← genera N blob URLs de hint (una por zona) cargando la máscara una sola vez
 │   ├── modules/
 │   │   ├── AmbientViewer/            ← visor de imagen + acciones
 │   │   ├── ProductPanel/             ← panel con ModelSelector, GroupSelector, VariantButton
@@ -80,17 +81,18 @@ PD-MOODBOARDS/
 | Archivo | Ruta | Descripción |
 |---|---|---|
 | Base | `public/ambients/{id}/base.webp` | Fotografía sin producto (1920×1080 recomendado) |
-| Máscara | `public/ambients/{id}/mask.webp` | Negra = clicable, blanca = no clicable |
+| Máscara | `public/ambients/{id}/mask.webp` | Máscara de zonas compartida por todas las zonas del ambient |
 | Render | `public/ambients/{id}/renders/{modelId}__{variantId}.webp` | Fotografía completa con producto colocado |
 | Thumb modelo | `public/models/thumb_{modelId}.webp` | Thumbnail 128×128 para el botón de modelo en el panel |
 
 **Separador de render:** doble guion bajo `__` entre `modelId` y `variantId` (nunca aparece en los IDs).
 
 **Convención de máscara:**
-- **Negro `(0,0,0)`** → zona clicable (pavimento / muro)
-- **Blanco `(255,255,255)`** → zona no clicable (edificios, cielo, vegetación)
+- Cada zona se identifica por un color RGB único declarado en `zone.maskColor`; la detección usa tolerancia ±32 para cada canal
+- **Negro `(0,0,0)`** → uso más habitual (zona única de pavimento/muro)
+- **Multi-zona:** colores RGB distintos por zona (ej. `[0,0,0]`, `[255,0,0]`, `[0,255,0]`)
+- **Blanco `(255,255,255)`** → no clicable (edificios, cielo, vegetación)
 - Exportar sin anti-aliasing en los bordes para evitar falsos positivos
-- Multi-zona futura: colores RGB distintos por zona (`[255,0,0]`, `[0,255,0]`, etc.)
 
 ### Thumbnails
 
@@ -112,16 +114,19 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
       "id": "adoquines",
       "name": "Adoquines",
       "base": "ambients/adoquines/base.webp",
+      "mask": "ambients/adoquines/mask.webp",
+      "autoHint": { "timeToShow": 5 },
+      "autohidePanel": true,
       "panelSelectorPosition": "right",
       "panelOpenDelay": 1,
-      "autoHint": { "timeToShow": 5 },
+      "hintSequenceDelay": 300,
+      "baseRender": { "modelId": "adoquin_toro_20x10", "variantId": "rojo" },
       "zones": [
         {
           "id": "z1",
           "maskColor": [0, 0, 0],
           "label": "Pavimento",
-          "mask": "ambients/adoquines/mask.webp",
-          "hintZone": { "type": "layer", "color": "ffffff", "opacity": 0.7, "strokeWidth": 3, "animationTime": 500 },
+          "hintZone": { "type": "layer", "color": "ffffff", "opacity": 0.5, "strokeWidth": 3, "animationTime": 500 },
           "models": [
             {
               "id": "adoquin_toro_20x10",
@@ -133,8 +138,8 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
                   "mode": "tint",
                   "baseTexture": "blanco",
                   "variants": [
-                    { "id": "blanco", "name": "Blanco", "value": "" },
-                    { "id": "rojo",   "name": "Rojo",   "value": "f1a99f" }
+                    { "id": "rojo",   "name": "Rojo",   "value": "f1a99f" },
+                    { "id": "blanco", "name": "Blanco", "value": "" }
                   ]
                 },
                 {
@@ -160,22 +165,27 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
 |---|---|---|
 | `ambient.id` | `string` | ID kebab-case del ambiente (usado en rutas de assets y shortcode) |
 | `ambient.base` | `string` | Ruta relativa a la imagen base |
-| `zone.maskColor` | `[r,g,b]` | Color RGB de la zona en la máscara (negro = `[0,0,0]`) |
-| `zone.mask` | `string` | Ruta relativa al archivo de máscara |
+| `ambient.mask` | `string` | Ruta relativa al archivo de máscara; compartida por todas las zonas del ambient |
+| `ambient.backUrl` | `string` | URL de destino del botón volver; alternativa a `data-back-url` en el div raíz. Si se omite y tampoco hay `data-back-url`, el botón no se muestra |
+| `ambient.baseRender` | `object` | Render inicial para el lado izquierdo del compare y como fondo visible del viewer antes de que el usuario seleccione nada. Si se omite, se usa `base.webp` |
+| `ambient.baseRender.modelId` | `string` | ID del modelo que define el render base |
+| `ambient.baseRender.variantId` | `string` | ID de la variante que define el render base |
+| `ambient.hintSequenceDelay` | `number` | Milisegundos de pausa entre hints consecutivos en ambients multi-zona (por defecto `300`) |
+| `ambient.autoHint` | `object` | Configuración del auto-hint (opcional). Si ausente, no hay auto-hint |
+| `ambient.autoHint.timeToShow` | `number` | Segundos de inactividad antes de disparar la secuencia de hints automáticamente; se repite como intervalo hasta que el usuario clica una zona |
+| `ambient.autohidePanel` | `boolean` | Si es `true`, al clicar fuera de cualquier zona clicable (lo que dispara el hint) el panel de producto se oculta automáticamente. Por defecto `false` |
+| `ambient.panelSelectorPosition` | `"right"` \| `"left"` | Posición del panel de producto en desktop. Por defecto `"right"`. Los botones de acción (comparar/descargar) se alinean en el lado opuesto automáticamente |
+| `ambient.panelOpenDelay` | `number` | Segundos de espera antes de abrir el panel automáticamente cuando el ambient tiene una sola zona. Si se omite o es `0`, el panel aparece inmediatamente con su transición CSS |
+| `zone.maskColor` | `[r,g,b]` | Color RGB de la zona en la máscara. La detección usa tolerancia ±32 por canal |
+| `zone.hintZone` | `object` | Configuración del hint de zona clicable (opcional; si ausente no se genera hint para esa zona) |
+| `zone.hintZone.type` | `"invert"` \| `"layer"` \| `"stroke"` | Modo de visualización. `"invert"` invierte los colores de la imagen que hay debajo (recomendado). `"layer"` aplica una capa de color plano sobre la zona. `"stroke"` pinta solo el borde exterior. Por defecto `"layer"` |
+| `zone.hintZone.color` | `string` | Hex sin `#` del color del hint. Solo para `type: "layer"` y `"stroke"` (por defecto `ffffff`) |
+| `zone.hintZone.opacity` | `number` | Opacidad del hint, de `0` a `1`. Solo para `type: "layer"` y `"stroke"` (por defecto `0.7`) |
+| `zone.hintZone.strokeWidth` | `number` | Grosor en píxeles del borde, solo para `type: "stroke"` (por defecto `3`) |
+| `zone.hintZone.animationTime` | `number` | Milisegundos que permanece visible el hint antes de desvanecerse (por defecto `500`) |
 | `group.mode` | `"tint"` \| `"texture"` | Modo de visualización de variantes |
 | `group.baseTexture` | `string` | ID de variante a usar como textura base en modo `tint` |
 | `variant.value` | `string` | Hex sin `#` del color tint (vacío = sin tint, textura natural) |
-| `zone.hintZone` | `object` | Configuración del hint de zona clicable (opcional; si ausente se usan defaults) |
-| `zone.hintZone.type` | `"layer"` \| `"stroke"` | Modo de visualización: capa de color sobre la zona (`layer`) o borde exterior (`stroke`). Por defecto `layer` |
-| `zone.hintZone.color` | `string` | Hex sin `#` del color del hint (por defecto `ffffff`) |
-| `zone.hintZone.opacity` | `number` | Opacidad del hint, de `0` a `1` (por defecto `0.7`) |
-| `zone.hintZone.strokeWidth` | `number` | Grosor en píxeles del borde, solo para `type: "stroke"` (por defecto `3`) |
-| `zone.hintZone.animationTime` | `number` | Milisegundos que permanece visible el hint antes de desvanecerse (por defecto `500`) |
-| `ambient.autoHint` | `object` | Configuración del auto-hint (opcional). Si ausente, no hay auto-hint |
-| `ambient.autoHint.timeToShow` | `number` | Segundos de inactividad antes de disparar el hint automáticamente; se repite como intervalo hasta que el usuario clica una zona. Solo activo cuando el ambient tiene más de una zona |
-| `ambient.panelSelectorPosition` | `"right"` \| `"left"` | Posición del panel de producto en desktop. Por defecto `"right"`. Los botones de acción (comparar/descargar) se alinean en el lado opuesto automáticamente |
-| `ambient.panelOpenDelay` | `number` | Segundos de espera antes de abrir el panel automáticamente cuando el ambient tiene una sola zona. Si se omite o es `0`, el panel aparece inmediatamente con su transición CSS |
-| `ambient.autohidePanel` | `boolean` | Si es `true`, al clicar fuera de cualquier zona clicable (lo que dispara el hint) el panel de producto se oculta automáticamente. Por defecto `false` (panel permanece abierto) |
 | `model.model_image` | `string` | Nombre del archivo de thumbnail del modelo (ej. `thumb_adoquin_toro_20x10.webp`), ubicado en `public/models/` |
 
 ### Variaciones con bisel
@@ -225,16 +235,19 @@ Para modo `tint`, el script recoge el `baseTexture` del grupo (no los `id` de ca
 
 ### Hint de zona clicable (`.zone-hint`)
 
-Cuando el usuario clica en un área sin zona asignada, se activa `.zone-hint`: una imagen generada en canvas que aplica un tint de color exclusivamente sobre los píxeles negros (zona clicable) de la `mask.webp`, dejando el resto completamente transparente. El resultado es un overlay que resalta solo la zona clicable sin afectar el resto de la imagen. Se desvanece tras `animationTime` ms.
+Cuando el usuario clica en un área sin zona asignada, se activa la secuencia de hints: para cada zona con `hintZone` configurado se genera una imagen canvas que aplica un tint de color exclusivamente sobre los píxeles de esa zona en la `mask.webp`, dejando el resto transparente. Los hints se muestran uno tras otro: cada uno espera `animationTime` ms visible, se apaga, espera `hintSequenceDelay` ms, y pasa al siguiente.
 
-El hook `useZoneHintMask(maskUrl, tintHex, opacity, type, strokeWidth)` procesa la máscara una sola vez por ambient (canvas off-screen), devuelve un Object URL y lo revoca al desmontar. Si la zona no tiene `hintZone`, el hint se muestra con los valores por defecto (`ffffff` / `0.7` / `layer` / `500 ms`).
+El hook `useZoneHintMasks(maskUrl, zones)` carga la máscara **una sola vez** por ambient y genera N blob URLs (uno por zona) en paralelo via `Promise.all`. La detección del color de zona usa `isZonePixel` con tolerancia ±32 por canal RGB, lo que permite máscaras multi-color (negro, rojo, verde, etc.). Los blob URLs se revocan al desmontar o al cambiar el ambient.
 
-- **`type: "layer"`** — pinta con el color los píxeles negros (clickables) de la máscara, dejando el resto transparente.
-- **`type: "stroke"`** — detecta los píxeles negros fronterizos (donde negro toca blanco), los dilata hacia el exterior mediante dos pasadas separables (horizontal + vertical), y pinta solo esa franja de `strokeWidth` px en los píxeles blancos adyacentes. El interior de la zona queda transparente.
+- **`type: "invert"`** — genera un overlay blanco opaco sobre los píxeles de la zona; CSS `mix-blend-mode: difference` invierte en tiempo real los colores de la imagen base subyacente. No requiere `color` ni `opacity`.
+- **`type: "layer"`** — pinta con el color y opacidad configurados los píxeles de la zona, dejando el resto transparente.
+- **`type: "stroke"`** — detecta los píxeles fronterizos (donde la zona toca el exterior), los dilata mediante dos pasadas separables (horizontal + vertical), y pinta solo esa franja de `strokeWidth` px. El interior de la zona queda transparente.
 
 ### Detección de zona clicable (`useMaskDetection`)
 
-Carga la máscara en un canvas fuera del DOM (`document.createElement('canvas')`). En cada movimiento o click del ratón, escala las coordenadas del cliente al espacio de píxeles de la imagen original y llama a `getImageData(x, y, 1, 1)` para leer el color. Si el color coincide con el `maskColor` de alguna zona (distancia euclidiana < 40), devuelve el `id` de esa zona.
+Carga la máscara en un canvas fuera del DOM (`document.createElement('canvas')`). En cada movimiento o click del ratón, escala las coordenadas del cliente al espacio de píxeles de la imagen original teniendo en cuenta `object-fit: cover; object-position: bottom center` (escala proporcional + alineación inferior centrada), y llama a `getImageData(x, y, 1, 1)` para leer el color. Si el color coincide con el `maskColor` de alguna zona (distancia euclidiana < 40), devuelve el `id` de esa zona.
+
+Si un render falla al cargar (archivo inexistente), `useRenderLoader` emite `console.warn` con la URL intentada para facilitar la depuración, sin romper la UI.
 
 ### Visualización de render
 
@@ -244,12 +257,16 @@ No se usa `mask-image` CSS. La imagen de render es una fotografía completa del 
 
 Sin canvas. Las dos imágenes ya existen como `<img>` absolutas en el DOM; el slider solo controla qué parte de cada una es visible:
 
-- `ambient-base` muestra la imagen anterior (o la foto original en la primera selección)
-- `ambient-selected-render` con `clip-path: inset(0 0 0 var(--slider-x, 50%))` revela el render actual por la derecha
+- `ambient-base` (lado izquierdo) muestra el render del slot izquierdo si existe, si no la foto original
+- `ambient-selected-render` con `clip-path: inset(0 0 0 var(--slider-x, 50%))` revela el render del slot derecho
 - El handle `div.slider-handle` escribe directamente `containerRef.current.style.setProperty('--slider-x', x + '%')` en cada `pointermove` — sin `setState`, sin re-renders React
-- El drag usa Pointer Events con `setPointerCapture` (mouse y touch unificados)
+- El drag usa Pointer Events con `setPointerCapture` (mouse y touch unificados); el `click` del handle no propaga al container para evitar disparar la lógica de slot/zona
 
-**Base deslizante (rolling base):** La foto original actúa como base hasta la segunda selección confirmada. A partir de la segunda, `ambient-base` muestra la penúltima selección, de modo que el slider compara siempre penúltima vs última.
+**Slots independientes en compare:** `App.jsx` instancia `useRenderLoader` dos veces en paralelo — una para el slot derecho (`selectedModelId`/`selectedVariant`) y otra para el slot izquierdo (`leftModelId`/`leftVariant`). El estado de cada slot persiste al desactivar y reactivar compare dentro del mismo ambient; se resetea al cambiar de ambient.
+
+**Lógica de slot al clicar en compare:** el slot que se activa (izquierda/derecha) se determina comparando la posición X del click con el valor actual de `--slider-x` (no un 50% fijo), por lo que funciona correctamente con el handle en cualquier posición.
+
+**Base deslizante (rolling base, modo normal):** La foto original actúa como base hasta la segunda selección confirmada. A partir de la segunda, `ambient-base` muestra la penúltima selección, de modo que el slider compara siempre penúltima vs última.
 
 ### Descarga (`useDownload`)
 
@@ -292,9 +309,9 @@ Vite 8 con Rolldown y Oxc:
 
 | ID | Nombre | Assets |
 |---|---|---|
-| `adoquines` | Adoquines | base.webp + mask.webp |
-| `baldosas-1` | Baldosas 1 | pendiente |
-| `baldosas-2` | Baldosas 2 | pendiente |
-| `bloques-1` | Bloques 1 | pendiente |
-| `bloques-2` | Bloques 2 | pendiente |
-| `baldosa-tecnica` | Baldosa Técnica | pendiente |
+| `adoquines` | Adoquines | base.webp + mask.webp + renders completos; 1 zona |
+| `baldosas-1` | Baldosas 1 | base.webp + mask.webp; renders pendientes |
+| `baldosas-2` | Baldosas 2 | base.webp + mask.webp; renders pendientes |
+| `bloques-1` | Bloques 1 | base.webp + mask.webp; renders pendientes |
+| `bloques-2` | Bloques 2 | base.webp + mask.webp; renders pendientes |
+| `baldosa-tecnica` | Baldosa Técnica | base.webp + mask.webp; 3 zonas (Pastillas, Botones, Direccional); renders pendientes |

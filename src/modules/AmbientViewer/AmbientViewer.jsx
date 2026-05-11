@@ -1,11 +1,11 @@
 import { useRef, useCallback, useState, useEffect } from 'react'
-import { SplitSquareHorizontal, Download } from 'lucide-react'
+import { SplitSquareHorizontal, Download, ArrowLeft } from 'lucide-react'
 import { useMaskDetection } from '../../hooks/useMaskDetection.js'
 import { useDownload } from '../Download/useDownload.js'
 import BeforeAfterSlider from '../Slider/BeforeAfterSlider.jsx'
 import IconButton from '../../ui/IconButton.jsx'
 import { buildBasePath, buildMaskPath } from '../../utils/buildPaths.js'
-import { useZoneHintMask } from '../../hooks/useZoneHintMask.js'
+import { useZoneHintMasks } from '../../hooks/useZoneHintMasks.js'
 
 const AmbientViewer = ({
   ambient,
@@ -13,15 +13,19 @@ const AmbientViewer = ({
   panelOpen = false,
   renderUrl,
   renderLoading,
+  compareLeftUrl,
+  backUrl,
+  autoHintStopped = false,
   onZoneClick,
   onOutsideZoneClick,
+  onCompareSlotClick,
   onSliderChange,
   children
 }) => {
-  const containerRef       = useRef(null)
-  const hintTimerRef       = useRef(null)
+  const containerRef        = useRef(null)
+  const hintSeqTimerRef     = useRef(null)
   const autoHintIntervalRef = useRef(null)
-  const autoHintDoneRef    = useRef(false)
+  const autoHintDoneRef     = useRef(false)
   const [sliderActive, setSliderActive]       = useState(false)
   const sliderActiveRef = useRef(false)
   sliderActiveRef.current = sliderActive
@@ -30,17 +34,11 @@ const AmbientViewer = ({
   const [selectedUrl, setSelectedUrl]         = useState(null)
   const [incomingUrl, setIncomingUrl]         = useState(null)
   const [incomingVisible, setIncomingVisible] = useState(false)
-  const [hintActive, setHintActive]           = useState(false)
+  const [hintZoneIdx, setHintZoneIdx]         = useState(null)
   const zone     = ambient?.zones?.[0]
-  const maskUrl  = zone ? buildMaskPath(ambient.id, zone.mask) : null
-  const hintSrc  = useZoneHintMask(
-    maskUrl,
-    zone?.hintZone?.color       ?? 'ffffff',
-    zone?.hintZone?.opacity     ?? 0.7,
-    zone?.hintZone?.type        ?? 'layer',
-    zone?.hintZone?.strokeWidth ?? 3
-  )
-  const { getZoneAtPoint } = useMaskDetection(zone?.mask)
+  const maskUrl  = ambient?.mask ? buildMaskPath(ambient.id, ambient.mask) : null
+  const hintSrcs = useZoneHintMasks(maskUrl, ambient?.zones ?? [])
+  const { getZoneAtPoint } = useMaskDetection(ambient?.mask ?? null)
   const { download } = useDownload()
 
   useEffect(() => {
@@ -65,7 +63,7 @@ const AmbientViewer = ({
       setIncomingUrl(null)
       setIncomingVisible(false)
       setSliderActive(false)
-      setHintActive(false)
+      setHintZoneIdx(null)
     }
   }, [renderUrl, renderLoading])
 
@@ -77,15 +75,53 @@ const AmbientViewer = ({
     setIncomingVisible(false)
   }, [incomingUrl, selectedUrl])
 
+  const runHintSequence = useCallback((onEnd) => {
+    clearTimeout(hintSeqTimerRef.current)
+    const zones = ambient?.zones ?? []
+    const sequenceDelay = ambient?.hintSequenceDelay ?? 300
+    let idx = 0
+    const showNext = () => {
+      if (idx >= zones.length) return
+      setHintZoneIdx(idx)
+      const animTime = zones[idx].hintZone?.animationTime ?? 500
+      hintSeqTimerRef.current = setTimeout(() => {
+        setHintZoneIdx(null)
+        if (idx + 1 < zones.length) {
+          idx++
+          hintSeqTimerRef.current = setTimeout(showNext, sequenceDelay)
+        } else {
+          onEnd?.()
+        }
+      }, animTime)
+    }
+    showNext()
+  }, [ambient])
+
   const handleMouseMove = useCallback((e) => {
-    if (!zone || sliderActive) return
+    if (!zone) return
     const zoneId = getZoneAtPoint(e.clientX, e.clientY, containerRef.current, ambient.zones)
     containerRef.current.style.cursor = zoneId ? 'pointer' : 'default'
-  }, [ambient, zone, sliderActive, getZoneAtPoint])
+  }, [ambient, zone, getZoneAtPoint])
 
   const handleClick = useCallback((e) => {
-    if (!zone || sliderActive) return
+    if (!zone) return
     const zoneId = getZoneAtPoint(e.clientX, e.clientY, containerRef.current, ambient.zones)
+    if (sliderActive) {
+      if (zoneId) {
+        const rect = containerRef.current.getBoundingClientRect()
+        const sliderXStr = containerRef.current.style.getPropertyValue('--slider-x') || '50%'
+        const sliderXPct = parseFloat(sliderXStr) / 100
+        const relXPct = (e.clientX - rect.left) / rect.width
+        onCompareSlotClick?.(relXPct < sliderXPct ? 'left' : 'right')
+        autoHintDoneRef.current = true
+        clearInterval(autoHintIntervalRef.current)
+        autoHintIntervalRef.current = null
+        onZoneClick?.(zoneId)
+      } else {
+        onOutsideZoneClick?.()
+      }
+      return
+    }
     if (zoneId) {
       autoHintDoneRef.current = true
       clearInterval(autoHintIntervalRef.current)
@@ -94,38 +130,50 @@ const AmbientViewer = ({
     } else if (onOutsideZoneClick && panelOpen) {
       onOutsideZoneClick()
     } else {
-      setHintActive(true)
-      clearTimeout(hintTimerRef.current)
-      hintTimerRef.current = setTimeout(() => setHintActive(false), zone?.hintZone?.animationTime ?? 500)
+      clearInterval(autoHintIntervalRef.current)
+      autoHintIntervalRef.current = null
+      const timeToShow = ambient?.autoHint?.timeToShow
+      runHintSequence(timeToShow ? () => {
+        if (autoHintDoneRef.current) return
+        const delayMs = timeToShow * 1000
+        autoHintIntervalRef.current = setInterval(() => {
+          if (autoHintDoneRef.current) return
+          runHintSequence()
+        }, delayMs)
+      } : undefined)
     }
-  }, [ambient, zone, sliderActive, panelOpen, getZoneAtPoint, onZoneClick, onOutsideZoneClick])
+  }, [ambient, zone, sliderActive, panelOpen, getZoneAtPoint, onZoneClick, onOutsideZoneClick, onCompareSlotClick, runHintSequence])
 
-  useEffect(() => () => clearTimeout(hintTimerRef.current), [])
+  useEffect(() => () => clearTimeout(hintSeqTimerRef.current), [])
+
+  useEffect(() => {
+    if (!autoHintStopped) return
+    autoHintDoneRef.current = true
+    clearInterval(autoHintIntervalRef.current)
+    autoHintIntervalRef.current = null
+  }, [autoHintStopped])
 
   useEffect(() => {
     autoHintDoneRef.current = false
     clearInterval(autoHintIntervalRef.current)
+    clearTimeout(hintSeqTimerRef.current)
     autoHintIntervalRef.current = null
+    setHintZoneIdx(null)
 
     const timeToShow = ambient?.autoHint?.timeToShow
-    if (!timeToShow || !hintSrc || (ambient?.zones?.length ?? 0) <= 1) return
+    if (!timeToShow || !hintSrcs.length) return
 
     const delayMs = timeToShow * 1000
     autoHintIntervalRef.current = setInterval(() => {
       if (autoHintDoneRef.current) return
-      setHintActive(true)
-      clearTimeout(hintTimerRef.current)
-      hintTimerRef.current = setTimeout(
-        () => setHintActive(false),
-        zone?.hintZone?.animationTime ?? 500
-      )
+      runHintSequence()
     }, delayMs)
 
     return () => {
       clearInterval(autoHintIntervalRef.current)
       autoHintIntervalRef.current = null
     }
-  }, [ambient?.id, ambient?.autoHint?.timeToShow, hintSrc])
+  }, [ambient?.id, ambient?.autoHint?.timeToShow, hintSrcs, runHintSequence])
 
   const handleMouseLeave = useCallback(() => {
     if (containerRef.current) containerRef.current.style.cursor = 'default'
@@ -135,6 +183,7 @@ const AmbientViewer = ({
 
   const originalBaseUrl  = buildBasePath(ambient.id)
   const effectiveBaseUrl = baseDisplayUrl || originalBaseUrl
+  const baseImgSrc       = (sliderActive && compareLeftUrl) ? compareLeftUrl : effectiveBaseUrl
 
   return (
     <div
@@ -146,7 +195,7 @@ const AmbientViewer = ({
     >
       <img
         className="ambient-base"
-        src={effectiveBaseUrl}
+        src={baseImgSrc}
         alt={ambient.name}
         draggable={false}
       />
@@ -171,31 +220,46 @@ const AmbientViewer = ({
         />
       )}
 
-      {hintSrc && (
-        <img
-          className={`zone-hint${hintActive ? ' is-active' : ''}`}
-          src={hintSrc}
-          alt=""
-          draggable={false}
-        />
-      )}
+      {hintSrcs.slice(0, ambient.zones?.length ?? 0).map((src, i) => {
+        const hintType = ambient.zones[i].hintZone?.type ?? 'layer'
+        return (
+          <img
+            key={ambient.zones[i].id}
+            className={`zone-hint${hintType === 'invert' ? ' is-invert' : ''}${hintZoneIdx === i ? ' is-active' : ''}`}
+            src={src}
+            alt=""
+            draggable={false}
+          />
+        )
+      })}
 
       {sliderActive && (
         <BeforeAfterSlider containerRef={containerRef} />
       )}
 
       <div className="ambient-actions">
-        <IconButton
-          icon={SplitSquareHorizontal}
-          label={sliderActive ? 'Ocultar comparativa' : 'Comparar antes/después'}
-          active={sliderActive}
-          onClick={(e) => { e.stopPropagation(); setSliderActive(v => !v) }}
-        />
-        <IconButton
-          icon={Download}
-          label="Descargar imagen"
-          onClick={(e) => { e.stopPropagation(); download(selectedUrl || effectiveBaseUrl, ambient.id) }}
-        />
+        {backUrl && (
+          <div className="navigation">
+            <IconButton
+              icon={ArrowLeft}
+              label="Volver"
+              onClick={(e) => { e.stopPropagation(); window.location.href = backUrl }}
+            />
+          </div>
+        )}
+        <div className="ui-actions">
+          <IconButton
+            icon={SplitSquareHorizontal}
+            label={sliderActive ? 'Ocultar comparar' : 'Comparar antes / después'}
+            active={sliderActive}
+            onClick={(e) => { e.stopPropagation(); setSliderActive(v => !v) }}
+          />
+          <IconButton
+            icon={Download}
+            label="Descargar imagen"
+            onClick={(e) => { e.stopPropagation(); download(selectedUrl || effectiveBaseUrl, ambient.id) }}
+          />
+        </div>
       </div>
 
       {children}

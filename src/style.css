@@ -21,7 +21,7 @@
   --amb-transition: 0.6s cubic-bezier(0.2, 1, 0.3, 1);
   --amb-tab-height: 44px;
   --panel-toggler-dim: 60px;
-  --panel-toggler-yoffset: 2rem;
+  --panel-toggler-yoffset: 2.8rem;
   --icon-btn-size: 26px;
   --icon-btn-size-mobile: 18px;
   --panel-selector-item-max-width: 60px;
@@ -150,21 +150,40 @@ body {
     &.is-active {
       opacity: 1;
     }
+
+    &.is-invert {
+      mix-blend-mode: difference;
+    }
   }
 
   .ambient-actions {
     position: absolute;
     bottom: 0.75rem;
-    left: 0.75rem;
+    left: 0;
+    right: 0;
+    padding: 0 0.75rem;
     display: flex;
     flex-direction: row;
+    align-items: flex-end;
     gap: 0.75rem;
     z-index: 5;
+    pointer-events: none;
+
+    .navigation,
+    .ui-actions {
+      display: flex;
+      flex-direction: row;
+      gap: 0.75rem;
+      pointer-events: auto;
+    }
+
+    .navigation {
+      padding-right: 2rem;
+    }
   }
 
-  &.actions-right .ambient-actions {
-    left: auto;
-    right: 0.75rem;
+  &.actions-right .ambient-actions .ui-actions {
+    margin-left: auto;
   }
 }
 
@@ -259,6 +278,18 @@ body {
     font-size: 0.875rem;
     font-weight: 600;
     color: #222;
+  }
+
+  .panel-compare-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: white;
+    background: var(--amb-accent);
+    padding: 0.15rem 0.55rem;
+    border-radius: 99px;
+    flex-shrink: 0;
   }
 
 

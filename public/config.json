@@ -8,16 +8,14 @@
       "autohidePanel": true,
       "panelSelectorPosition": "right",
       "panelOpenDelay": 1,
+      "mask": "ambients/adoquines/mask.webp",
       "zones": [
         {
           "id": "z1",
           "maskColor": [0, 0, 0],
           "label": "Pavimento",
-          "mask": "ambients/adoquines/mask.webp",
           "hintZone": {
-            "type": "layer",
-            "color": "ffffff",
-            "opacity": 0.5,
+            "type": "invert",
             "animationTime": 500
           },
           "models": [
@@ -279,12 +277,16 @@
       "id": "baldosas-1",
       "name": "Baldosas 1",
       "base": "ambients/baldosas-1/base.webp",
+      "autoHint": { "timeToShow": 5 },
+      "autohidePanel": true,
+      "panelSelectorPosition": "right",
+      "panelOpenDelay": 1,
+      "mask": "ambients/baldosas-1/mask.webp",
       "zones": [
         {
           "id": "z1",
           "maskColor": [0, 0, 0],
           "label": "Pavimento",
-          "mask": "ambients/baldosas-1/mask.webp",
           "models": []
         }
       ]
@@ -293,12 +295,16 @@
       "id": "baldosas-2",
       "name": "Baldosas 2",
       "base": "ambients/baldosas-2/base.webp",
+      "autoHint": { "timeToShow": 5 },
+      "autohidePanel": true,
+      "panelSelectorPosition": "right",
+      "panelOpenDelay": 1,
+      "mask": "ambients/baldosas-2/mask.webp",
       "zones": [
         {
           "id": "z1",
           "maskColor": [0, 0, 0],
           "label": "Pavimento",
-          "mask": "ambients/baldosas-2/mask.webp",
           "models": []
         }
       ]
@@ -307,12 +313,16 @@
       "id": "bloques-1",
       "name": "Bloques 1",
       "base": "ambients/bloques-1/base.webp",
+      "autoHint": { "timeToShow": 5 },
+      "autohidePanel": true,
+      "panelSelectorPosition": "right",
+      "panelOpenDelay": 1,
+      "mask": "ambients/bloques-1/mask.webp",
       "zones": [
         {
           "id": "z1",
           "maskColor": [0, 0, 0],
           "label": "Muro",
-          "mask": "ambients/bloques-1/mask.webp",
           "models": []
         }
       ]
@@ -321,12 +331,16 @@
       "id": "bloques-2",
       "name": "Bloques 2",
       "base": "ambients/bloques-2/base.webp",
+      "autoHint": { "timeToShow": 5 },
+      "autohidePanel": true,
+      "panelSelectorPosition": "right",
+      "panelOpenDelay": 1,
+      "mask": "ambients/bloques-2/mask.webp",
       "zones": [
         {
           "id": "z1",
           "maskColor": [0, 0, 0],
           "label": "Muro",
-          "mask": "ambients/bloques-2/mask.webp",
           "models": []
         }
       ]
@@ -335,12 +349,43 @@
       "id": "baldosa-tecnica",
       "name": "Baldosa Técnica",
       "base": "ambients/baldosa-tecnica/base.webp",
+      "autoHint": { "timeToShow": 5 },
+      "autohidePanel": true,
+      "panelSelectorPosition": "right",
+      "panelOpenDelay": 1,
+      "hintSequenceDelay": 300,
+      "mask": "ambients/baldosa-tecnica/mask.webp",
       "zones": [
         {
           "id": "z1",
           "maskColor": [0, 0, 0],
-          "label": "Pavimento",
-          "mask": "ambients/baldosa-tecnica/mask.webp",
+          "label": "Pastillas",
+          "hintZone": {
+            "type": "invert",
+            "color": "ff0000",
+            "opacity": 0.5,
+            "animationTime": 500
+          },
+          "models": []
+        },
+        {
+          "id": "z2",
+          "maskColor": [255, 0, 0],
+          "label": "Botones",
+          "hintZone": {
+            "type": "invert",
+            "animationTime": 500
+          },
+          "models": []
+        },
+        {
+          "id": "z3",
+          "maskColor": [0, 255, 0],
+          "label": "Direccional",
+          "hintZone": {
+            "type": "invert",
+            "animationTime": 500
+          },
           "models": []
         }
       ]
