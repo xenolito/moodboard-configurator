@@ -14,6 +14,7 @@ const AmbientViewer = ({
   renderUrl,
   renderLoading,
   compareLeftUrl,
+  hasBaseRender = false,
   backUrl,
   autoHintStopped = false,
   onZoneClick,
@@ -181,9 +182,10 @@ const AmbientViewer = ({
 
   if (!ambient) return null
 
-  const originalBaseUrl  = buildBasePath(ambient.id)
-  const effectiveBaseUrl = baseDisplayUrl || originalBaseUrl
-  const baseImgSrc       = (sliderActive && compareLeftUrl) ? compareLeftUrl : effectiveBaseUrl
+  const originalBaseUrl = buildBasePath(ambient.id)
+  const baseImgSrc      = sliderActive && compareLeftUrl
+    ? compareLeftUrl
+    : (baseDisplayUrl || compareLeftUrl || (hasBaseRender ? null : originalBaseUrl))
 
   return (
     <div

@@ -16,12 +16,13 @@ Configurador y visualizador de ambientes de pavimento exterior para Prefabricado
 - **Botón volver** — muestra un botón `←` en la esquina inferior izquierda del viewer; la URL de destino se configura con `data-back-url` en el div raíz (`#ambient_viewer`) o con `backUrl` en el objeto ambient de `config.json`; si no se configura, el botón no aparece
 - **Panel de producto** — bottom sheet con scroll en móvil (siempre visible debajo del viewer), panel lateral en desktop con altura igual al viewer; posición izquierda/derecha configurable (`panelSelectorPosition`)
 - **Botón toggle siempre visible** — el botón de mostrar/ocultar el panel sobresale del borde del panel (izquierdo en panel-right, derecho en panel-left) y permanece siempre visible e interactivo; el icono cambia de dirección según posición y estado del panel
-- **Apertura automática del panel** — si el ambient tiene una sola zona, el panel se abre automáticamente al cargar con animación de slide; el delay es configurable (`panelOpenDelay` en segundos)
+- **Apertura automática del panel** — si el ambient tiene una sola zona, el panel se abre automáticamente al cargar con animación de slide; el delay es configurable (`panelOpenDelay` en segundos); con múltiples zonas el panel nunca se abre automáticamente — el usuario debe clicar una zona primero
 - **Selección automática de primera variante** — al clicar un modelo, se auto-selecciona la primera variante del primer grupo y se carga el render correspondiente; re-clicar el mismo modelo o la zona no resetea la selección activa
+- **Pre-selección automática en zonas de modelo único** — cuando una zona tiene exactamente 1 modelo, ese modelo queda seleccionado automáticamente al abrir la zona; el selector de modelo se muestra pre-marcado y los grupos de color aparecen desplegados directamente
 - **2 modos de variante:** color (tint con CSS `mix-blend-mode: multiply`) y textura Fusión®
 - **Botones de acción siempre visibles** — comparar y descargar están siempre habilitados; sin render seleccionado, el slider compara la imagen base consigo misma y la descarga recae sobre la imagen base
 - **Selector de modelo con thumbnail** — cada modelo muestra una imagen cuadrada (`public/models/thumb_{id}.webp`) y su nombre, con el mismo layout que los botones de variante
-- **Slider antes/después con compare independiente** — al activar el compare el panel se oculta; cada mitad (izquierda/derecha) tiene un estado de modelo y color propio; clicar en una zona del viewer en compare abre el panel para esa mitad (el slot activo — «Antes»/«Después» — cambia según dónde se clicó respecto al handle del slider); clicar fuera de zona siempre oculta el panel; el cursor cambia a `pointer` sobre zonas clicables en ambas mitades; `baseRender` en `config.json` define el modelo/color inicial del lado izquierdo (sin él, se usa `base.webp`); al desactivar compare solo el lado derecho permanece visible
+- **Slider antes/después con compare independiente** — al activar el compare el panel se oculta; cada mitad (izquierda/derecha) tiene un estado de modelo y color propio; clicar en una zona del viewer en compare abre el panel para esa mitad (el slot activo — «Antes»/«Después» — cambia según dónde se clicó respecto al handle del slider); clicar fuera de zona siempre oculta el panel; el cursor cambia a `pointer` sobre zonas clicables en ambas mitades; `baseRender` define el render inicial del lado izquierdo y el fondo del viewer (sustituye completamente a `base.webp` — si `baseRender` está presente, `base.webp` nunca se muestra); al desactivar compare solo el lado derecho permanece visible
 - **Descarga de imagen** — `OffscreenCanvas.convertToBlob`, fallback `toBlob` para iOS Safari
 - **Plugin WordPress** — shortcode `[pct_ambient_viewer ambient="adoquines"]`
 - **Generador de thumbnails** — script `sharp` que lee `config.json` y procesa texturas fuente
@@ -82,10 +83,13 @@ PD-MOODBOARDS/
 |---|---|---|
 | Base | `public/ambients/{id}/base.webp` | Fotografía sin producto (1920×1080 recomendado) |
 | Máscara | `public/ambients/{id}/mask.webp` | Máscara de zonas compartida por todas las zonas del ambient |
-| Render | `public/ambients/{id}/renders/{modelId}__{variantId}.webp` | Fotografía completa con producto colocado |
+| Render (zona única) | `public/ambients/{id}/renders/{modelId}__{variantId}.webp` | Fotografía completa con producto colocado |
+| Render (multi-zona combinado) | `public/ambients/{id}/renders/{prefix1}-{v1}--{prefix2}-{v2}--...webp` | Render con todas las zonas combinadas; el orden de los segmentos sigue el orden del array `zones` en `config.json` |
 | Thumb modelo | `public/models/thumb_{modelId}.webp` | Thumbnail 128×128 para el botón de modelo en el panel |
 
-**Separador de render:** doble guion bajo `__` entre `modelId` y `variantId` (nunca aparece en los IDs).
+**Separador de render (zona única):** doble guion bajo `__` entre `modelId` y `variantId` (nunca aparece en los IDs).
+
+**Renders combinados (`combinedRenders: true`):** cada segmento es `{model.renderPrefix}-{variantId}`, separados por `--`. Ejemplo con 3 zonas: `botones-rojo--guia-rojo--pastillas-rojo.webp`. El campo `renderPrefix` debe declararse en cada modelo del ambient; si una zona tiene varios modelos, cada uno puede tener un prefijo distinto.
 
 **Convención de máscara:**
 - Cada zona se identifica por un color RGB único declarado en `zone.maskColor`; la detección usa tolerancia ±32 para cada canal
@@ -167,16 +171,20 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
 | `ambient.base` | `string` | Ruta relativa a la imagen base |
 | `ambient.mask` | `string` | Ruta relativa al archivo de máscara; compartida por todas las zonas del ambient |
 | `ambient.backUrl` | `string` | URL de destino del botón volver; alternativa a `data-back-url` en el div raíz. Si se omite y tampoco hay `data-back-url`, el botón no se muestra |
-| `ambient.baseRender` | `object` | Render inicial para el lado izquierdo del compare y como fondo visible del viewer antes de que el usuario seleccione nada. Si se omite, se usa `base.webp` |
-| `ambient.baseRender.modelId` | `string` | ID del modelo que define el render base |
-| `ambient.baseRender.variantId` | `string` | ID de la variante que define el render base |
+| `ambient.baseRender` | `object` \| `array` | Render inicial que actúa como fondo del viewer y lado izquierdo del compare. Cuando está definido, reemplaza completamente a `base.webp` (este no se muestra en ningún caso). En ambients de zona única: objeto `{ modelId, groupName, variantId }` — define solo el slot izquierdo del compare. En ambients con `combinedRenders: true`: array de objetos, uno por zona — define además el estado inicial del panel y la selección visible en el viewer (modelo y variante pre-seleccionados) |
+| `ambient.baseRender.modelId` | `string` | (zona única) ID del modelo base |
+| `ambient.baseRender.variantId` | `string` | (zona única) ID de la variante base |
+| `ambient.baseRender[].zoneId` | `string` | (multi-zona) ID de la zona a la que corresponde esta entrada |
+| `ambient.baseRender[].modelId` | `string` | (multi-zona) ID del modelo base para esa zona |
+| `ambient.baseRender[].variantId` | `string` | (multi-zona) ID de la variante base para esa zona |
 | `ambient.hintSequenceDelay` | `number` | Milisegundos de pausa entre hints consecutivos en ambients multi-zona (por defecto `300`) |
 | `ambient.autoHint` | `object` | Configuración del auto-hint (opcional). Si ausente, no hay auto-hint |
 | `ambient.autoHint.timeToShow` | `number` | Segundos de inactividad antes de disparar la secuencia de hints automáticamente; se repite como intervalo hasta que el usuario clica una zona |
 | `ambient.autohidePanel` | `boolean` | Si es `true`, al clicar fuera de cualquier zona clicable (lo que dispara el hint) el panel de producto se oculta automáticamente. Por defecto `false` |
 | `ambient.panelSelectorPosition` | `"right"` \| `"left"` | Posición del panel de producto en desktop. Por defecto `"right"`. Los botones de acción (comparar/descargar) se alinean en el lado opuesto automáticamente |
-| `ambient.panelOpenDelay` | `number` | Segundos de espera antes de abrir el panel automáticamente cuando el ambient tiene una sola zona. Si se omite o es `0`, el panel aparece inmediatamente con su transición CSS |
+| `ambient.panelOpenDelay` | `number` | Segundos de espera antes de abrir el panel automáticamente. Solo tiene efecto cuando el ambient tiene una sola zona; con múltiples zonas se ignora. Si se omite o es `0`, el panel aparece inmediatamente con su transición CSS |
 | `zone.maskColor` | `[r,g,b]` | Color RGB de la zona en la máscara. La detección usa tolerancia ±32 por canal |
+| `model.renderPrefix` | `string` | Prefijo del segmento de este modelo en el filename del render combinado (ej. `"botones"`). Obligatorio en cada modelo cuando el ambient tiene `combinedRenders: true` |
 | `zone.hintZone` | `object` | Configuración del hint de zona clicable (opcional; si ausente no se genera hint para esa zona) |
 | `zone.hintZone.type` | `"invert"` \| `"layer"` \| `"stroke"` | Modo de visualización. `"invert"` invierte los colores de la imagen que hay debajo (recomendado). `"layer"` aplica una capa de color plano sobre la zona. `"stroke"` pinta solo el borde exterior. Por defecto `"layer"` |
 | `zone.hintZone.color` | `string` | Hex sin `#` del color del hint. Solo para `type: "layer"` y `"stroke"` (por defecto `ffffff`) |

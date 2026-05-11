@@ -4,6 +4,7 @@
       "id": "adoquines",
       "name": "Adoquines",
       "base": "ambients/adoquines/base.webp",
+      "baseRender": { "modelId": "adoquin_toro_20x10", "groupName": "Color", "variantId": "rojo" },
       "autoHint": { "timeToShow": 5 },
       "autohidePanel": true,
       "panelSelectorPosition": "right",
@@ -349,44 +350,97 @@
       "id": "baldosa-tecnica",
       "name": "Baldosa Técnica",
       "base": "ambients/baldosa-tecnica/base.webp",
+      "baseRender": [
+        { "zoneId": "z2", "modelId": "baldosa_hidraulica_40x40_botones",      "variantId": "rojo" },
+        { "zoneId": "z3", "modelId": "baldosa_hidraulica_40x40_guia",         "variantId": "rojo" },
+        { "zoneId": "z1", "modelId": "baldosa_hidraulica_40x40_64_pastillas", "variantId": "blanco" }
+      ],
       "autoHint": { "timeToShow": 5 },
       "autohidePanel": true,
       "panelSelectorPosition": "right",
       "panelOpenDelay": 1,
       "hintSequenceDelay": 300,
+      "combinedRenders": true,
       "mask": "ambients/baldosa-tecnica/mask.webp",
       "zones": [
-        {
-          "id": "z1",
-          "maskColor": [0, 0, 0],
-          "label": "Pastillas",
-          "hintZone": {
-            "type": "invert",
-            "color": "ff0000",
-            "opacity": 0.5,
-            "animationTime": 500
-          },
-          "models": []
-        },
         {
           "id": "z2",
           "maskColor": [255, 0, 0],
           "label": "Botones",
-          "hintZone": {
-            "type": "invert",
-            "animationTime": 500
-          },
-          "models": []
+          "hintZone": { "type": "invert", "animationTime": 500 },
+          "models": [
+            {
+              "id": "baldosa_hidraulica_40x40_botones",
+              "name": "Baldosa Hidráulica 40×40 Botones",
+              "model_image": "thumb_baldosa_hidraulica_40x40_botones.webp",
+              "renderPrefix": "botones",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "rojo",  "name": "Rojo",  "value": "b87c81" },
+                    { "id": "negro", "name": "Negro", "value": "6a6a6a" }
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "id": "z3",
           "maskColor": [0, 255, 0],
-          "label": "Direccional",
-          "hintZone": {
-            "type": "invert",
-            "animationTime": 500
-          },
-          "models": []
+          "label": "Guía",
+          "hintZone": { "type": "invert", "animationTime": 500 },
+          "models": [
+            {
+              "id": "baldosa_hidraulica_40x40_guia",
+              "name": "Baldosa Hidráulica 40×40 Guía",
+              "model_image": "thumb_baldosa_hidraulica_40x40_guia.webp",
+              "renderPrefix": "guia",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "rojo",  "name": "Rojo",  "value": "b87c81" },
+                    { "id": "negro", "name": "Negro", "value": "6a6a6a" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "z1",
+          "maskColor": [0, 0, 0],
+          "label": "Pastillas",
+          "hintZone": { "type": "invert", "animationTime": 500 },
+          "models": [
+            {
+              "id": "baldosa_hidraulica_40x40_64_pastillas",
+              "name": "Baldosa Hidráulica 40×40 64 Pastillas",
+              "model_image": "thumb_baldosa_hidraulica_40x40_64_pastillas.webp",
+              "renderPrefix": "pastillas",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "rojo",      "name": "Rojo",      "value": "b87c81" },
+                    { "id": "gris",      "name": "Gris",      "value": "948d8b" },
+                    { "id": "gris_perla","name": "Gris Perla","value": "d9d9d9" },
+                    { "id": "negro",     "name": "Negro",     "value": "6a6a6a" },
+                    { "id": "crema",     "name": "Crema",     "value": "d9b489" },
+                    { "id": "blanco",    "name": "Blanco",    "value": "" }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     }

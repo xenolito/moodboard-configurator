@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { buildRenderPath } from '../utils/buildPaths.js'
 
-export const useRenderLoader = (ambientId, modelId, variantId) => {
+export const useRenderLoader = (ambientId, modelId, variantId, explicitUrl = null) => {
   const [loadedUrl, setLoadedUrl] = useState(null)
   const [errorUrl, setErrorUrl]   = useState(null)
 
-  const expectedUrl = (ambientId && modelId && variantId)
+  const expectedUrl = explicitUrl ?? ((ambientId && modelId && variantId)
     ? buildRenderPath(ambientId, modelId, variantId)
-    : null
+    : null)
 
   useEffect(() => {
     if (!expectedUrl) return
