@@ -306,7 +306,258 @@
           "id": "z1",
           "maskColor": [0, 0, 0],
           "label": "Pavimento",
-          "models": []
+          "models": [
+            {
+              "id": "baldosa_aliste_20x20",
+              "name": "Aliste 20×20",
+              "model_image": "thumb_baldosa_aliste_20x20.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "rojo",    "name": "Rojo",    "value": "f1a99f" },
+                    { "id": "crema",   "name": "Crema",   "value": "fedd83" },
+                    { "id": "gris",    "name": "Gris",    "value": "d2d2d2" },
+                    { "id": "blanco",  "name": "Blanco",  "value": "" },
+                    { "id": "negro",   "name": "Negro",   "value": "6a6a6a" },
+                    { "id": "tostado", "name": "Tostado", "value": "efc9ac" }
+                  ]
+                },
+                {
+                  "name": "Fusión®",
+                  "mode": "texture",
+                  "variants": [
+                    { "id": "fusion_jupiter", "name": "Jupiter" },
+                    { "id": "fusion_venus",   "name": "Venus" },
+                    { "id": "fusion_saturno", "name": "Saturno" },
+                    { "id": "fusion_moon",    "name": "Moon" },
+                    { "id": "fusion_mizar",   "name": "Mizar" },
+                    { "id": "fusion_mercury", "name": "Mercury" },
+                    { "id": "fusion_mars",    "name": "Mars" },
+                    { "id": "fusion_leonis",  "name": "Leonis" },
+                    { "id": "fusion_altair",  "name": "Altair" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_aliste_20x20_bisel",
+              "name": "Aliste 20×20 Bisel",
+              "model_image": "thumb_baldosa_aliste_20x20_bisel.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "rojo",    "name": "Rojo",    "value": "f1a99f" },
+                    { "id": "crema",   "name": "Crema",   "value": "fedd83" },
+                    { "id": "gris",    "name": "Gris",    "value": "d2d2d2" },
+                    { "id": "blanco",  "name": "Blanco",  "value": "" },
+                    { "id": "negro",   "name": "Negro",   "value": "6a6a6a" },
+                    { "id": "tostado", "name": "Tostado", "value": "efc9ac" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_colegiata_40x20",
+              "name": "Colegiata 40×20",
+              "model_image": "thumb_baldosa_colegiata_40x20.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "rojo",    "name": "Rojo",    "value": "f1a99f" },
+                    { "id": "crema",   "name": "Crema",   "value": "fedd83" },
+                    { "id": "gris",    "name": "Gris",    "value": "d2d2d2" },
+                    { "id": "blanco",  "name": "Blanco",  "value": "f5f2ec" },
+                    { "id": "negro",   "name": "Negro",   "value": "6a6a6a" },
+                    { "id": "tostado", "name": "Tostado", "value": "efc9ac" }
+                  ]
+                },
+                {
+                  "name": "Fusión®",
+                  "mode": "texture",
+                  "variants": [
+                    { "id": "fusion_jupiter", "name": "Jupiter" },
+                    { "id": "fusion_venus",   "name": "Venus" },
+                    { "id": "fusion_saturno", "name": "Saturno" },
+                    { "id": "fusion_moon",    "name": "Moon" },
+                    { "id": "fusion_mizar",   "name": "Mizar" },
+                    { "id": "fusion_mercury", "name": "Mercury" },
+                    { "id": "fusion_mars",    "name": "Mars" },
+                    { "id": "fusion_leonis",  "name": "Leonis" },
+                    { "id": "fusion_altair",  "name": "Altair" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_colegiata_40x20_bisel",
+              "name": "Colegiata 40×20 Bisel",
+              "model_image": "thumb_baldosa_colegiata_40x20_bisel.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "rojo",    "name": "Rojo",    "value": "f1a99f" },
+                    { "id": "crema",   "name": "Crema",   "value": "fedd83" },
+                    { "id": "gris",    "name": "Gris",    "value": "d2d2d2" },
+                    { "id": "blanco",  "name": "Blanco",  "value": "f5f2ec" },
+                    { "id": "negro",   "name": "Negro",   "value": "6a6a6a" },
+                    { "id": "tostado", "name": "Tostado", "value": "efc9ac" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_sanabria_60x40",
+              "name": "Sanabria 60×40",
+              "model_image": "thumb_baldosa_sanabria_60x40.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco",
+                  "variants": [
+                    { "id": "rojo",    "name": "Rojo",    "value": "f1a99f" },
+                    { "id": "crema",   "name": "Crema",   "value": "fedd83" },
+                    { "id": "gris",    "name": "Gris",    "value": "d2d2d2" },
+                    { "id": "blanco",  "name": "Blanco",  "value": "" },
+                    { "id": "negro",   "name": "Negro",   "value": "6a6a6a" },
+                    { "id": "tostado", "name": "Tostado", "value": "efc9ac" }
+                  ]
+                },
+                {
+                  "name": "Fusión®",
+                  "mode": "texture",
+                  "variants": [
+                    { "id": "fusion_jupiter", "name": "Jupiter" },
+                    { "id": "fusion_venus",   "name": "Venus" },
+                    { "id": "fusion_saturno", "name": "Saturno" },
+                    { "id": "fusion_moon",    "name": "Moon" },
+                    { "id": "fusion_mizar",   "name": "Mizar" },
+                    { "id": "fusion_mercury", "name": "Mercury" },
+                    { "id": "fusion_mars",    "name": "Mars" },
+                    { "id": "fusion_leonis",  "name": "Leonis" },
+                    { "id": "fusion_altair",  "name": "Altair" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_sayago_40x40",
+              "name": "Sayago 40×40",
+              "model_image": "thumb_baldosa_sayago_40x40.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco",
+                  "variants": [
+                    { "id": "rojo",    "name": "Rojo",    "value": "f1a99f" },
+                    { "id": "crema",   "name": "Crema",   "value": "fedd83" },
+                    { "id": "gris",    "name": "Gris",    "value": "d2d2d2" },
+                    { "id": "blanco",  "name": "Blanco",  "value": "" },
+                    { "id": "negro",   "name": "Negro",   "value": "6a6a6a" },
+                    { "id": "tostado", "name": "Tostado", "value": "efc9ac" }
+                  ]
+                },
+                {
+                  "name": "Fusión®",
+                  "mode": "texture",
+                  "variants": [
+                    { "id": "fusion_jupiter", "name": "Jupiter" },
+                    { "id": "fusion_venus",   "name": "Venus" },
+                    { "id": "fusion_saturno", "name": "Saturno" },
+                    { "id": "fusion_moon",    "name": "Moon" },
+                    { "id": "fusion_mizar",   "name": "Mizar" },
+                    { "id": "fusion_mercury", "name": "Mercury" },
+                    { "id": "fusion_mars",    "name": "Mars" },
+                    { "id": "fusion_leonis",  "name": "Leonis" },
+                    { "id": "fusion_altair",  "name": "Altair" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_tabara_30x30",
+              "name": "Tábara 30×30",
+              "model_image": "thumb_baldosa_tabara_30x30.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco",
+                  "variants": [
+                    { "id": "rojo",    "name": "Rojo",    "value": "f1a99f" },
+                    { "id": "crema",   "name": "Crema",   "value": "fedd83" },
+                    { "id": "gris",    "name": "Gris",    "value": "d2d2d2" },
+                    { "id": "blanco",  "name": "Blanco",  "value": "" },
+                    { "id": "negro",   "name": "Negro",   "value": "6a6a6a" },
+                    { "id": "tostado", "name": "Tostado", "value": "efc9ac" }
+                  ]
+                },
+                {
+                  "name": "Fusión®",
+                  "mode": "texture",
+                  "variants": [
+                    { "id": "fusion_jupiter", "name": "Jupiter" },
+                    { "id": "fusion_venus",   "name": "Venus" },
+                    { "id": "fusion_saturno", "name": "Saturno" },
+                    { "id": "fusion_moon",    "name": "Moon" },
+                    { "id": "fusion_mizar",   "name": "Mizar" },
+                    { "id": "fusion_mercury", "name": "Mercury" },
+                    { "id": "fusion_mars",    "name": "Mars" },
+                    { "id": "fusion_leonis",  "name": "Leonis" },
+                    { "id": "fusion_altair",  "name": "Altair" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_tera_50x50",
+              "name": "Tera 50×50",
+              "model_image": "thumb_baldosa_tera_50x50.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco",
+                  "variants": [
+                    { "id": "rojo",    "name": "Rojo",    "value": "f1a99f" },
+                    { "id": "crema",   "name": "Crema",   "value": "fedd83" },
+                    { "id": "gris",    "name": "Gris",    "value": "d2d2d2" },
+                    { "id": "blanco",  "name": "Blanco",  "value": "" },
+                    { "id": "negro",   "name": "Negro",   "value": "6a6a6a" },
+                    { "id": "tostado", "name": "Tostado", "value": "efc9ac" }
+                  ]
+                },
+                {
+                  "name": "Fusión®",
+                  "mode": "texture",
+                  "variants": [
+                    { "id": "fusion_jupiter", "name": "Jupiter" },
+                    { "id": "fusion_venus",   "name": "Venus" },
+                    { "id": "fusion_saturno", "name": "Saturno" },
+                    { "id": "fusion_moon",    "name": "Moon" },
+                    { "id": "fusion_mizar",   "name": "Mizar" },
+                    { "id": "fusion_mercury", "name": "Mercury" },
+                    { "id": "fusion_mars",    "name": "Mars" },
+                    { "id": "fusion_leonis",  "name": "Leonis" },
+                    { "id": "fusion_altair",  "name": "Altair" }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     },
