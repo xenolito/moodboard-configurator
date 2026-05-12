@@ -2,14 +2,16 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
-  // Eliminar console.log y debugger en producción (Oxc Vite 8)
-  oxc: {
-    transform: {
-      drop: ['console', 'debugger'],
+  // Eliminar console.* y debugger solo en producción (Oxc Vite 8)
+  ...(mode === 'production' && {
+    oxc: {
+      transform: {
+        drop: ['console', 'debugger'],
+      },
     },
-  },
+  }),
   build: {
     rolldownOptions: {
       output: {
@@ -28,4 +30,4 @@ export default defineConfig({
     // Aumentar límite de advertencia de chunk size a 1000kb
     chunkSizeWarningLimit: 1000,
   }
-})
+}))
