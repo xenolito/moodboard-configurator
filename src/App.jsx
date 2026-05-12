@@ -87,6 +87,14 @@ const App = () => {
       for (const entry of ambient.baseRender) {
         initialSelections[entry.zoneId] = { modelId: entry.modelId, variant: resolveVariantFromEntry(entry) }
       }
+    } else if (ambient.baseRender) {
+      const br = ambient.baseRender
+      const zone = ambient.zones.find(z => z.models?.some(m => m.id === br.modelId))
+      if (zone) {
+        const model = zone.models.find(m => m.id === br.modelId)
+        const group = model?.groups?.find(g => g.variants?.some(v => v.id === br.variantId))
+        initialSelections[zone.id] = { modelId: br.modelId, variant: group ? { groupName: group.name, variantId: br.variantId } : null }
+      }
     } else {
       for (const zone of ambient.zones) {
         if (zone.models?.length === 1) {
