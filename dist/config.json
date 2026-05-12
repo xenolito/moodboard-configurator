@@ -295,7 +295,7 @@
     {
       "id": "baldosas-2",
       "name": "Baldosas 2",
-      "base": "ambients/baldosas-2/base.webp",
+      "baseRender": { "modelId": "baldosa_tabara_30x30", "groupName": "Color", "variantId": "tostado" },
       "autoHint": { "timeToShow": 5 },
       "autohidePanel": true,
       "panelSelectorPosition": "right",
@@ -553,6 +553,174 @@
                     { "id": "fusion_mars",    "name": "Mars" },
                     { "id": "fusion_leonis",  "name": "Leonis" },
                     { "id": "fusion_altair",  "name": "Altair" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_hidraulica_20x20_4_pastillas",
+              "name": "Hidráulica 4 Pastillas 20×20",
+              "model_image": "thumb_baldosa_hidraulica_20x20_4_pastillas.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco",
+                  "variants": [
+                    { "id": "rojo",  "name": "Rojo",  "value": "ba7473" },
+                    { "id": "gris",  "name": "Gris",  "value": "bbbbbb" },
+                    { "id": "negro", "name": "Negro", "value": "606060" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_hidraulica_20x20_lisa",
+              "name": "Hidráulica Lisa 20×20",
+              "model_image": "thumb_baldosa_hidraulica_20x20_lisa.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "rojo",      "name": "Rojo",      "value": "ba7473" },
+                    { "id": "gris",      "name": "Gris",      "value": "bbbbbb" },
+                    { "id": "gris_perla","name": "Gris Perla","value": "cdd3da" },
+                    { "id": "negro",     "name": "Negro",     "value": "606060" },
+                    { "id": "crema",     "name": "Crema",     "value": "d9b489" },
+                    { "id": "blanco",    "name": "Blanco",    "value": "" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_hidraulica_40x40_64_pastillas",
+              "name": "Hidráulica 64 Pastillas 40×40",
+              "model_image": "thumb_baldosa_hidraulica_40x40_64_pastillas.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco_b",
+                  "variants": [
+                    { "id": "rojo",      "name": "Rojo",      "value": "b87c81" },
+                    { "id": "gris",      "name": "Gris",      "value": "948d8b" },
+                    { "id": "gris_perla","name": "Gris Perla","value": "d9d9d9" },
+                    { "id": "negro",     "name": "Negro",     "value": "6a6a6a" },
+                    { "id": "crema",     "name": "Crema",     "value": "d9b489" },
+                    { "id": "blanco",    "name": "Blanco",    "value": "" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_hidraulica_40x40_canto_lavado",
+              "name": "Hidráulica Canto Lavado 40×40",
+              "model_image": "thumb_baldosa_hidraulica_40x40_canto_lavado.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "texture",
+                  "variants": [
+                    { "id": "cantolavado_fondo_blanco", "name": "Fondo Blanco" },
+                    { "id": "cantolavado_fondo_gris",   "name": "Fondo Gris" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_hidraulica_40x40_granitor",
+              "name": "Hidráulica Granitor 40×40",
+              "model_image": "thumb_baldosa_hidraulica_40x40_granitor.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "texture",
+                  "variants": [
+                    { "id": "granitor_gris_perla", "name": "Gris Perla" },
+                    { "id": "granitor_negro",      "name": "Negro" },
+                    { "id": "granitor_rojo",       "name": "Rojo" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_hidraulica_40x40_pergamino",
+              "name": "Hidráulica Pergamino 40×40",
+              "model_image": "thumb_baldosa_hidraulica_40x40_pergamino.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "pergamino",
+                  "variants": [
+                    { "id": "gris",      "name": "Gris",      "value": "bbbbbb" },
+                    { "id": "gris_perla","name": "Gris Perla","value": "cdd3da" },
+                    { "id": "negro",     "name": "Negro",     "value": "7f7f7f" },
+                    { "id": "rojo",      "name": "Rojo",      "value": "ba7473" },
+                    { "id": "crema",     "name": "Crema",     "value": "efc8a3" },
+                    { "id": "blanco",    "name": "Blanco",    "value": "" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_hidraulica_40x40_petrea",
+              "name": "Hidráulica Pétrea 40×40",
+              "model_image": "thumb_baldosa_hidraulica_40x40_petrea.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "petrea",
+                  "variants": [
+                    { "id": "gris",      "name": "Gris",      "value": "bbbbbb" },
+                    { "id": "gris_perla","name": "Gris Perla","value": "cdd3da" },
+                    { "id": "negro",     "name": "Negro",     "value": "7f7f7f" },
+                    { "id": "rojo",      "name": "Rojo",      "value": "ba7473" },
+                    { "id": "crema",     "name": "Crema",     "value": "efc8a3" },
+                    { "id": "blanco",    "name": "Blanco",    "value": "" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_hidraulica_40x40_petreofin",
+              "name": "Hidráulica Petreofín 40×40",
+              "model_image": "thumb_baldosa_hidraulica_40x40_petreofin.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "petreofin",
+                  "variants": [
+                    { "id": "gris",      "name": "Gris",      "value": "bbbbbb" },
+                    { "id": "gris_perla","name": "Gris Perla","value": "cdd3da" },
+                    { "id": "negro",     "name": "Negro",     "value": "7f7f7f" },
+                    { "id": "rojo",      "name": "Rojo",      "value": "ba7473" },
+                    { "id": "crema",     "name": "Crema",     "value": "efc8a3" },
+                    { "id": "blanco",    "name": "Blanco",    "value": "" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "baldosa_hidraulica_40x40_pizarra",
+              "name": "Hidráulica Pizarra 40×40",
+              "model_image": "thumb_baldosa_hidraulica_40x40_pizarra.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "pizarra",
+                  "variants": [
+                    { "id": "gris",      "name": "Gris",      "value": "bbbbbb" },
+                    { "id": "gris_perla","name": "Gris Perla","value": "cdd3da" },
+                    { "id": "negro",     "name": "Negro",     "value": "7f7f7f" },
+                    { "id": "rojo",      "name": "Rojo",      "value": "ba7473" },
+                    { "id": "crema",     "name": "Crema",     "value": "efc8a3" },
+                    { "id": "blanco",    "name": "Blanco",    "value": "" }
                   ]
                 }
               ]
