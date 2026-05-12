@@ -295,7 +295,7 @@
     {
       "id": "baldosas-2",
       "name": "Baldosas 2",
-      "base": "ambients/baldosas-2/base.webp",
+      "baseRender": { "modelId": "baldosa_tabara_30x30", "groupName": "Color", "variantId": "tostado" },
       "autoHint": { "timeToShow": 5 },
       "autohidePanel": true,
       "panelSelectorPosition": "right",
