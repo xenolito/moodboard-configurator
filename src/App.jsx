@@ -1,9 +1,10 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { useAmbientConfig } from './hooks/useAmbientConfig.js'
 import { useRenderLoader } from './hooks/useRenderLoader.js'
 import { buildCombinedRenderPath } from './utils/buildPaths.js'
 import AmbientViewer from './modules/AmbientViewer/AmbientViewer.jsx'
 import ProductPanel from './modules/ProductPanel/ProductPanel.jsx'
+import InfoModal from './modules/InfoModal/InfoModal.jsx'
 
 const rootEl = document.getElementById('ambient_viewer')
 const initialAmbientId = rootEl?.dataset?.ambientId ?? 'adoquines'
@@ -22,6 +23,10 @@ const App = () => {
   const [leftVariant, setLeftVariant]             = useState(null)
   const [leftZoneSelections, setLeftZoneSelections] = useState({})
   const [userInteracted, setUserInteracted]       = useState(false)
+  const [infoModalOpen, setInfoModalOpen]         = useState(false)
+  const panelOpenRef = useRef(panelOpen)
+  panelOpenRef.current = panelOpen
+  const panelWasOpenRef = useRef(false)
 
   const ambient         = config?.ambients?.find(a => a.id === selectedAmbientId)
   const activeZone      = ambient?.zones?.find(z => z.id === selectedZoneId) ?? null
@@ -68,8 +73,13 @@ const App = () => {
   )
 
   useEffect(() => {
-    if (sliderActive) setPanelOpen(false)
-    else setCompareSlot('right')
+    if (sliderActive) {
+      panelWasOpenRef.current = panelOpenRef.current
+      setPanelOpen(false)
+    } else {
+      setCompareSlot('right')
+      setPanelOpen(panelWasOpenRef.current)
+    }
   }, [sliderActive])
 
   useEffect(() => {
@@ -195,6 +205,46 @@ const App = () => {
     }
   }
 
+  const handleInfoClose = useCallback(() => setInfoModalOpen(false), [])
+
+  const getInfoEntry = (zone, sel) => {
+    if (!zone || !sel?.modelId) return null
+    const model = zone.models?.find(m => m.id === sel.modelId)
+    if (!model) return null
+    let variantLabel = null
+    if (sel.variant?.variantId) {
+      const group = model.groups?.find(g => g.variants?.some(v => v.id === sel.variant.variantId))
+      const variant = group?.variants?.find(v => v.id === sel.variant.variantId)
+      if (group && variant) variantLabel = `${group.name}: ${variant.name}`
+    }
+    return { zoneName: zone.label ?? null, modelName: model.name, variantLabel, description: model.description ?? null }
+  }
+
+  const infoData = (() => {
+    if (!ambient) return null
+    if (sliderActive) {
+      if (isCombinedRenders) {
+        const rightEntries = ambient.zones.map(z => getInfoEntry(z, zoneSelections[z.id])).filter(Boolean)
+        const leftEntries  = ambient.zones.map(z => getInfoEntry(z, leftZoneSelections[z.id])).filter(Boolean)
+        if (!rightEntries.length || !leftEntries.length) return null
+        return { type: 'compare-combined', left: leftEntries, right: rightEntries }
+      } else {
+        const rightEntry = getInfoEntry(activeZone, { modelId: selectedModelId, variant: selectedVariant })
+        const leftEntry  = getInfoEntry(activeZone, { modelId: leftModelId, variant: leftVariant })
+        if (!rightEntry || !leftEntry) return null
+        return { type: 'compare', left: leftEntry, right: rightEntry }
+      }
+    }
+    if (isCombinedRenders) {
+      const entries = ambient.zones.map(z => getInfoEntry(z, zoneSelections[z.id])).filter(Boolean)
+      if (!entries.length) return null
+      return { type: 'combined', zones: entries }
+    }
+    const entry = getInfoEntry(activeZone, { modelId: selectedModelId, variant: selectedVariant })
+    if (!entry) return null
+    return { type: 'single', ...entry }
+  })()
+
   if (loading) return <div className="app-loading">Cargando...</div>
   if (error)   return <div className="app-error">Error: {error}</div>
 
@@ -238,6 +288,7 @@ const App = () => {
               setSelectedZoneId(ambient.zones[0].id)
             }
           }}
+          onInfoClick={() => setInfoModalOpen(true)}
         />
 
         <ProductPanel
@@ -255,8 +306,13 @@ const App = () => {
           onModelSelect={handleModelSelect}
           onVariantSelect={handleVariantSelect}
           onToggle={() => setPanelOpen(v => !v)}
+          imageVariant={config?.model_image_variant}
         />
       </div>
+
+      {infoModalOpen && infoData && (
+        <InfoModal data={infoData} onClose={handleInfoClose} />
+      )}
     </div>
   )
 }

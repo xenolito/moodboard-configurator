@@ -15,5 +15,9 @@ export const buildMaskPath    = (ambientId, maskFile) =>
 export const buildThumbPath   = (variantId) =>
   `${getBaseUrl()}textures/thumb_${variantId}.webp`
 
-export const buildModelThumbPath = (modelImage) =>
-  `${getBaseUrl()}models/${modelImage}`
+export const buildModelThumbPath = (modelImage, variant) => {
+  const filename = variant
+    ? modelImage.replace(/^thumb_/, `thumb_${variant}_`)
+    : modelImage
+  return `${getBaseUrl()}models/${filename}`
+}

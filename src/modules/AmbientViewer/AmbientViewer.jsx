@@ -1,5 +1,5 @@
 import { useRef, useCallback, useState, useEffect } from 'react'
-import { SplitSquareHorizontal, Download, ArrowLeft } from 'lucide-react'
+import { SplitSquareHorizontal, Download, ArrowLeft, Info } from 'lucide-react'
 import { useMaskDetection } from '../../hooks/useMaskDetection.js'
 import { useDownload } from '../Download/useDownload.js'
 import BeforeAfterSlider from '../Slider/BeforeAfterSlider.jsx'
@@ -21,6 +21,7 @@ const AmbientViewer = ({
   onOutsideZoneClick,
   onCompareSlotClick,
   onSliderChange,
+  onInfoClick,
   children
 }) => {
   const containerRef        = useRef(null)
@@ -260,6 +261,12 @@ const AmbientViewer = ({
             icon={Download}
             label="Descargar imagen"
             onClick={(e) => { e.stopPropagation(); download(selectedUrl || effectiveBaseUrl, ambient.id) }}
+          />
+          <IconButton
+            icon={Info}
+            label="Información del producto"
+            disabled={!selectedUrl}
+            onClick={(e) => { e.stopPropagation(); onInfoClick?.() }}
           />
         </div>
       </div>

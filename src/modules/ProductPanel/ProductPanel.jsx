@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ModelSelector from './ModelSelector.jsx'
 import GroupSelector from './GroupSelector.jsx'
@@ -12,9 +13,23 @@ const ProductPanel = ({
   selectedVariant,
   onModelSelect,
   onVariantSelect,
-  onToggle
+  onToggle,
+  imageVariant
 }) => {
-  const isOpen = !!zone && panelOpen
+  const asideRef = useRef(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const el = asideRef.current
+    if (!el) return
+    const check = () => setIsMobile(getComputedStyle(el).position !== 'absolute')
+    check()
+    const ro = new ResizeObserver(check)
+    ro.observe(document.documentElement)
+    return () => ro.disconnect()
+  }, [])
+
+  const isOpen = isMobile || (!!zone && panelOpen)
   const selectedModel = zone?.models?.find(m => m.id === selectedModelId)
   const posClass = panelPosition === 'left' ? ' panel-left' : ''
   const ToggleIcon = panelPosition === 'right'
@@ -22,7 +37,7 @@ const ProductPanel = ({
     : (panelOpen ? ChevronLeft : ChevronRight)
 
   return (
-    <aside className={`product-panel${posClass}${isOpen ? ' is-open' : ''}`}>
+    <aside ref={asideRef} className={`product-panel${posClass}${isOpen ? ' is-open' : ''}`}>
       <div className="panel-header">
         <h3 className="panel-title">{zone?.label ?? 'Selección'}</h3>
         {compareSlot && (
@@ -50,6 +65,7 @@ const ProductPanel = ({
               models={zone.models}
               selectedModelId={selectedModelId}
               onModelSelect={onModelSelect}
+              imageVariant={imageVariant}
             />
             {selectedModel && (
               <GroupSelector

@@ -23,6 +23,7 @@ Configurador y visualizador de ambientes de pavimento exterior para Prefabricado
 - **Botones de acción siempre visibles** — comparar y descargar están siempre habilitados; sin render seleccionado, el slider compara la imagen base consigo misma y la descarga recae sobre la imagen base
 - **Selector de modelo con thumbnail** — cada modelo muestra una imagen cuadrada (`public/models/thumb_{id}.webp`) y su nombre, con el mismo layout que los botones de variante
 - **Slider antes/después con compare independiente** — al activar el compare el panel se oculta; cada mitad (izquierda/derecha) tiene un estado de modelo y color propio; clicar en una zona del viewer en compare abre el panel para esa mitad (el slot activo — «Antes»/«Después» — cambia según dónde se clicó respecto al handle del slider); clicar fuera de zona siempre oculta el panel; el cursor cambia a `pointer` sobre zonas clicables en ambas mitades; `baseRender` define el render inicial del lado izquierdo y el fondo del viewer (sustituye completamente a `base.webp` — si `baseRender` está presente, `base.webp` nunca se muestra); al desactivar compare solo el lado derecho permanece visible
+- **Modal de información del producto** — botón «ⓘ» en las acciones del viewer abre una modal nativa `<dialog>` con los datos del modelo y variante actualmente visible. En modo zona única muestra nombre de zona, modelo y variante seleccionada; en ambients multi-zona (combined renders) muestra una fila por cada zona; en modo compare muestra dos columnas «Antes» / «Después» con la información de cada lado. Si el modelo tiene el campo `description` en `config.json` (HTML opcional), se muestra sanitizado debajo de los datos de variante. El botón se deshabilita automáticamente cuando no hay render cargado. La modal se cierra con el botón ×, tecla Escape o click en el backdrop.
 - **Descarga de imagen** — `OffscreenCanvas.convertToBlob`, fallback `toBlob` para iOS Safari
 - **Plugin WordPress** — shortcode `[pct_ambient_viewer ambient="adoquines"]`
 - **Generador de thumbnails** — script `sharp` que lee `config.json` y procesa texturas fuente
@@ -57,6 +58,7 @@ PD-MOODBOARDS/
 │   │   ├── AmbientViewer/            ← visor de imagen + acciones
 │   │   ├── ProductPanel/             ← panel con ModelSelector, GroupSelector, VariantButton
 │   │   ├── Slider/BeforeAfterSlider  ← slider CSS clip-path antes/después
+│   │   ├── InfoModal/InfoModal.jsx   ← modal <dialog> con info del modelo/variante activo
 │   │   └── Download/useDownload.js   ← descarga de render como JPEG
 │   ├── ui/
 │   │   ├── IconButton.jsx            ← botón redondo con icono Lucide + Radix Tooltip (negro, flecha, Portal)
@@ -195,6 +197,8 @@ Define todos los ambientes, zonas, modelos y variantes de la app.
 | `group.baseTexture` | `string` | ID de variante a usar como textura base en modo `tint` |
 | `variant.value` | `string` | Hex sin `#` del color tint (vacío = sin tint, textura natural) |
 | `model.model_image` | `string` | Nombre del archivo de thumbnail del modelo (ej. `thumb_adoquin_toro_20x10.webp`), ubicado en `public/models/` |
+| `model.description` | `string` | (Opcional) Texto HTML adicional del modelo que se muestra en la modal de información. Se sanitiza con DOMPurify antes de renderizar. Etiquetas permitidas: `p`, `br`, `b`, `i`, `em`, `strong`, `ul`, `ol`, `li`, `a` |
+| `model_image_variant` | `string` | (Opcional, global) Sufijo de variante que se inserta en el nombre de archivo de los thumbnails de modelo. Si está definido con valor `"v2"`, el archivo `thumb_baldosa_aliste_20x20.webp` se solicita como `thumb_v2_baldosa_aliste_20x20.webp`. Si no está presente, los thumbnails se cargan con su nombre original |
 
 ### Variaciones con bisel
 

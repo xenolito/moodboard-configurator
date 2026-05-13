@@ -1,6 +1,6 @@
 import { buildModelThumbPath } from '../../utils/buildPaths.js'
 
-const ModelSelector = ({ models, selectedModelId, onModelSelect }) => (
+const ModelSelector = ({ models, selectedModelId, onModelSelect, imageVariant }) => (
   <div className="model-selector">
     <h4 className="model-selector-title">Modelo</h4>
     <div className="model-list">
@@ -13,8 +13,8 @@ const ModelSelector = ({ models, selectedModelId, onModelSelect }) => (
           title={model.name}
         >
           <img
-            className="model-thumb"
-            src={buildModelThumbPath(model.model_image)}
+            className={`model-thumb${imageVariant ? ` model-thumb-variant-${imageVariant}` : ''}`}
+            src={buildModelThumbPath(model.model_image, imageVariant)}
             alt={model.name}
             draggable={false}
           />
