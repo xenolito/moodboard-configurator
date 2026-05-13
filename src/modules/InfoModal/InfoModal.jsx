@@ -74,7 +74,7 @@ const InfoModal = ({ data, onClose }) => {
     >
       <div className="info-modal-inner">
         <div className="info-modal-header">
-          <span className="info-modal-title">Información del producto</span>
+          <h2 className="info-modal-title">Tu selección actual</h2>
           <button
             className="info-modal-close"
             aria-label="Cerrar"

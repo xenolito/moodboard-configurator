@@ -1,5 +1,5 @@
 {
-  "model_image_variant": "",
+  "model_image_variant": "v2",
   "ambients": [
     {
       "id": "adoquines",
@@ -31,7 +31,7 @@
                   "mode": "tint",
                   "baseTexture": "blanco",
                   "variants": [
-                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "cd8c7c" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
@@ -66,7 +66,7 @@
                   "mode": "tint",
                   "baseTexture": "blanco",
                   "variants": [
-                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "cd8c7c" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
@@ -84,9 +84,9 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
-                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "cd8c7c" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
@@ -104,9 +104,9 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
-                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "cd8c7c" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
@@ -126,7 +126,7 @@
                   "mode": "tint",
                   "baseTexture": "blanco",
                   "variants": [
-                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "cd8c7c" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
@@ -144,9 +144,9 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
-                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "cd8c7c" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
@@ -179,9 +179,9 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
-                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "cd8c7c" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
@@ -201,7 +201,7 @@
                   "mode": "tint",
                   "baseTexture": "blanco",
                   "variants": [
-                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "cd8c7c" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
@@ -219,9 +219,9 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
-                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "cd8c7c" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
@@ -239,9 +239,9 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
-                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "cd8c7c" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
@@ -261,7 +261,7 @@
                   "mode": "tint",
                   "baseTexture": "blanco",
                   "variants": [
-                    { "id": "rojo",     "name": "Rojo",     "value": "f1a99f" },
+                    { "id": "rojo",     "name": "Rojo",     "value": "cd8c7c" },
                     { "id": "crema",    "name": "Crema",    "value": "fedd83" },
                     { "id": "gris",     "name": "Gris",     "value": "d2d2d2" },
                     { "id": "negro",    "name": "Negro",    "value": "6a6a6a" },
@@ -316,7 +316,7 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
                     { "id": "rojo",    "name": "Rojo",    "value": "f1a99f" },
                     { "id": "crema",   "name": "Crema",   "value": "fedd83" },
@@ -351,7 +351,7 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
                     { "id": "rojo",    "name": "Rojo",    "value": "f1a99f" },
                     { "id": "crema",   "name": "Crema",   "value": "fedd83" },
@@ -371,7 +371,7 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
                     { "id": "rojo",    "name": "Rojo",    "value": "f1a99f" },
                     { "id": "crema",   "name": "Crema",   "value": "fedd83" },
@@ -406,7 +406,7 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
                     { "id": "rojo",    "name": "Rojo",    "value": "f1a99f" },
                     { "id": "crema",   "name": "Crema",   "value": "fedd83" },
@@ -583,7 +583,7 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
                     { "id": "rojo",      "name": "Rojo",      "value": "ba7473" },
                     { "id": "gris",      "name": "Gris",      "value": "bbbbbb" },
@@ -603,7 +603,7 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
                     { "id": "rojo",      "name": "Rojo",      "value": "b87c81" },
                     { "id": "gris",      "name": "Gris",      "value": "948d8b" },
@@ -798,7 +798,7 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
                     { "id": "rojo",  "name": "Rojo",  "value": "b87c81" },
                     { "id": "negro", "name": "Negro", "value": "6a6a6a" }
@@ -823,7 +823,7 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
                     { "id": "rojo",  "name": "Rojo",  "value": "b87c81" },
                     { "id": "negro", "name": "Negro", "value": "6a6a6a" }
@@ -848,7 +848,7 @@
                 {
                   "name": "Color",
                   "mode": "tint",
-                  "baseTexture": "blanco_b",
+                  "baseTexture": "blanco",
                   "variants": [
                     { "id": "rojo",      "name": "Rojo",      "value": "b87c81" },
                     { "id": "gris",      "name": "Gris",      "value": "948d8b" },

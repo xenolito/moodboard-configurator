@@ -12,12 +12,14 @@ const ModelSelector = ({ models, selectedModelId, onModelSelect, imageVariant })
           aria-pressed={model.id === selectedModelId}
           title={model.name}
         >
+          <picture>
           <img
             className={`model-thumb${imageVariant ? ` model-thumb-variant-${imageVariant}` : ''}`}
             src={buildModelThumbPath(model.model_image, imageVariant)}
             alt={model.name}
             draggable={false}
-          />
+            />
+          </picture>
           <span className="model-name">{model.name}</span>
         </button>
       ))}
