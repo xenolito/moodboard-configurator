@@ -2568,7 +2568,91 @@
             0
           ],
           "label": "Muro",
-          "models": []
+          "models": [
+            {
+              "id": "bloque_liso_toro_39x19x19",
+              "name": "Bloque Liso Toro 39×19×19",
+              "model_image": "thumb_bloque_liso_toro_39x19x19.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "texture",
+                  "variants": [
+                    {
+                      "id": "split_crema",
+                      "name": "Crema"
+                    },
+                    {
+                      "id": "split_gris",
+                      "name": "Gris"
+                    },
+                    {
+                      "id": "split_tostado",
+                      "name": "Tostado"
+                    },
+                    {
+                      "id": "split_beige",
+                      "name": "Beige"
+                    },
+                    {
+                      "id": "split_blanco",
+                      "name": "Blanco"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "bloque_estandar_toro_50x12x20",
+              "name": "Bloque Estándar Toro 50×12×20",
+              "model_image": "thumb_bloque_estandar_toro_50x12x20.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "texture",
+                  "variants": [
+                    {
+                      "id": "split_gris",
+                      "name": "Gris"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "bloque_split_toro_39x19",
+              "name": "Bloque Split Toro 39×19",
+              "model_image": "thumb_bloque_split_toro_39x19.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "texture",
+                  "variants": [
+                    {
+                      "id": "split_crema",
+                      "name": "Crema"
+                    },
+                    {
+                      "id": "split_gris",
+                      "name": "Gris"
+                    },
+                    {
+                      "id": "split_tostado",
+                      "name": "Tostado"
+                    },
+                    {
+                      "id": "split_beige",
+                      "name": "Beige"
+                    },
+                    {
+                      "id": "split_blanco",
+                      "name": "Blanco"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -2592,7 +2676,91 @@
             0
           ],
           "label": "Muro",
-          "models": []
+          "models": [
+            {
+              "id": "bloque_liso_toro_39x19x19",
+              "name": "Bloque Liso Toro 39×19×19",
+              "model_image": "thumb_bloque_liso_toro_39x19x19.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "texture",
+                  "variants": [
+                    {
+                      "id": "split_crema",
+                      "name": "Crema"
+                    },
+                    {
+                      "id": "split_gris",
+                      "name": "Gris"
+                    },
+                    {
+                      "id": "split_tostado",
+                      "name": "Tostado"
+                    },
+                    {
+                      "id": "split_beige",
+                      "name": "Beige"
+                    },
+                    {
+                      "id": "split_blanco",
+                      "name": "Blanco"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "bloque_estandar_toro_50x12x20",
+              "name": "Bloque Estándar Toro 50×12×20",
+              "model_image": "thumb_bloque_estandar_toro_50x12x20.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "texture",
+                  "variants": [
+                    {
+                      "id": "split_gris",
+                      "name": "Gris"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "bloque_split_toro_39x19",
+              "name": "Bloque Split Toro 39×19",
+              "model_image": "thumb_bloque_split_toro_39x19.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "texture",
+                  "variants": [
+                    {
+                      "id": "split_crema",
+                      "name": "Crema"
+                    },
+                    {
+                      "id": "split_gris",
+                      "name": "Gris"
+                    },
+                    {
+                      "id": "split_tostado",
+                      "name": "Tostado"
+                    },
+                    {
+                      "id": "split_beige",
+                      "name": "Beige"
+                    },
+                    {
+                      "id": "split_blanco",
+                      "name": "Blanco"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     },
