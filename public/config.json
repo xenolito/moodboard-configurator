@@ -27,7 +27,7 @@
           ],
           "label": "Pavimento",
           "hintZone": {
-            "type": "invert",
+            "type": "layer",
             "animationTime": 500
           },
           "models": [
@@ -2603,23 +2603,6 @@
               ]
             },
             {
-              "id": "bloque_estandar_toro_50x12x20",
-              "name": "Bloque Estándar Toro 50×12×20",
-              "model_image": "thumb_bloque_estandar_toro_50x12x20.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "texture",
-                  "variants": [
-                    {
-                      "id": "split_gris",
-                      "name": "Gris"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
               "id": "bloque_split_toro_39x19",
               "name": "Bloque Split Toro 39×19",
               "model_image": "thumb_bloque_split_toro_39x19.webp",
@@ -2647,6 +2630,23 @@
                     {
                       "id": "split_blanco",
                       "name": "Blanco"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "bloque_estandar_toro_50x12x20",
+              "name": "Bloque Estándar Toro 50×12×20",
+              "model_image": "thumb_bloque_estandar_toro_50x12x20.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "texture",
+                  "variants": [
+                    {
+                      "id": "split_gris",
+                      "name": "Gris"
                     }
                   ]
                 }
@@ -2711,23 +2711,6 @@
               ]
             },
             {
-              "id": "bloque_estandar_toro_50x12x20",
-              "name": "Bloque Estándar Toro 50×12×20",
-              "model_image": "thumb_bloque_estandar_toro_50x12x20.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "texture",
-                  "variants": [
-                    {
-                      "id": "split_gris",
-                      "name": "Gris"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
               "id": "bloque_split_toro_39x19",
               "name": "Bloque Split Toro 39×19",
               "model_image": "thumb_bloque_split_toro_39x19.webp",
@@ -2759,6 +2742,24 @@
                   ]
                 }
               ]
+            },
+
+            {
+              "id": "bloque_estandar_toro_50x12x20",
+              "name": "Bloque Estándar Toro 50×12×20",
+              "model_image": "thumb_bloque_estandar_toro_50x12x20.webp",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "texture",
+                  "variants": [
+                    {
+                      "id": "split_gris",
+                      "name": "Gris"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -2786,7 +2787,7 @@
         }
       ],
       "autoHint": {
-        "timeToShow": 5
+        "timeToShow": 2
       },
       "autohidePanel": true,
       "panelSelectorPosition": "right",
@@ -2804,7 +2805,7 @@
           ],
           "label": "Botones",
           "hintZone": {
-            "type": "invert",
+            "type": "layer",
             "animationTime": 500
           },
           "models": [
@@ -2844,7 +2845,7 @@
           ],
           "label": "Guía",
           "hintZone": {
-            "type": "invert",
+            "type": "layer",
             "animationTime": 500
           },
           "models": [

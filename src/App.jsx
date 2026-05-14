@@ -308,11 +308,10 @@ const App = () => {
           onToggle={() => setPanelOpen(v => !v)}
           imageVariant={config?.model_image_variant}
         />
+        {infoModalOpen && infoData && (
+          <InfoModal data={infoData} onClose={handleInfoClose} />
+        )}
       </div>
-
-      {infoModalOpen && infoData && (
-        <InfoModal data={infoData} onClose={handleInfoClose} />
-      )}
     </div>
   )
 }
