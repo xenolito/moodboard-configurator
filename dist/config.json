@@ -2552,6 +2552,11 @@
       "id": "bloques-1",
       "name": "Bloques 1",
       "base": "ambients/bloques-1/base.webp",
+      "baseRender": {
+        "modelId": "bloque_liso_toro_39x19x19",
+        "groupName": "Color",
+        "variantId": "split_beige"
+      },
       "autoHint": {
         "timeToShow": 5
       },
@@ -2660,6 +2665,11 @@
       "id": "bloques-2",
       "name": "Bloques 2",
       "base": "ambients/bloques-2/base.webp",
+      "baseRender": {
+        "modelId": "bloque_liso_toro_39x19x19",
+        "groupName": "Color",
+        "variantId": "split_beige"
+      },
       "autoHint": {
         "timeToShow": 5
       },
