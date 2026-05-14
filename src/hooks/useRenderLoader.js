@@ -21,7 +21,12 @@ export const useRenderLoader = (ambientId, modelId, variantId, explicitUrl = nul
       }
     }
     img.src = expectedUrl
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+      img.onload = null
+      img.onerror = null
+      img.src = ''
+    }
   }, [expectedUrl])
 
   const isReady   = loadedUrl === expectedUrl

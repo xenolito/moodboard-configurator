@@ -713,6 +713,12 @@ body {
 }
 
 @starting-style {
+  .ambient-viewer .ambient-selected-render.is-incoming {
+    opacity: 0;
+  }
+}
+
+@starting-style {
   .info-modal[open] {
     opacity: 0;
     transform: translateY(50px);

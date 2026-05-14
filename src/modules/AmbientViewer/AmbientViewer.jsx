@@ -32,10 +32,10 @@ const AmbientViewer = ({
   const sliderActiveRef = useRef(false)
   sliderActiveRef.current = sliderActive
   useEffect(() => { onSliderChange?.(sliderActive) }, [sliderActive, onSliderChange])
-  const [baseDisplayUrl, setBaseDisplayUrl]   = useState(null)
   const [selectedUrl, setSelectedUrl]         = useState(null)
   const [incomingUrl, setIncomingUrl]         = useState(null)
-  const [incomingVisible, setIncomingVisible] = useState(false)
+  const [leftDisplayUrl, setLeftDisplayUrl]   = useState(null)
+  const [leftIncomingUrl, setLeftIncomingUrl] = useState(null)
   const [hintZoneIdx, setHintZoneIdx]         = useState(null)
   const zone     = ambient?.zones?.[0]
   const maskUrl  = ambient?.mask ? buildMaskPath(ambient.id, ambient.mask) : null
@@ -48,34 +48,44 @@ const AmbientViewer = ({
       if (sliderActiveRef.current) {
         setSelectedUrl(renderUrl)
         setIncomingUrl(null)
-        setIncomingVisible(false)
         return
       }
       setIncomingUrl(renderUrl)
-      setIncomingVisible(false)
-      let inner
-      const outer = requestAnimationFrame(() => {
-        inner = requestAnimationFrame(() => setIncomingVisible(true))
-      })
-      return () => { cancelAnimationFrame(outer); cancelAnimationFrame(inner) }
+      return
     }
     if (!renderLoading) {
-      setBaseDisplayUrl(null)
       setSelectedUrl(null)
       setIncomingUrl(null)
-      setIncomingVisible(false)
       setSliderActive(false)
       setHintZoneIdx(null)
     }
   }, [renderUrl, renderLoading])
 
+  useEffect(() => {
+    if (!compareLeftUrl) {
+      setLeftDisplayUrl(null)
+      setLeftIncomingUrl(null)
+      return
+    }
+    if (compareLeftUrl === leftDisplayUrl) return
+    if (!leftDisplayUrl) {
+      setLeftDisplayUrl(compareLeftUrl)
+      return
+    }
+    setLeftIncomingUrl(compareLeftUrl)
+  }, [compareLeftUrl, leftDisplayUrl])
+
   const handleIncomingEnd = useCallback((e) => {
     if (e.propertyName !== 'opacity') return
-    if (selectedUrl) setBaseDisplayUrl(selectedUrl)
     setSelectedUrl(incomingUrl)
     setIncomingUrl(null)
-    setIncomingVisible(false)
-  }, [incomingUrl, selectedUrl])
+  }, [incomingUrl])
+
+  const handleLeftIncomingEnd = useCallback((e) => {
+    if (e.propertyName !== 'opacity') return
+    setLeftDisplayUrl(leftIncomingUrl)
+    setLeftIncomingUrl(null)
+  }, [leftIncomingUrl])
 
   const runHintSequence = useCallback((onEnd) => {
     clearTimeout(hintSeqTimerRef.current)
@@ -184,9 +194,10 @@ const AmbientViewer = ({
   if (!ambient) return null
 
   const originalBaseUrl = buildBasePath(ambient.id)
-  const baseImgSrc      = sliderActive && compareLeftUrl
-    ? compareLeftUrl
-    : (baseDisplayUrl || compareLeftUrl || (hasBaseRender ? null : originalBaseUrl))
+  const leftShownUrl    = leftDisplayUrl || compareLeftUrl
+  const baseImgSrc      = sliderActive && leftShownUrl
+    ? leftShownUrl
+    : (hasBaseRender ? null : originalBaseUrl)
 
   return (
     <div
@@ -196,12 +207,25 @@ const AmbientViewer = ({
       onClick={handleClick}
       onMouseLeave={handleMouseLeave}
     >
-      <img
-        className="ambient-base"
-        src={baseImgSrc}
-        alt={ambient.name}
-        draggable={false}
-      />
+      {baseImgSrc && (
+        <img
+          className="ambient-base"
+          src={baseImgSrc}
+          alt={ambient.name}
+          draggable={false}
+        />
+      )}
+
+      {leftIncomingUrl && sliderActive && (
+        <img
+          key={leftIncomingUrl}
+          className="ambient-selected-render is-incoming is-loaded"
+          src={leftIncomingUrl}
+          alt=""
+          draggable={false}
+          onTransitionEnd={handleLeftIncomingEnd}
+        />
+      )}
 
       {selectedUrl && (
         <img
@@ -215,7 +239,7 @@ const AmbientViewer = ({
       {incomingUrl && !sliderActive && (
         <img
           key={incomingUrl}
-          className={`ambient-selected-render${incomingVisible ? ' is-loaded' : ''}`}
+          className="ambient-selected-render is-incoming is-loaded"
           src={incomingUrl}
           alt=""
           draggable={false}
