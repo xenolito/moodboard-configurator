@@ -50,16 +50,11 @@ const AmbientViewer = ({
       setSelectedUrl(null)
       setIncomingUrl(null)
       setSliderActive(false)
+      setLeftDisplayUrl(null)
+      setLeftIncomingUrl(null)
       setHintZoneIdx(null)
     }
   }, [renderUrl, renderLoading])
-
-  useEffect(() => {
-    if (!sliderActive) {
-      setLeftDisplayUrl(null)
-      setLeftIncomingUrl(null)
-    }
-  }, [sliderActive])
 
   useEffect(() => {
     if (!compareLeftUrl) {
@@ -193,10 +188,8 @@ const AmbientViewer = ({
   if (!ambient) return null
 
   const originalBaseUrl = buildBasePath(ambient.id)
-  const leftShownUrl    = leftDisplayUrl || compareLeftUrl
-  const baseImgSrc      = sliderActive && leftShownUrl
-    ? leftShownUrl
-    : (hasBaseRender ? null : originalBaseUrl)
+  const leftShownUrl = leftDisplayUrl || compareLeftUrl
+  const baseImgSrc   = hasBaseRender ? null : originalBaseUrl
 
   return (
     <div
@@ -215,9 +208,19 @@ const AmbientViewer = ({
         />
       )}
 
-      {leftIncomingUrl && sliderActive && (
+      {leftShownUrl && (
         <img
-          key={leftIncomingUrl}
+          key={`L:${leftShownUrl}`}
+          className="ambient-selected-render is-loaded"
+          src={leftShownUrl}
+          alt=""
+          draggable={false}
+        />
+      )}
+
+      {leftIncomingUrl && (
+        <img
+          key={`L:${leftIncomingUrl}`}
           className="ambient-selected-render is-incoming is-loaded"
           src={leftIncomingUrl}
           alt=""

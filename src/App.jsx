@@ -19,8 +19,6 @@ const App = () => {
   const [sliderActive, setSliderActive]           = useState(false)
   const [panelOpen, setPanelOpen]                 = useState(false)
   const [compareSlot, setCompareSlot]             = useState('right')
-  const [leftModelId, setLeftModelId]             = useState(null)
-  const [leftVariant, setLeftVariant]             = useState(null)
   const [leftZoneSelections, setLeftZoneSelections] = useState({})
   const [userInteracted, setUserInteracted]       = useState(false)
   const [infoModalOpen, setInfoModalOpen]         = useState(false)
@@ -68,8 +66,8 @@ const App = () => {
 
   const { url: leftRenderUrl } = useRenderLoader(
     selectedAmbientId,
-    isCombinedRenders ? null : leftModelId,
-    isCombinedRenders ? null : (leftVariant?.variantId ?? null),
+    isCombinedRenders ? null : (leftZoneSelections[selectedZoneId]?.modelId ?? null),
+    isCombinedRenders ? null : (leftZoneSelections[selectedZoneId]?.variant?.variantId ?? null),
     isCombinedRenders ? leftCombinedRenderUrl : null
   )
 
@@ -124,14 +122,18 @@ const App = () => {
         leftSelections[entry.zoneId] = { modelId: entry.modelId, variant: resolveVariantFromEntry(entry) }
       }
       setLeftZoneSelections(leftSelections)
-      setLeftModelId(null)
-      setLeftVariant(null)
+    } else if (ambient.baseRender) {
+      const br = ambient.baseRender
+      const zone = ambient.zones.find(z => z.models?.some(m => m.id === br.modelId))
+      if (zone) {
+        const model = zone.models.find(m => m.id === br.modelId)
+        const group = model?.groups?.find(g => g.variants?.some(v => v.id === br.variantId))
+        setLeftZoneSelections({
+          [zone.id]: { modelId: br.modelId, variant: group ? { groupName: group.name, variantId: br.variantId } : null }
+        })
+      }
     } else {
-      setLeftZoneSelections({})
-      setLeftModelId(ambient.baseRender?.modelId ?? null)
-      setLeftVariant(ambient.baseRender?.variantId
-        ? { groupName: ambient.baseRender.groupName ?? null, variantId: ambient.baseRender.variantId }
-        : null)
+      setLeftZoneSelections({ ...initialSelections })
     }
     if (ambient.zones.length > 1) return
     const delayMs = (ambient.panelOpenDelay ?? 0) * 1000
@@ -151,8 +153,6 @@ const App = () => {
     setSliderActive(false)
     setPanelOpen(false)
     setCompareSlot('right')
-    setLeftModelId(null)
-    setLeftVariant(null)
     setLeftZoneSelections({})
   }
 
@@ -172,13 +172,28 @@ const App = () => {
           return { ...prev, [selectedZoneId]: { modelId, variant: getFirstVariant(model) } }
         })
       } else {
-        if (modelId === leftModelId) return
+        const currentLeftId = leftZoneSelections[selectedZoneId]?.modelId ?? null
+        if (modelId === currentLeftId) return
         const model = activeZone?.models?.find(m => m.id === modelId)
-        setLeftModelId(modelId)
-        setLeftVariant(getFirstVariant(model))
+        setLeftZoneSelections(prev => ({
+          ...prev,
+          [selectedZoneId]: { modelId, variant: getFirstVariant(model) }
+        }))
       }
+    } else if (sliderActive) {
+      if (modelId === selectedModelId) return
+      const model = activeZone?.models?.find(m => m.id === modelId)
+      setZoneSelections(prev => ({
+        ...prev,
+        [selectedZoneId]: { modelId, variant: getFirstVariant(model) }
+      }))
     } else {
       if (modelId === selectedModelId) return
+      if (isCombinedRenders) {
+        setLeftZoneSelections({ ...zoneSelections })
+      } else {
+        setLeftZoneSelections(prev => ({ ...prev, [selectedZoneId]: zoneSelections[selectedZoneId] ?? null }))
+      }
       const model = activeZone?.models?.find(m => m.id === modelId)
       setZoneSelections(prev => ({
         ...prev,
@@ -190,15 +205,21 @@ const App = () => {
   const handleVariantSelect = (variant) => {
     setUserInteracted(true)
     if (sliderActive && compareSlot === 'left') {
-      if (isCombinedRenders) {
-        setLeftZoneSelections(prev => ({
-          ...prev,
-          [selectedZoneId]: { ...prev[selectedZoneId], variant }
-        }))
-      } else {
-        setLeftVariant(variant)
-      }
+      setLeftZoneSelections(prev => ({
+        ...prev,
+        [selectedZoneId]: { ...prev[selectedZoneId], variant }
+      }))
+    } else if (sliderActive) {
+      setZoneSelections(prev => ({
+        ...prev,
+        [selectedZoneId]: { ...prev[selectedZoneId], variant }
+      }))
     } else {
+      if (isCombinedRenders) {
+        setLeftZoneSelections({ ...zoneSelections })
+      } else {
+        setLeftZoneSelections(prev => ({ ...prev, [selectedZoneId]: zoneSelections[selectedZoneId] ?? null }))
+      }
       setZoneSelections(prev => ({
         ...prev,
         [selectedZoneId]: { ...prev[selectedZoneId], variant }
@@ -240,7 +261,7 @@ const App = () => {
         return { type: 'compare-combined', left: leftEntries, right: rightEntries }
       } else {
         const rightEntry = getInfoEntry(activeZone, { modelId: selectedModelId, variant: selectedVariant })
-        const leftEntry  = getInfoEntry(activeZone, { modelId: leftModelId, variant: leftVariant })
+        const leftEntry  = getInfoEntry(activeZone, leftZoneSelections[selectedZoneId])
         if (!rightEntry || !leftEntry) return null
         return { type: 'compare', left: leftEntry, right: rightEntry }
       }
@@ -308,10 +329,10 @@ const App = () => {
           comparing={sliderActive}
           compareSlot={sliderActive ? compareSlot : null}
           selectedModelId={sliderActive && compareSlot === 'left'
-            ? (isCombinedRenders ? (leftZoneSelections[selectedZoneId]?.modelId ?? null) : leftModelId)
+            ? (leftZoneSelections[selectedZoneId]?.modelId ?? null)
             : selectedModelId}
           selectedVariant={sliderActive && compareSlot === 'left'
-            ? (isCombinedRenders ? (leftZoneSelections[selectedZoneId]?.variant ?? null) : leftVariant)
+            ? (leftZoneSelections[selectedZoneId]?.variant ?? null)
             : selectedVariant}
           onModelSelect={handleModelSelect}
           onVariantSelect={handleVariantSelect}
