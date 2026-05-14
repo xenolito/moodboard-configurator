@@ -29,8 +29,6 @@ const AmbientViewer = ({
   const autoHintIntervalRef = useRef(null)
   const autoHintDoneRef     = useRef(false)
   const [sliderActive, setSliderActive]       = useState(false)
-  const sliderActiveRef = useRef(false)
-  sliderActiveRef.current = sliderActive
   useEffect(() => { onSliderChange?.(sliderActive) }, [sliderActive, onSliderChange])
   const [selectedUrl, setSelectedUrl]         = useState(null)
   const [incomingUrl, setIncomingUrl]         = useState(null)
@@ -45,11 +43,6 @@ const AmbientViewer = ({
 
   useEffect(() => {
     if (renderUrl) {
-      if (sliderActiveRef.current) {
-        setSelectedUrl(renderUrl)
-        setIncomingUrl(null)
-        return
-      }
       setIncomingUrl(renderUrl)
       return
     }
@@ -62,8 +55,14 @@ const AmbientViewer = ({
   }, [renderUrl, renderLoading])
 
   useEffect(() => {
-    if (!compareLeftUrl) {
+    if (!sliderActive) {
       setLeftDisplayUrl(null)
+      setLeftIncomingUrl(null)
+    }
+  }, [sliderActive])
+
+  useEffect(() => {
+    if (!compareLeftUrl) {
       setLeftIncomingUrl(null)
       return
     }
@@ -236,10 +235,10 @@ const AmbientViewer = ({
           draggable={false}
         />
       )}
-      {incomingUrl && !sliderActive && (
+      {incomingUrl && (
         <img
           key={incomingUrl}
-          className="ambient-selected-render is-incoming is-loaded"
+          className={`ambient-selected-render is-incoming is-loaded${sliderActive ? ' slider-split' : ''}`}
           src={incomingUrl}
           alt=""
           draggable={false}
