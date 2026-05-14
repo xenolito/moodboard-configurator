@@ -26,7 +26,8 @@ const App = () => {
   const [infoModalOpen, setInfoModalOpen]         = useState(false)
   const panelOpenRef = useRef(panelOpen)
   panelOpenRef.current = panelOpen
-  const panelWasOpenRef = useRef(false)
+  const panelWasOpenRef     = useRef(false)
+  const infoPanelWasOpenRef = useRef(false)
 
   const ambient         = config?.ambients?.find(a => a.id === selectedAmbientId)
   const activeZone      = ambient?.zones?.find(z => z.id === selectedZoneId) ?? null
@@ -205,7 +206,16 @@ const App = () => {
     }
   }
 
-  const handleInfoClose = useCallback(() => setInfoModalOpen(false), [])
+  const handleInfoOpen  = useCallback(() => {
+    infoPanelWasOpenRef.current = panelOpenRef.current
+    setPanelOpen(false)
+    setInfoModalOpen(true)
+  }, [])
+
+  const handleInfoClose = useCallback(() => {
+    setInfoModalOpen(false)
+    if (infoPanelWasOpenRef.current) setPanelOpen(true)
+  }, [])
 
   const getInfoEntry = (zone, sel) => {
     if (!zone || !sel?.modelId) return null
@@ -288,7 +298,7 @@ const App = () => {
               setSelectedZoneId(ambient.zones[0].id)
             }
           }}
-          onInfoClick={() => setInfoModalOpen(true)}
+          onInfoClick={handleInfoOpen}
         />
 
         <ProductPanel
