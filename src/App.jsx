@@ -9,6 +9,7 @@ import InfoModal from './modules/InfoModal/InfoModal.jsx'
 const rootEl = document.getElementById('ambient_viewer')
 const initialAmbientId = rootEl?.dataset?.ambientId ?? 'adoquines'
 const datasetBackUrl   = rootEl?.dataset?.backUrl   ?? null
+const isWordPress      = !!window.pdMoodboardConfig?.baseUrl
 
 const App = () => {
   const { config, loading, error } = useAmbientConfig()
@@ -30,7 +31,7 @@ const App = () => {
   const ambient         = config?.ambients?.find(a => a.id === selectedAmbientId)
   const activeZone      = ambient?.zones?.find(z => z.id === selectedZoneId) ?? null
   const panelPosition   = ambient?.panelSelectorPosition ?? 'right'
-  const effectiveBackUrl = datasetBackUrl || ambient?.backUrl || null
+  const effectiveBackUrl = datasetBackUrl || ambient?.backUrl || '../'
 
   const selectedModelId = zoneSelections[selectedZoneId]?.modelId ?? null
   const selectedVariant = zoneSelections[selectedZoneId]?.variant  ?? null
@@ -293,19 +294,21 @@ const App = () => {
 
   return (
     <div className="app">
-      <nav className="ambient-switcher" role="tablist" aria-label="Selección de ambiente">
-        {config.ambients.map(a => (
-          <button
-            key={a.id}
-            role="tab"
-            className={`ambient-tab${a.id === selectedAmbientId ? ' is-active' : ''}`}
-            aria-selected={a.id === selectedAmbientId}
-            onClick={() => handleAmbientSwitch(a.id)}
-          >
-            {a.name}
-          </button>
-        ))}
-      </nav>
+      {!isWordPress && (
+        <nav className="ambient-switcher" role="tablist" aria-label="Selección de ambiente">
+          {config.ambients.map(a => (
+            <button
+              key={a.id}
+              role="tab"
+              className={`ambient-tab${a.id === selectedAmbientId ? ' is-active' : ''}`}
+              aria-selected={a.id === selectedAmbientId}
+              onClick={() => handleAmbientSwitch(a.id)}
+            >
+              {a.name}
+            </button>
+          ))}
+        </nav>
+      )}
 
       <div className="app-viewer-wrap">
         <AmbientViewer

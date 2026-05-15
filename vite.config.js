@@ -3,7 +3,16 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
-  plugins: [react()],
+  plugins: [
+    react(),
+    // Eliminar referencias a CSS del index.html generado solo en build para WordPress
+    ...(process.env.VITE_WP_BUILD ? [{
+      name: 'remove-css-links',
+      transformIndexHtml(html) {
+        return html.replace(/<link[^>]+\.css[^>]*>/g, '')
+      }
+    }] : [])
+  ],
   // Eliminar console.* y debugger solo en producción (Oxc Vite 8)
   ...(mode === 'production' && {
     oxc: {
