@@ -160,15 +160,18 @@ const AmbientViewer = ({
   }, [autoHintStopped])
 
   useEffect(() => {
-    autoHintDoneRef.current = false
     clearInterval(autoHintIntervalRef.current)
     clearTimeout(hintSeqTimerRef.current)
     autoHintIntervalRef.current = null
     setHintZoneIdx(null)
 
     const timeToShow = ambient?.autoHint?.timeToShow
-    if (!timeToShow || !hintSrcs.length) return
+    if (!timeToShow || !hintSrcs.length || autoHintStopped) {
+      autoHintDoneRef.current = true
+      return
+    }
 
+    autoHintDoneRef.current = false
     const delayMs = timeToShow * 1000
     autoHintIntervalRef.current = setInterval(() => {
       if (autoHintDoneRef.current) return
@@ -179,7 +182,7 @@ const AmbientViewer = ({
       clearInterval(autoHintIntervalRef.current)
       autoHintIntervalRef.current = null
     }
-  }, [ambient?.id, ambient?.autoHint?.timeToShow, hintSrcs, runHintSequence])
+  }, [ambient?.id, ambient?.autoHint?.timeToShow, hintSrcs, runHintSequence, autoHintStopped])
 
   const handleMouseLeave = useCallback(() => {
     if (containerRef.current) containerRef.current.style.cursor = 'default'

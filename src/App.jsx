@@ -321,7 +321,7 @@ const App = () => {
           onSliderChange={setSliderActive}
           panelOpen={panelOpen}
           backUrl={effectiveBackUrl}
-          autoHintStopped={userInteracted}
+          autoHintStopped={userInteracted || ambient?.zones?.length === 1}
           onOutsideZoneClick={sliderActive || ambient?.autohidePanel ? () => setPanelOpen(false) : undefined}
           onZoneClick={(zoneId) => {
             setUserInteracted(true)
