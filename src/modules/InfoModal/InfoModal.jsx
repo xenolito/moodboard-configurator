@@ -8,7 +8,7 @@ const PURIFY_CONFIG = {
   ALLOWED_ATTR: ['href', 'target', 'rel']
 }
 
-const ZoneEntry = ({ entry }) => (
+const ZoneEntry = ({ entry, ambientName, onClose }) => (
   <div className="info-modal-zone">
     {entry.zoneName && <div className="info-modal-zone-name">{entry.zoneName}</div>}
     <div className="info-modal-model-name">{entry.modelName}</div>
@@ -19,15 +19,46 @@ const ZoneEntry = ({ entry }) => (
         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(entry.description, PURIFY_CONFIG) }}
       />
     )}
+    <div className="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
+      <div
+        className="wp-block-button arrow"
+        data-modalform_input_name="producto"
+        data-modalform_input_data={`Información sobre ${entry.modelId} en color ${entry.variantName ?? ''} desde el ambiente ${ambientName ?? ''}`}
+        data-modalform_target="lead"
+      >
+        <a
+          className="wp-block-button__link wp-element-button"
+          href="#modal-lead"
+          onClick={onClose}
+        >
+          Solicita presupuesto
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
+            <rect width="256" height="256" fill="none"></rect>
+            <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"></line>
+            <polyline points="144 56 216 128 144 200" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+    {entry.productFamilyURL && (
+      <a
+        href={`/${entry.productFamilyURL}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onClose}
+      >
+        Consulta otras medidas disponibles
+      </a>
+    )}
   </div>
 )
 
-const CompareColumn = ({ heading, entries }) => (
+const CompareColumn = ({ heading, entries, ambientName, onClose }) => (
   <div className="info-compare-col">
     <div className="info-compare-heading">{heading}</div>
     {Array.isArray(entries)
-      ? entries.map((e, i) => <ZoneEntry key={i} entry={e} />)
-      : <ZoneEntry entry={entries} />}
+      ? entries.map((e, i) => <ZoneEntry key={i} entry={e} ambientName={ambientName} onClose={onClose} />)
+      : <ZoneEntry entry={entries} ambientName={ambientName} onClose={onClose} />}
   </div>
 )
 
@@ -85,16 +116,18 @@ const InfoModal = ({ data, onClose }) => {
         </div>
 
         <div className="info-modal-body">
-          {data.type === 'single' && <ZoneEntry entry={data} />}
+          {data.type === 'single' && (
+            <ZoneEntry entry={data} ambientName={data.ambientName} onClose={closeWithAnimation} />
+          )}
 
           {data.type === 'combined' && data.zones.map((z, i) => (
-            <ZoneEntry key={i} entry={z} />
+            <ZoneEntry key={i} entry={z} ambientName={data.ambientName} onClose={closeWithAnimation} />
           ))}
 
           {isCompare && (
             <div className="info-compare">
-              <CompareColumn heading="Antes" entries={data.left} />
-              <CompareColumn heading="Después" entries={data.right} />
+              <CompareColumn heading="Antes" entries={data.left} ambientName={data.ambientName} onClose={closeWithAnimation} />
+              <CompareColumn heading="Después" entries={data.right} ambientName={data.ambientName} onClose={closeWithAnimation} />
             </div>
           )}
         </div>

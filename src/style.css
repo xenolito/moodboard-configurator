@@ -820,6 +820,29 @@ body {
   a { color: var(--amb-accent); }
 }
 
+.info-modal-zone .wp-block-buttons {
+  margin-top: 0.75rem;
+
+  .wp-block-button__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+
+    svg {
+      width: 1em;
+      height: 1em;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.info-modal-zone > a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--amb-accent);
+}
+
 .info-compare {
   display: grid;
   grid-template-columns: 1fr 1fr;

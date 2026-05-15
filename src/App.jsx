@@ -243,12 +243,24 @@ const App = () => {
     const model = zone.models?.find(m => m.id === sel.modelId)
     if (!model) return null
     let variantLabel = null
+    let variantName = null
     if (sel.variant?.variantId) {
       const group = model.groups?.find(g => g.variants?.some(v => v.id === sel.variant.variantId))
       const variant = group?.variants?.find(v => v.id === sel.variant.variantId)
-      if (group && variant) variantLabel = `${group.name}: ${variant.name}`
+      if (group && variant) {
+        variantLabel = `${group.name}: ${variant.name}`
+        variantName = variant.name
+      }
     }
-    return { zoneName: zone.label ?? null, modelName: model.name, variantLabel, description: model.description ?? null }
+    return {
+      zoneName: zone.label ?? null,
+      modelName: model.name,
+      modelId: model.id,
+      variantLabel,
+      variantName,
+      productFamilyURL: model.productFamilyURL ?? null,
+      description: model.description ?? null,
+    }
   }
 
   const infoData = (() => {
@@ -258,22 +270,22 @@ const App = () => {
         const rightEntries = ambient.zones.map(z => getInfoEntry(z, zoneSelections[z.id])).filter(Boolean)
         const leftEntries  = ambient.zones.map(z => getInfoEntry(z, leftZoneSelections[z.id])).filter(Boolean)
         if (!rightEntries.length || !leftEntries.length) return null
-        return { type: 'compare-combined', left: leftEntries, right: rightEntries }
+        return { type: 'compare-combined', ambientName: ambient.name, left: leftEntries, right: rightEntries }
       } else {
         const rightEntry = getInfoEntry(activeZone, { modelId: selectedModelId, variant: selectedVariant })
         const leftEntry  = getInfoEntry(activeZone, leftZoneSelections[selectedZoneId])
         if (!rightEntry || !leftEntry) return null
-        return { type: 'compare', left: leftEntry, right: rightEntry }
+        return { type: 'compare', ambientName: ambient.name, left: leftEntry, right: rightEntry }
       }
     }
     if (isCombinedRenders) {
       const entries = ambient.zones.map(z => getInfoEntry(z, zoneSelections[z.id])).filter(Boolean)
       if (!entries.length) return null
-      return { type: 'combined', zones: entries }
+      return { type: 'combined', ambientName: ambient.name, zones: entries }
     }
     const entry = getInfoEntry(activeZone, { modelId: selectedModelId, variant: selectedVariant })
     if (!entry) return null
-    return { type: 'single', ...entry }
+    return { type: 'single', ambientName: ambient.name, ...entry }
   })()
 
   if (loading) return <div className="app-loading">Cargando...</div>
