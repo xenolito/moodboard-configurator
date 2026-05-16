@@ -23,7 +23,7 @@ const ZoneEntry = ({ entry, ambientName, onClose }) => (
       <div
         className="wp-block-button arrow"
         data-modalform_input_name="producto"
-        data-modalform_input_data={`Información sobre ${entry.modelId} en color ${entry.variantName ?? ''} desde el ambiente ${ambientName ?? ''}`}
+        data-modalform_input_data={`Información sobre '${entry.modelName}' en color '${entry.variantName ?? ''}' desde el ambiente '${ambientName ?? ''}'`}
         data-modalform_target="lead"
       >
         <a
