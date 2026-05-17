@@ -1,7 +1,7 @@
 import { useRef, useCallback, useState, useEffect } from 'react'
 import { SplitSquareHorizontal, Download, ArrowLeft, Info } from 'lucide-react'
 import { useMaskDetection } from '../../hooks/useMaskDetection.js'
-import { useDownload } from '../Download/useDownload.js'
+import { buildCompareComposite } from '../../utils/buildCompareComposite.js'
 import BeforeAfterSlider from '../Slider/BeforeAfterSlider.jsx'
 import IconButton from '../../ui/IconButton.jsx'
 import { buildBasePath, buildMaskPath } from '../../utils/buildPaths.js'
@@ -22,12 +22,14 @@ const AmbientViewer = ({
   onCompareSlotClick,
   onSliderChange,
   onInfoClick,
+  onDownload,
   children
 }) => {
   const containerRef        = useRef(null)
   const hintSeqTimerRef     = useRef(null)
   const autoHintIntervalRef = useRef(null)
   const autoHintDoneRef     = useRef(false)
+  const downloadingRef      = useRef(false)
   const [sliderActive, setSliderActive]       = useState(false)
   useEffect(() => { onSliderChange?.(sliderActive) }, [sliderActive, onSliderChange])
   const [selectedUrl, setSelectedUrl]         = useState(null)
@@ -39,7 +41,6 @@ const AmbientViewer = ({
   const maskUrl  = ambient?.mask ? buildMaskPath(ambient.id, ambient.mask) : null
   const hintSrcs = useZoneHintMasks(maskUrl, ambient?.zones ?? [])
   const { getZoneAtPoint } = useMaskDetection(ambient?.mask ?? null)
-  const { download } = useDownload()
 
   useEffect(() => {
     if (renderUrl) {
@@ -288,8 +289,29 @@ const AmbientViewer = ({
           />
           <IconButton
             icon={Download}
-            label="Descargar imagen"
-            onClick={(e) => { e.stopPropagation(); download(selectedUrl || effectiveBaseUrl, ambient.id) }}
+            label="Descargar PDF"
+            onClick={async (e) => {
+              e.stopPropagation()
+              if (downloadingRef.current) return
+              downloadingRef.current = true
+              try {
+                if (sliderActive) {
+                  const sliderXStr = containerRef.current?.style.getPropertyValue('--slider-x') || '50%'
+                  const sliderXPct = parseFloat(sliderXStr) / 100
+                  const compositeUrl = await buildCompareComposite(
+                    leftShownUrl || originalBaseUrl,
+                    selectedUrl  || originalBaseUrl,
+                    sliderXPct
+                  )
+                  onDownload?.({ type: 'compare', url: compositeUrl })
+                  setTimeout(() => URL.revokeObjectURL(compositeUrl), 30000)
+                } else {
+                  onDownload?.({ type: 'single', url: selectedUrl || originalBaseUrl })
+                }
+              } finally {
+                downloadingRef.current = false
+              }
+            }}
           />
           <IconButton
             icon={Info}

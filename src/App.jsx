@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { useAmbientConfig } from './hooks/useAmbientConfig.js'
 import { useRenderLoader } from './hooks/useRenderLoader.js'
 import { buildCombinedRenderPath } from './utils/buildPaths.js'
+import { getBaseUrl } from './utils/baseUrl.js'
+import { usePdfDownload } from './modules/Download/usePdfDownload.js'
 import AmbientViewer from './modules/AmbientViewer/AmbientViewer.jsx'
 import ProductPanel from './modules/ProductPanel/ProductPanel.jsx'
 import InfoModal from './modules/InfoModal/InfoModal.jsx'
@@ -13,6 +15,7 @@ const isWordPress      = !!window.pdMoodboardConfig?.baseUrl
 
 const App = () => {
   const { config, loading, error } = useAmbientConfig()
+  const { downloadPdf } = usePdfDownload()
 
   const [selectedAmbientId, setSelectedAmbientId] = useState(initialAmbientId)
   const [selectedZoneId, setSelectedZoneId]       = useState(null)
@@ -289,6 +292,16 @@ const App = () => {
     return { type: 'single', ambientName: ambient.name, ...entry }
   })()
 
+  const handleDownload = useCallback(({ url }) => {
+    downloadPdf({
+      renderUrl: url,
+      ambientId: selectedAmbientId,
+      infoData,
+      branding: config?.pdfBranding ?? {},
+      logoUrl: `${getBaseUrl()}assets/logo_PDJIT.svg`,
+    })
+  }, [downloadPdf, selectedAmbientId, infoData, config])
+
   if (loading) return <div className="app-loading">Cargando...</div>
   if (error)   return <div className="app-error">Error: {error}</div>
 
@@ -335,6 +348,7 @@ const App = () => {
             }
           }}
           onInfoClick={handleInfoOpen}
+          onDownload={handleDownload}
         />
 
         <ProductPanel

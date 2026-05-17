@@ -1,7 +1,7 @@
 {
   "name": "moodboards-configurator",
   "private": true,
-  "version": "1.4.0",
+  "version": "2.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -15,8 +15,10 @@
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "canvg": "^4.0.3",
     "dompurify": "^3.4.2",
     "gsap": "^3.14.2",
+    "jspdf": "^4.2.1",
     "lucide-react": "^0.562.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
