@@ -88,8 +88,11 @@ export const usePdfDownload = () => {
 
     // Logo
     if (logoResult?.dataUrl) {
-      const logoH = HEADER_H
-      const logoW = Math.min(logoH * (logoResult.aspect ?? 3), 55)
+      const aspect = logoResult.aspect ?? 3
+      const maxLogoW = 55
+      let logoW = HEADER_H * aspect
+      let logoH = HEADER_H
+      if (logoW > maxLogoW) { logoW = maxLogoW; logoH = maxLogoW / aspect }
       doc.addImage(logoResult.dataUrl, 'PNG', ML, MT, logoW, logoH)
     }
 
