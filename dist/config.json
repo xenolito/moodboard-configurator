@@ -1,5 +1,10 @@
 {
   "model_image_variant": "",
+  "pdfBranding": {
+    "title": "Configurador de Ambientes",
+    "siteUrl": "https://www.prefabricadosduero.com",
+    "contactEmail": "info@prefabricadosduero.com"
+  },
   "ambients": [
     {
       "id": "adoquines",

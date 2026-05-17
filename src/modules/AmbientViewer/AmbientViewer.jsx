@@ -289,7 +289,7 @@ const AmbientViewer = ({
           />
           <IconButton
             icon={Download}
-            label="Descargar PDF"
+            label="Descarga tu ambiente"
             onClick={async (e) => {
               e.stopPropagation()
               if (downloadingRef.current) return

@@ -8,7 +8,7 @@ const PURIFY_CONFIG = {
   ALLOWED_ATTR: ['href', 'target', 'rel']
 }
 
-const ZoneEntry = ({ entry, ambientName, onClose }) => (
+const ZoneEntry = ({ entry, onClose }) => (
   <div className="info-modal-zone">
     {entry.zoneName && <div className="info-modal-zone-name">{entry.zoneName}</div>}
     <div className="info-modal-model-name">{entry.modelName}</div>
@@ -19,27 +19,6 @@ const ZoneEntry = ({ entry, ambientName, onClose }) => (
         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(entry.description, PURIFY_CONFIG) }}
       />
     )}
-    <div className="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
-      <div
-        className="wp-block-button arrow"
-        data-modalform_input_name="producto"
-        data-modalform_input_data={`Información sobre '${entry.modelName}' en color '${entry.variantName ?? ''}' desde el ambiente '${ambientName ?? ''}'`}
-        data-modalform_target="lead"
-      >
-        <a
-          className="wp-block-button__link wp-element-button"
-          href="#modal-lead"
-          onClick={onClose}
-        >
-          Solicita presupuesto
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
-            <rect width="256" height="256" fill="none"></rect>
-            <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"></line>
-            <polyline points="144 56 216 128 144 200" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"></polyline>
-          </svg>
-        </a>
-      </div>
-    </div>
     {entry.productFamilyURL && (
       <a
         href={`/${entry.productFamilyURL}`}
@@ -53,14 +32,26 @@ const ZoneEntry = ({ entry, ambientName, onClose }) => (
   </div>
 )
 
-const CompareColumn = ({ heading, entries, ambientName, onClose }) => (
+const CompareColumn = ({ heading, entries, onClose }) => (
   <div className="info-compare-col">
     <div className="info-compare-heading">{heading}</div>
     {Array.isArray(entries)
-      ? entries.map((e, i) => <ZoneEntry key={i} entry={e} ambientName={ambientName} onClose={onClose} />)
-      : <ZoneEntry entry={entries} ambientName={ambientName} onClose={onClose} />}
+      ? entries.map((e, i) => <ZoneEntry key={i} entry={e} onClose={onClose} />)
+      : <ZoneEntry entry={entries} onClose={onClose} />}
   </div>
 )
+
+const buildCtaData = (data) => {
+  const fmt = (e) => `'${e.modelName}' en color '${e.variantName ?? ''}'`
+  if (data.type === 'single')
+    return `Información sobre ${fmt(data)} desde el ambiente '${data.ambientName ?? ''}'`
+  if (data.type === 'combined')
+    return data.zones.map(e =>
+      `Información sobre ${fmt(e)} desde el ambiente '${data.ambientName ?? ''}'`
+    ).join('\n')
+  const fmtSide = (side) => Array.isArray(side) ? side.map(fmt).join(' / ') : fmt(side)
+  return `Antes: ${fmtSide(data.left)}\nDespués: ${fmtSide(data.right)}\nAmbiente: '${data.ambientName ?? ''}'`
+}
 
 const InfoModal = ({ data, onClose }) => {
   const dialogRef = useRef(null)
@@ -96,6 +87,26 @@ const InfoModal = ({ data, onClose }) => {
 
   const isCompare = data.type === 'compare' || data.type === 'compare-combined'
 
+  const CtaButton = (
+    <div className="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
+      <div
+        className="wp-block-button arrow"
+        data-modalform_input_name="producto"
+        data-modalform_input_data={buildCtaData(data)}
+        data-modalform_target="lead"
+      >
+        <a className="wp-block-button__link wp-element-button" href="#modal-lead" onClick={closeWithAnimation}>
+          Solicita presupuesto
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256">
+            <rect width="256" height="256" fill="none"></rect>
+            <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"></line>
+            <polyline points="144 56 216 128 144 200" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  )
+
   return (
     <dialog
       ref={dialogRef}
@@ -117,19 +128,21 @@ const InfoModal = ({ data, onClose }) => {
 
         <div className="info-modal-body">
           {data.type === 'single' && (
-            <ZoneEntry entry={data} ambientName={data.ambientName} onClose={closeWithAnimation} />
+            <ZoneEntry entry={data} onClose={closeWithAnimation} />
           )}
 
           {data.type === 'combined' && data.zones.map((z, i) => (
-            <ZoneEntry key={i} entry={z} ambientName={data.ambientName} onClose={closeWithAnimation} />
+            <ZoneEntry key={i} entry={z} onClose={closeWithAnimation} />
           ))}
 
           {isCompare && (
             <div className="info-compare">
-              <CompareColumn heading="Antes" entries={data.left} ambientName={data.ambientName} onClose={closeWithAnimation} />
-              <CompareColumn heading="Después" entries={data.right} ambientName={data.ambientName} onClose={closeWithAnimation} />
+              <CompareColumn heading="Antes" entries={data.left} onClose={closeWithAnimation} />
+              <CompareColumn heading="Después" entries={data.right} onClose={closeWithAnimation} />
             </div>
           )}
+
+          {CtaButton}
         </div>
       </div>
     </dialog>
