@@ -56,11 +56,11 @@ const buildFooterText = (infoData) => {
   if (infoData.type === 'combined') return infoData.zones.map(fmt).join('  ·  ')
   if (infoData.type === 'compare') {
     const fmtSide = (side) => (Array.isArray(side) ? side.map(fmt).join(' · ') : fmt(side))
-    return `Antes: ${fmtSide(infoData.left)}  |  Después: ${fmtSide(infoData.right)}`
+    return `Izquierda: ${fmtSide(infoData.left)}  |  Derecha: ${fmtSide(infoData.right)}`
   }
   if (infoData.type === 'compare-combined') {
     const right = Array.isArray(infoData.right) ? infoData.right.map(fmt).join(' · ') : fmt(infoData.right)
-    return `Después: ${right}`
+    return `Derecha: ${right}`
   }
   return ''
 }

@@ -672,7 +672,7 @@ body {
   box-shadow: var(--amb-panel-shadow);
   width: min(480px, 92vw);
   max-height: 85dvh;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
   opacity: 1;
@@ -735,15 +735,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   max-height: 85dvh;
-}
-
-.info-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.875rem 1rem 0.875rem 1.25rem;
-  border-bottom: 1px solid hsl(0 0% 90%);
-  flex-shrink: 0;
+  border-radius: var(--amb-radius);
 }
 
 .info-modal-title {
@@ -752,21 +744,24 @@ body {
 }
 
 .info-modal-close {
+  position: absolute;
+  top: -15px;
+  left: -15px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border: none;
   border-radius: 50%;
-  background: transparent;
-  color: #666;
+  background: hsl(220 10% 38%);
+  color: #fff;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s;
+  z-index: 1;
 
   &:hover {
-    background: hsl(0 0% 92%);
-    color: #222;
+    background: hsl(220 10% 25%);
   }
 }
 

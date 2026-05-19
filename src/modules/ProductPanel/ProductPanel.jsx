@@ -42,7 +42,7 @@ const ProductPanel = ({
         <h3 className="panel-title">{zone?.label ?? 'Selección'}</h3>
         {compareSlot && (
           <span className="panel-compare-badge">
-            {compareSlot === 'left' ? 'Antes' : 'Después'}
+            {compareSlot === 'left' ? 'Izquierda' : 'Derecha'}
           </span>
         )}
         <div className="panel-header-actions">

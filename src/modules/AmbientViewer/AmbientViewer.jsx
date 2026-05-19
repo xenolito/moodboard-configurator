@@ -283,7 +283,7 @@ const AmbientViewer = ({
         <div className="ui-actions">
           <IconButton
             icon={SplitSquareHorizontal}
-            label={sliderActive ? 'Ocultar comparar' : 'Comparar antes / después'}
+            label={sliderActive ? 'Ocultar comparar' : 'Compara'}
             active={sliderActive}
             onClick={(e) => { e.stopPropagation(); setSliderActive(v => !v) }}
           />

@@ -8,11 +8,19 @@ const PURIFY_CONFIG = {
   ALLOWED_ATTR: ['href', 'target', 'rel']
 }
 
-const ZoneEntry = ({ entry, onClose }) => (
+const ZoneEntry = ({ entry, onClose, showZoneName = true }) => (
   <div className="info-modal-zone">
-    {entry.zoneName && <div className="info-modal-zone-name">{entry.zoneName}</div>}
-    <div className="info-modal-model-name">{entry.modelName}</div>
-    {entry.variantLabel && <div className="info-modal-variant-label">{entry.variantLabel}</div>}
+    {showZoneName && entry.zoneName && <div className="info-modal-zone-name header-tag">Zona de {entry.zoneName}</div>}
+    <div className="info-modal-model-name"><span className='info-model-label'>Modelo: </span>{entry.modelName}</div>
+    {entry.variantLabel && (
+      <div className="info-model-variant">
+        {(() => {
+          const sep = entry.variantLabel.indexOf(': ')
+          if (sep === -1) return entry.variantLabel
+          return <><span className="info-model-label">{entry.variantLabel.slice(0, sep)}: </span>{entry.variantLabel.slice(sep + 2)}</>
+        })()}
+      </div>
+    )}
     {entry.description && (
       <div
         className="info-modal-description"
@@ -25,6 +33,7 @@ const ZoneEntry = ({ entry, onClose }) => (
         target="_blank"
         rel="noopener noreferrer"
         onClick={onClose}
+        className='to-model-catalog'
       >
         Consulta otras medidas disponibles
       </a>
@@ -32,25 +41,29 @@ const ZoneEntry = ({ entry, onClose }) => (
   </div>
 )
 
-const CompareColumn = ({ heading, entries, onClose }) => (
-  <div className="info-compare-col">
-    <div className="info-compare-heading">{heading}</div>
-    {Array.isArray(entries)
-      ? entries.map((e, i) => <ZoneEntry key={i} entry={e} onClose={onClose} />)
-      : <ZoneEntry entry={entries} onClose={onClose} />}
-  </div>
-)
+const CompareColumn = ({ heading, entries, onClose }) => {
+  const multiZone = Array.isArray(entries) && entries.length > 1
+  return (
+    <div className="info-compare-col">
+      <div className="info-compare-heading"><span class="header-tag">{heading}</span></div>
+      {Array.isArray(entries)
+        ? entries.map((e, i) => <ZoneEntry key={i} entry={e} onClose={onClose} showZoneName={multiZone} />)
+        : <ZoneEntry entry={entries} onClose={onClose} showZoneName={false} />}
+    </div>
+  )
+}
 
 const buildCtaData = (data) => {
   const fmt = (e) => `'${e.modelName}' en color '${e.variantName ?? ''}'`
+  const SEP = ' | '
   if (data.type === 'single')
     return `Información sobre ${fmt(data)} desde el ambiente '${data.ambientName ?? ''}'`
   if (data.type === 'combined')
     return data.zones.map(e =>
       `Información sobre ${fmt(e)} desde el ambiente '${data.ambientName ?? ''}'`
-    ).join('\n')
+    ).join(SEP)
   const fmtSide = (side) => Array.isArray(side) ? side.map(fmt).join(' / ') : fmt(side)
-  return `Antes: ${fmtSide(data.left)}\nDespués: ${fmtSide(data.right)}\nAmbiente: '${data.ambientName ?? ''}'`
+  return `Izquierda: ${fmtSide(data.left)}${SEP}Derecha: ${fmtSide(data.right)}${SEP}Ambiente: '${data.ambientName ?? ''}'`
 }
 
 const InfoModal = ({ data, onClose }) => {
@@ -114,31 +127,29 @@ const InfoModal = ({ data, onClose }) => {
       onClick={handleBackdropClick}
       onCancel={(e) => { e.preventDefault(); closeWithAnimation() }}
     >
+      <button
+        className="info-modal-close icon-close"
+        aria-label="Cerrar"
+        onClick={closeWithAnimation}
+      >
+        <X size={18} />
+      </button>
       <div className="info-modal-inner">
-        <div className="info-modal-header">
-          <h2 className="info-modal-title">Tu selección actual</h2>
-          <button
-            className="info-modal-close"
-            aria-label="Cerrar"
-            onClick={closeWithAnimation}
-          >
-            <X size={18} />
-          </button>
-        </div>
-
         <div className="info-modal-body">
+          <h3 className="info-modal-title">Tu selección actual</h3>
+
           {data.type === 'single' && (
-            <ZoneEntry entry={data} onClose={closeWithAnimation} />
+            <ZoneEntry entry={data} onClose={closeWithAnimation} showZoneName={false} />
           )}
 
           {data.type === 'combined' && data.zones.map((z, i) => (
-            <ZoneEntry key={i} entry={z} onClose={closeWithAnimation} />
+            <ZoneEntry key={i} entry={z} onClose={closeWithAnimation} showZoneName={data.zones.length > 1} />
           ))}
 
           {isCompare && (
             <div className="info-compare">
-              <CompareColumn heading="Antes" entries={data.left} onClose={closeWithAnimation} />
-              <CompareColumn heading="Después" entries={data.right} onClose={closeWithAnimation} />
+              <CompareColumn heading="Izquierda" entries={data.left} onClose={closeWithAnimation} />
+              <CompareColumn heading="Derecha" entries={data.right} onClose={closeWithAnimation} />
             </div>
           )}
 

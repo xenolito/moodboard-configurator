@@ -121,7 +121,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/adoquines/"
             },
             {
               "id": "adoquin_toro_20x10_bisel",
@@ -166,7 +166,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/adoquines/"
             },
             {
               "id": "adoquin_alcanices_12x12",
@@ -211,7 +211,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/adoquines/"
             },
             {
               "id": "adoquin_alcanices_12x12_bisel",
@@ -256,7 +256,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/adoquines/"
             },
             {
               "id": "adoquin_benavente_20x16",
@@ -301,7 +301,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/adoquines/"
             },
             {
               "id": "adoquin_castellano_18-12-9x12",
@@ -388,7 +388,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/adoquines/"
             },
             {
               "id": "adoquin_castellano_18-12-9x12_bisel",
@@ -433,7 +433,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/adoquines/"
             },
             {
               "id": "adoquin_coreses_23x12",
@@ -478,7 +478,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/adoquines/"
             },
             {
               "id": "adoquin_guarena_24x12",
@@ -523,7 +523,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/adoquines/"
             },
             {
               "id": "adoquin_guarena_24x12_bisel",
@@ -568,7 +568,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/adoquines/"
             },
             {
               "id": "adoquin_morales_10x10",
@@ -613,7 +613,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/adoquines/"
             }
           ]
         }
@@ -730,7 +730,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_aliste_20x20_bisel",
@@ -775,7 +775,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_colegiata_40x20",
@@ -862,7 +862,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_colegiata_40x20_bisel",
@@ -907,7 +907,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_sanabria_60x40",
@@ -994,7 +994,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_sayago_40x40",
@@ -1081,7 +1081,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_tabara_30x30",
@@ -1168,7 +1168,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_tera_50x50",
@@ -1255,7 +1255,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_hidraulica_20x20_4_pastillas",
@@ -1285,7 +1285,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_20x20_lisa",
@@ -1330,7 +1330,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_40x40_64_pastillas",
@@ -1375,7 +1375,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_40x40_canto_lavado",
@@ -1397,7 +1397,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_40x40_granitor",
@@ -1423,7 +1423,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_40x40_pergamino",
@@ -1468,7 +1468,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_40x40_petrea",
@@ -1513,7 +1513,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_40x40_petreofin",
@@ -1558,7 +1558,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_40x40_pizarra",
@@ -1603,7 +1603,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             }
           ]
         }
@@ -1719,7 +1719,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_aliste_20x20_bisel",
@@ -1764,7 +1764,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_colegiata_40x20",
@@ -1851,7 +1851,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_colegiata_40x20_bisel",
@@ -1896,7 +1896,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_sanabria_60x40",
@@ -1983,7 +1983,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_sayago_40x40",
@@ -2070,7 +2070,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_tabara_30x30",
@@ -2157,7 +2157,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_tera_50x50",
@@ -2244,7 +2244,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
             },
             {
               "id": "baldosa_hidraulica_20x20_4_pastillas",
@@ -2274,7 +2274,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_20x20_lisa",
@@ -2319,7 +2319,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_40x40_64_pastillas",
@@ -2364,7 +2364,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_40x40_canto_lavado",
@@ -2386,7 +2386,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_40x40_granitor",
@@ -2412,7 +2412,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_40x40_pergamino",
@@ -2457,7 +2457,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_40x40_petrea",
@@ -2502,7 +2502,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_40x40_petreofin",
@@ -2547,7 +2547,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             },
             {
               "id": "baldosa_hidraulica_40x40_pizarra",
@@ -2592,7 +2592,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             }
           ]
         }
@@ -2656,7 +2656,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/bloques/"
             },
             {
               "id": "bloque_split_toro_39x19",
@@ -2690,7 +2690,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/bloques/"
             },
             {
               "id": "bloque_estandar_toro_50x12x20",
@@ -2708,7 +2708,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/bloques/"
             }
           ]
         }
@@ -2772,7 +2772,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/bloques/"
             },
             {
               "id": "bloque_split_toro_39x19",
@@ -2806,7 +2806,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/bloques/"
             },
             {
               "id": "bloque_estandar_toro_50x12x20",
@@ -2824,7 +2824,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/bloques/"
             }
           ]
         }
@@ -2898,7 +2898,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             }
           ]
         },
@@ -2939,7 +2939,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             }
           ]
         },
@@ -3000,7 +3000,7 @@
                   ]
                 }
               ],
-              "productFamilyURL": "productos/"
+              "productFamilyURL": "productos/baldosa-hidraulica/"
             }
           ]
         }
