@@ -1,90 +1,62 @@
 import { useState, useEffect, useRef } from 'react'
 import { Joyride, EVENTS, STATUS } from 'react-joyride'
+import { ArrowRight } from 'lucide-react'
 
 const TOUR_STYLES = {
   options: {
     arrowColor: '#222',
-    backgroundColor: '#222',
     overlayColor: 'rgba(0,0,0,0.55)',
-    primaryColor: 'hsl(354,73%,46%)',
-    textColor: '#f0f0f0',
     zIndex: 10000,
-    width: 280,
   },
-  tooltip: {
-    backgroundColor: '#222',
-    borderRadius: '8px',
-    color: '#f0f0f0',
-    fontSize: '0.875rem',
-    padding: '16px 20px',
-  },
-  tooltipContainer: { textAlign: 'left' },
-  tooltipContent: { padding: '8px 0 0' },
-  buttonNext: { backgroundColor: 'hsl(354,73%,46%)', borderRadius: '4px', fontSize: '0.8rem', color: '#fff' },
-  buttonBack: { color: '#aaa', fontSize: '0.8rem' },
-  buttonSkip: { color: '#bbb', fontSize: '0.8rem', textDecoration: 'underline' },
-  buttonClose: { color: '#aaa' },
 }
+
+const TourTooltip = ({
+  continuous,
+  index,
+  isLastStep,
+  size,
+  step,
+  backProps,
+  closeProps,
+  primaryProps,
+  skipProps,
+  tooltipProps,
+}) => (
+  <div {...tooltipProps} className="tour-tooltip">
+    <button {...closeProps} className="tour-tooltip-close" aria-label="Cerrar" title="Cerrar">✕</button>
+    <div className="tour-tooltip-body">{step.content}</div>
+    <div className="tour-tooltip-footer">
+      <div className="tour-tooltip-left">
+        <button {...skipProps} className="tour-tooltip-btn-skip" aria-label="Salir del tour" title="Salir del tour">Salir del tour</button>
+      </div>
+      <button {...primaryProps} className="tour-tooltip-btn-next" aria-label={isLastStep ? 'Terminar tour' : 'Siguiente'} title={isLastStep ? 'Terminar tour' : 'Siguiente'}>
+        {isLastStep ? 'Terminar tour' : <ArrowRight size={18} />}
+      </button>
+    </div>
+    <div className="tour-dots">
+      {Array.from({ length: size }, (_, i) => (
+        <span key={i} className={`tour-dot${i === index ? ' is-active' : ''}`} />
+      ))}
+    </div>
+  </div>
+)
 
 const buildSteps = () => {
   const base = {
     disableBeacon: true,
-    buttons: ['back', 'close', 'primary', 'skip'],
     closeButtonAction: 'skip',
     dismissKeyAction: false,
     overlayClickAction: false,
   }
 
   return [
-    {
-      ...base,
-      target: '.ambient-viewer',
-      placement: 'center',
-      content: 'Te mostramos cómo funciona el configurador en unos segundos.',
-      data: { id: 'welcome' },
-    },
-    {
-      ...base,
-      target: '.ambient-viewer',
-      placement: 'center',
-      content: 'Toca en la zona que quieres personalizar.',
-      data: { id: 'zones' },
-    },
-    {
-      ...base,
-      target: '.product-panel',
-      placement: 'left',
-      content: 'Elige modelo y color. Los cambios se reflejan en tiempo real.',
-      data: { id: 'panel' },
-    },
-    {
-      ...base,
-      target: '.ui-actions button:first-child',
-      placement: 'top',
-      content: 'Activa la comparativa para ver dos opciones a la vez. Arrastra el divisor.',
-      data: { id: 'compare' },
-    },
-    {
-      ...base,
-      target: 'button[aria-label="Descarga tu ambiente"]',
-      placement: 'top',
-      content: 'Descarga una imagen o PDF con tu selección actual.',
-      data: { id: 'download' },
-    },
-    {
-      ...base,
-      target: 'button[aria-label="Información del producto"]',
-      placement: 'top',
-      content: 'Consulta en cualquier momento el modelo y color seleccionados.',
-      data: { id: 'info' },
-    },
-    {
-      ...base,
-      target: 'button[aria-label="Volver"]',
-      placement: 'top',
-      content: 'Vuelve a la página anterior cuando quieras.',
-      data: { id: 'back' },
-    },
+    { ...base, target: '.ambient-viewer',                               placement: 'center', content: 'Te mostramos cómo funciona el configurador en unos segundos.',      data: { id: 'welcome'  } },
+    { ...base, target: '.ambient-viewer',                               placement: 'center', content: 'Toca en la zona que quieres personalizar.',                         data: { id: 'zones'    } },
+    { ...base, target: '.product-panel',                                placement: 'left',   content: 'Elige modelo y color. Los cambios se reflejan en tiempo real.',      data: { id: 'panel'    } },
+    { ...base, target: '.ui-actions button:first-child',                placement: 'top',    content: 'Activa la comparativa para ver dos opciones a la vez. Arrastra el divisor.', data: { id: 'compare'  } },
+    { ...base, target: 'button[aria-label="Descarga tu ambiente"]',     placement: 'top',    content: 'Descarga una imagen o PDF con tu selección actual.',                data: { id: 'download' } },
+    { ...base, target: 'button[aria-label="Información del producto"]', placement: 'top',    content: 'Consulta en cualquier momento el modelo y color seleccionados.',    data: { id: 'info'     } },
+    { ...base, target: 'button[aria-label="Volver"]',                   placement: 'top',    content: 'Vuelve a la página anterior cuando quieras.',                       data: { id: 'back'     } },
   ]
 }
 
@@ -101,8 +73,9 @@ const TourController = ({
   onComplete,
 }) => {
   const [run, setRun] = useState(false)
-  const compareActiveRef = useRef(false)
-  const hintLoopTimerRef = useRef(null)
+  const compareActiveRef  = useRef(false)
+  const hintLoopTimerRef  = useRef(null)
+  const hintLoopActiveRef = useRef(false)
 
   useEffect(() => {
     const t = setTimeout(() => setRun(true), 700)
@@ -127,14 +100,20 @@ const TourController = ({
   }, [run, onDeactivateCompare, onClosePanel, onComplete])
 
   const stopHintLoop = () => {
+    hintLoopActiveRef.current = false
     clearTimeout(hintLoopTimerRef.current)
     hintLoopTimerRef.current = null
   }
 
   const startHintLoop = () => {
-    onRunHint(() => {
-      hintLoopTimerRef.current = setTimeout(startHintLoop, HINT_LOOP_DELAY)
-    })
+    hintLoopActiveRef.current = true
+    const runLoop = () => {
+      onRunHint(() => {
+        if (!hintLoopActiveRef.current) return
+        hintLoopTimerRef.current = setTimeout(runLoop, HINT_LOOP_DELAY)
+      })
+    }
+    runLoop()
   }
 
   const handleCallback = (data) => {
@@ -156,7 +135,6 @@ const TourController = ({
       if (stepId === 'zones')   startHintLoop()
       if (stepId === 'panel')   onOpenPanel()
       if (stepId === 'compare') {
-        onClosePanel()
         onActivateCompare()
         compareActiveRef.current = true
       }
@@ -178,7 +156,7 @@ const TourController = ({
       continuous
       scrollToFirstStep={false}
       showProgress={false}
-      locale={{ next: 'Siguiente', last: 'Terminar tour', skip: 'Salir del tour', back: 'Atrás', close: 'Cerrar' }}
+      tooltipComponent={TourTooltip}
       styles={TOUR_STYLES}
       onEvent={handleCallback}
     />

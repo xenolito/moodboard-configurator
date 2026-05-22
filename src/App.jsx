@@ -40,7 +40,8 @@ const App = () => {
   panelOpenRef.current = panelOpen
   const panelWasOpenRef     = useRef(false)
   const infoPanelWasOpenRef = useRef(false)
-  const tourApiRef = useRef(null)
+  const tourApiRef          = useRef(null)
+  const tourActiveRef       = useRef(false)
 
   const ambient         = config?.ambients?.find(a => a.id === selectedAmbientId)
   const activeZone      = ambient?.zones?.find(z => z.id === selectedZoneId) ?? null
@@ -89,7 +90,7 @@ const App = () => {
   useEffect(() => {
     if (sliderActive) {
       panelWasOpenRef.current = panelOpenRef.current
-      setPanelOpen(false)
+      if (!tourActiveRef.current) setPanelOpen(false)
     } else {
       setCompareSlot('right')
       setPanelOpen(panelWasOpenRef.current)
@@ -319,6 +320,10 @@ const App = () => {
     datasetTour === 'false' ? false :
     (config?.tour === true)
 
+  useEffect(() => {
+    tourActiveRef.current = !!(tourEnabled && !tourSeen && config)
+  }, [tourEnabled, tourSeen, config])
+
   const handleTourReady = useCallback(({ runHintSequence, setSliderActive: setAVSlider }) => {
     tourApiRef.current = { runHintSequence, setSliderActive: setAVSlider }
   }, [])
@@ -349,6 +354,7 @@ const App = () => {
   }, [ambient])
 
   const handleTourComplete = useCallback(() => {
+    tourActiveRef.current = false
     localStorage.setItem('pd-tour-seen', '1')
     setTourSeen(true)
   }, [])
