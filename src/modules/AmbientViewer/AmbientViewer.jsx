@@ -23,6 +23,7 @@ const AmbientViewer = ({
   onSliderChange,
   onInfoClick,
   onDownload,
+  onTourReady,
   children
 }) => {
   const containerRef        = useRef(null)
@@ -103,6 +104,10 @@ const AmbientViewer = ({
     }
     showNext()
   }, [ambient])
+
+  useEffect(() => {
+    onTourReady?.({ runHintSequence, setSliderActive })
+  }, [onTourReady, runHintSequence])
 
   const handleMouseMove = useCallback((e) => {
     if (!zone) return

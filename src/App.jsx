@@ -7,10 +7,13 @@ import { usePdfDownload } from './modules/Download/usePdfDownload.js'
 import AmbientViewer from './modules/AmbientViewer/AmbientViewer.jsx'
 import ProductPanel from './modules/ProductPanel/ProductPanel.jsx'
 import InfoModal from './modules/InfoModal/InfoModal.jsx'
+import TourController from './modules/Tour/TourController.jsx'
 
 const rootEl = document.getElementById('ambient_viewer')
 const initialAmbientId = rootEl?.dataset?.ambientId ?? 'adoquines'
 const datasetBackUrl   = rootEl?.dataset?.backUrl   ?? null
+const datasetTour      = rootEl?.dataset?.ambientTour  // "true" | "false" | undefined
+const urlTourForce     = new URLSearchParams(window.location.search).get('tour') === 'yes'
 const isWordPress      = !!window.pdMoodboardConfig?.baseUrl
 
 const App = () => {
@@ -26,10 +29,18 @@ const App = () => {
   const [leftZoneSelections, setLeftZoneSelections] = useState({})
   const [userInteracted, setUserInteracted]       = useState(false)
   const [infoModalOpen, setInfoModalOpen]         = useState(false)
+  const [tourSeen, setTourSeen] = useState(() => {
+    if (urlTourForce) {
+      localStorage.removeItem('pd-tour-seen')
+      return false
+    }
+    return localStorage.getItem('pd-tour-seen') === '1'
+  })
   const panelOpenRef = useRef(panelOpen)
   panelOpenRef.current = panelOpen
   const panelWasOpenRef     = useRef(false)
   const infoPanelWasOpenRef = useRef(false)
+  const tourApiRef = useRef(null)
 
   const ambient         = config?.ambients?.find(a => a.id === selectedAmbientId)
   const activeZone      = ambient?.zones?.find(z => z.id === selectedZoneId) ?? null
@@ -302,6 +313,46 @@ const App = () => {
     })
   }, [downloadPdf, selectedAmbientId, infoData, config])
 
+  const tourEnabled =
+    urlTourForce          ? true  :
+    datasetTour === 'true'  ? true  :
+    datasetTour === 'false' ? false :
+    (config?.tour === true)
+
+  const handleTourReady = useCallback(({ runHintSequence, setSliderActive: setAVSlider }) => {
+    tourApiRef.current = { runHintSequence, setSliderActive: setAVSlider }
+  }, [])
+
+  const handleTourRunHint = useCallback((onEnd) => {
+    tourApiRef.current?.runHintSequence(onEnd)
+  }, [])
+
+  const handleTourActivateCompare = useCallback(() => {
+    tourApiRef.current?.setSliderActive(true)
+  }, [])
+
+  const handleTourDeactivateCompare = useCallback(() => {
+    tourApiRef.current?.setSliderActive(false)
+  }, [])
+
+  const handleTourOpenPanel = useCallback(() => {
+    if ((ambient?.zones?.length ?? 0) > 1) {
+      setSelectedZoneId(ambient.zones[0].id)
+      setPanelOpen(true)
+    }
+  }, [ambient])
+
+  const handleTourClosePanel = useCallback(() => {
+    if ((ambient?.zones?.length ?? 0) > 1) {
+      setPanelOpen(false)
+    }
+  }, [ambient])
+
+  const handleTourComplete = useCallback(() => {
+    localStorage.setItem('pd-tour-seen', '1')
+    setTourSeen(true)
+  }, [])
+
   if (loading) return <div className="app-loading">Cargando...</div>
   if (error)   return <div className="app-error">Error: {error}</div>
 
@@ -349,6 +400,7 @@ const App = () => {
           }}
           onInfoClick={handleInfoOpen}
           onDownload={handleDownload}
+          onTourReady={handleTourReady}
         />
 
         <ProductPanel
@@ -370,6 +422,16 @@ const App = () => {
         />
         {infoModalOpen && infoData && (
           <InfoModal data={infoData} onClose={handleInfoClose} />
+        )}
+        {tourEnabled && !tourSeen && config && (
+          <TourController
+            onRunHint={handleTourRunHint}
+            onActivateCompare={handleTourActivateCompare}
+            onDeactivateCompare={handleTourDeactivateCompare}
+            onOpenPanel={handleTourOpenPanel}
+            onClosePanel={handleTourClosePanel}
+            onComplete={handleTourComplete}
+          />
         )}
       </div>
     </div>
