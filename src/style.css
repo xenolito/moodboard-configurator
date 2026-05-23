@@ -896,9 +896,13 @@ body {
 body:has(.react-joyride__spotlight.tour-line) .react-joyride__arrow { display: none !important; }
 
 .react-joyride__spotlight.tour-line path:nth-child(2) {
+  fill: none;
+}
+
+.tour-spotlight-border {
+  fill: none;
   stroke: var(--tour-tooltip-line-color);
   stroke-width: var(--tour-tooltip-line-width);
-  fill: none;
 }
 
 .tour-connector-line {

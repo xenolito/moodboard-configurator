@@ -59,13 +59,55 @@ const buildSteps = () => {
   }
 
   return [
-    { ...base, target: '.ambient-viewer',                               placement: 'center', content: <><h3>Bienvenido a la experiencia de Ambientes Interactivos</h3><p className='sub-heading'>Déjanos mostrarte rápidametne todo lo que puedes hacer.</p></>,      data: { id: 'welcome'  } },
-    { ...base, target: '.ambient-viewer',                               placement: 'center', content: 'Toca en la zona que quieres personalizar.',                         data: { id: 'zones'    } },
-    { ...base, target: '.product-panel',                                placement: 'left',   content: 'Elige modelo y color. Los cambios se reflejan en tiempo real.',      data: { id: 'panel'    } },
-    { ...base, target: '.ui-actions button:first-child',                placement: 'top',    content: 'Activa la comparativa para ver dos opciones a la vez. Arrastra el divisor.', data: { id: 'compare'  } },
-    { ...base, target: 'button[aria-label="Descarga tu ambiente"]',     placement: 'top',    content: 'Descarga tu ambiente.',                data: { id: 'download' } },
-    { ...base, target: 'button[aria-label="Información del producto"]', placement: 'top',    content: 'Consulta en cualquier momento el modelo y color seleccionados.',    data: { id: 'info'     } },
-    { ...base, target: 'button[aria-label="Volver"]',                   placement: 'top',    content: 'Cambia a otro ambiente interactivo cuando quieras.',                       data: { id: 'back'     } },
+    {
+      ...base,
+      target: '.ambient-viewer',
+      placement: 'center',
+      content: <><p class="header-tag">Tutorial rápido</p><h3>Bienvenido a la experiencia de Ambientes Interactivos</h3><p className='sub-heading'>Déjanos mostrarte rápidametne todo lo que puedes hacer.</p></>,
+      data: { id: 'welcome' }
+    },
+    {
+      ...base,
+      target: '.ambient-viewer',
+      placement: 'center',
+      content: <><h4>Tú eliges</h4><p>Toca en la zona que quieres personalizar.</p></>,
+      data: { id: 'zones' }
+    },
+    {
+      ...base,
+      target: '.product-panel',
+      placement: 'left',
+      content: <><h4>Elige modelo y color</h4><p>Los cambios se reflejan en tiempo real.</p></>,
+      data: { id: 'panel' }
+    },
+    {
+      ...base,
+      target: '.ui-actions button:first-child',
+      placement: 'top',
+      content: <><h4>Comparativa</h4><p>Activa la comparativa para ver dos opciones a la vez. Arrastra el divisor.</p></>,
+      data: { id: 'compare' }
+    },
+    {
+      ...base,
+      target: 'button[aria-label="Descarga tu ambiente"]',
+      placement: 'top',
+      content: <><h4>Descarga tu ambiente</h4><p>Descarga tu ambiente interactivo en cualquier momento.</p></>,
+      data: { id: 'download' }
+    },
+    {
+      ...base,
+      target: 'button[aria-label="Información del producto"]',
+      placement: 'top',
+      content: <><h4>Información del producto</h4><p>Consulta en cualquier momento el modelo y color seleccionados.</p></>,
+      data: { id: 'info' }
+    },
+    {
+      ...base,
+      target: 'button[aria-label="Volver"]',
+      placement: 'top',
+      content: <><h4>Cambia de ambiente</h4><p>Cambia a otro ambiente interactivo cuando quieras.</p></>,
+      data: { id: 'back' }
+    },
   ]
 }
 
@@ -94,7 +136,7 @@ const axisEdgePoints = (sr, tr) => {
 }
 
 const TourConnectorLine = () => {
-  const [coords, setCoords] = useState(null)
+  const [visual, setVisual] = useState(null)
   const rafRef  = useRef(null)
   const prevRef = useRef(null)
   const svgRef  = useRef(null)
@@ -117,15 +159,22 @@ const TourConnectorLine = () => {
       const sc = { x: sr.left + sr.width / 2, y: sr.top + sr.height / 2 }
       const tc = { x: tr.left + tr.width / 2, y: tr.top + tr.height / 2 }
       if (Math.hypot(sc.x - tc.x, sc.y - tc.y) > 40) {
-        next = axisEdgePoints(sr, tr)
+        next = {
+          coords: axisEdgePoints(sr, tr),
+          sr: { x: sr.left, y: sr.top, w: sr.width, h: sr.height },
+        }
       }
     }
     const prev    = prevRef.current
     const changed = !prev !== !next || (next && prev && (
-      Math.abs(prev.x1 - next.x1) > 0.5 || Math.abs(prev.y1 - next.y1) > 0.5 ||
-      Math.abs(prev.x2 - next.x2) > 0.5 || Math.abs(prev.y2 - next.y2) > 0.5
+      Math.abs(prev.coords.x1 - next.coords.x1) > 0.5 ||
+      Math.abs(prev.coords.y1 - next.coords.y1) > 0.5 ||
+      Math.abs(prev.coords.x2 - next.coords.x2) > 0.5 ||
+      Math.abs(prev.coords.y2 - next.coords.y2) > 0.5 ||
+      Math.abs(prev.sr.x - next.sr.x) > 0.5 ||
+      Math.abs(prev.sr.y - next.sr.y) > 0.5
     ))
-    if (changed) { prevRef.current = next; setCoords(next) }
+    if (changed) { prevRef.current = next; setVisual(next) }
     rafRef.current = requestAnimationFrame(tick)
   }, [])
 
@@ -137,17 +186,23 @@ const TourConnectorLine = () => {
     }
   }, [tick])
 
-  if (!coords) return null
+  if (!visual) return null
 
   return createPortal(
     <svg
       style={{ position: 'fixed', inset: 0, width: '100vw', height: '100vh', pointerEvents: 'none', zIndex: 10001 }}
       aria-hidden="true"
     >
+      <rect
+        className="tour-spotlight-border"
+        x={visual.sr.x} y={visual.sr.y}
+        width={visual.sr.w} height={visual.sr.h}
+        rx="4"
+      />
       <line
         className="tour-connector-line"
-        x1={coords.x1} y1={coords.y1}
-        x2={coords.x2} y2={coords.y2}
+        x1={visual.coords.x1} y1={visual.coords.y1}
+        x2={visual.coords.x2} y2={visual.coords.y2}
       />
     </svg>,
     document.body
