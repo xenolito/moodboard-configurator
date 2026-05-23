@@ -279,6 +279,7 @@ const TourController = ({
     }
 
     if (type === EVENTS.STEP_BEFORE) {
+      if (index === 0)          onOpenPanel()
       if (stepId === 'zones')   startHintLoop()
       if (stepId === 'panel')   onOpenPanel()
       if (stepId === 'compare') {
