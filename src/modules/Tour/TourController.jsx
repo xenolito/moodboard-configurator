@@ -70,7 +70,7 @@ const buildSteps = () => {
       ...base,
       target: '.ambient-viewer',
       placement: 'center',
-      content: <><h4>Tú eliges</h4><p>Toca en la zona que quieres personalizar.</p></>,
+      content: <><h4>Tú eliges</h4><p>Toca en la zona de la imagen que quieres personalizar.</p></>,
       data: { id: 'zones' }
     },
     {
