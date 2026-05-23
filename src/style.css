@@ -26,6 +26,8 @@
   --icon-btn-size-mobile: 18px;
   --panel-selector-item-max-width: 60px;
   --card-padding: clamp(2rem, 5vw, 3rem);
+  --tour-tooltip-line-color: rgba(255, 255, 255, 0.85);
+  --tour-tooltip-line-width: 2px;
   font-family: system-ui, -apple-system, sans-serif;
 }
 
@@ -864,15 +866,44 @@ body {
 
 /* ── Tour tooltip ── */
 
+[data-testid="floater"] {
+  --bg-color: rgba(34, 34, 34, 0.66);
+  background: var(--bg-color);
+}
+
+.react-joyride__arrow {
+		color: var(--bg-color) !important;
+	}
+
 .tour-tooltip {
   position: relative;
-  background: #222;
   border-radius: 8px;
   color: #f0f0f0;
   font-size: 0.875rem;
   padding: 20px;
   width: 280px;
   max-width: 95vw;
+  min-width: 450px;
+}
+
+.tour-tooltip.is-line {
+  background: rgba(20, 20, 20, 0.82);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: var(--tour-tooltip-line-width) solid var(--tour-tooltip-line-color);
+}
+
+body:has(.react-joyride__spotlight.tour-line) .react-joyride__arrow { display: none !important; }
+
+.react-joyride__spotlight.tour-line path:nth-child(2) {
+  stroke: var(--tour-tooltip-line-color);
+  stroke-width: var(--tour-tooltip-line-width);
+  fill: none;
+}
+
+.tour-connector-line {
+  stroke: var(--tour-tooltip-line-color);
+  stroke-width: var(--tour-tooltip-line-width);
 }
 
 .tour-tooltip-close {
@@ -935,6 +966,7 @@ body {
 }
 
 .tour-tooltip-btn-next:hover { background: hsl(354, 73%, 52%); }
+.tour-tooltip-btn-next:focus { outline: none; box-shadow: none; }
 
 /* ── Tour dots ── */
 

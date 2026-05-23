@@ -1,5 +1,10 @@
 {
   "model_image_variant": "",
+  "tour": {
+    "tooltip": {
+      "arrow-type": "line"
+    }
+  },
   "pdfBranding": {
     "title": "Configurador de Ambientes",
     "siteUrl": "https://www.prefabricadosduero.com",
@@ -3006,6 +3011,5 @@
         }
       ]
     }
-  ],
-  "tour": false
+  ]
 }

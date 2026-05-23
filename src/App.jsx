@@ -315,10 +315,12 @@ const App = () => {
   }, [downloadPdf, selectedAmbientId, infoData, config])
 
   const tourEnabled =
-    urlTourForce          ? true  :
+    urlTourForce            ? true  :
     datasetTour === 'true'  ? true  :
     datasetTour === 'false' ? false :
-    (config?.tour === true)
+    !!config?.tour
+
+  const tourArrowType = config?.tour?.tooltip?.['arrow-type'] ?? 'arrow'
 
   useEffect(() => {
     tourActiveRef.current = !!(tourEnabled && !tourSeen && config)
@@ -431,6 +433,7 @@ const App = () => {
         )}
         {tourEnabled && !tourSeen && config && (
           <TourController
+            arrowType={tourArrowType}
             onRunHint={handleTourRunHint}
             onActivateCompare={handleTourActivateCompare}
             onDeactivateCompare={handleTourDeactivateCompare}
