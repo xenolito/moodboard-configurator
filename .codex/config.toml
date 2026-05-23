@@ -1,0 +1,10 @@
+[mcp_servers.playwright]
+args = [
+    "/Users/orey/.nvm/versions/node/v22.17.1/lib/node_modules/@playwright/mcp/cli.js",
+    "--browser",
+    "chrome",
+    "--headless",
+    "--caps",
+    "devtools",
+]
+command = "/Users/orey/.nvm/versions/node/v22.17.1/bin/node"
