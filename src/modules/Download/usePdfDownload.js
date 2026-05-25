@@ -139,7 +139,10 @@ export const usePdfDownload = () => {
       doc.text(contactParts.join('  ·  '), PW - MR, footerY + 4, { align: 'right' })
     }
 
-    doc.save(`prefabricados-duero-${ambientId}.pdf`)
+    const blob = doc.output('blob')
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+    setTimeout(() => URL.revokeObjectURL(url), 60000)
   }, [])
 
   return { downloadPdf }
