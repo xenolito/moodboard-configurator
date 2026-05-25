@@ -63,7 +63,7 @@ const buildSteps = () => {
       ...base,
       target: '.ambient-viewer',
       placement: 'center',
-      content: <><p class="header-tag">Tutorial rápido</p><h3>Bienvenido a la experiencia de Ambientes Interactivos</h3><p className='sub-heading'>Déjanos mostrarte rápidametne todo lo que puedes hacer.</p></>,
+      content: <><p className="header-tag">Tutorial rápido</p><h3>Bienvenido a la experiencia de Ambientes Interactivos</h3><p className='sub-heading'>Déjanos mostrarte rápidametne todo lo que puedes hacer.</p></>,
       data: { id: 'welcome' }
     },
     {
