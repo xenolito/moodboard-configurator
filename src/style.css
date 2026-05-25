@@ -412,8 +412,8 @@ body {
 
 
   &:hover {
-    border-color: hsl(0 0% 70%);
     @media (min-width: 640px) {
+      border-color: hsl(0 0% 70%);
       transform: scale(1.04);
     }
   }
@@ -498,8 +498,8 @@ body {
   transition: border-color var(--amb-transition), transform var(--amb-transition);
 
   &:hover {
-    border-color: hsl(0 0% 70%);
     @media (min-width: 640px) {
+      border-color: hsl(0 0% 70%);
       transform: scale(1.04);
     }
   }

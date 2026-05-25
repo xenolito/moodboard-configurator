@@ -66,7 +66,7 @@ const buildFooterText = (infoData) => {
 }
 
 export const usePdfDownload = () => {
-  const downloadPdf = useCallback(async ({ renderUrl, ambientId, infoData, branding, logoUrl }) => {
+  const downloadPdf = useCallback(async ({ renderUrl, ambientId, infoData, branding, logoUrl, targetTab = null }) => {
     if (!renderUrl) return
 
     const { jsPDF } = await import('jspdf')
@@ -141,7 +141,11 @@ export const usePdfDownload = () => {
 
     const blob = doc.output('blob')
     const url = URL.createObjectURL(blob)
-    window.open(url, '_blank', 'noopener')
+    if (targetTab) {
+      targetTab.location.href = url
+    } else {
+      window.open(url, '_blank', 'noopener')
+    }
     setTimeout(() => URL.revokeObjectURL(url), 60000)
   }, [])
 

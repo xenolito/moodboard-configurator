@@ -305,12 +305,16 @@ const App = () => {
   })()
 
   const handleDownload = useCallback(({ url }) => {
+    // Abrir el tab síncronamente durante el gesto del usuario para que iOS Safari no lo bloquee.
+    // window.open con noopener devuelve null, así que se omite para poder navegar el tab después.
+    const targetTab = window.open('', '_blank') ?? null
     downloadPdf({
       renderUrl: url,
       ambientId: selectedAmbientId,
       infoData,
       branding: config?.pdfBranding ?? {},
       logoUrl: `${getBaseUrl()}assets/logo_PDJIT.svg`,
+      targetTab,
     })
   }, [downloadPdf, selectedAmbientId, infoData, config])
 
