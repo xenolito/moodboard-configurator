@@ -413,7 +413,9 @@ body {
 
   &:hover {
     border-color: hsl(0 0% 70%);
-    transform: scale(1.04);
+    @media (min-width: 640px) {
+      transform: scale(1.04);
+    }
   }
 
   &.is-selected {
@@ -497,7 +499,9 @@ body {
 
   &:hover {
     border-color: hsl(0 0% 70%);
-    transform: scale(1.04);
+    @media (min-width: 640px) {
+      transform: scale(1.04);
+    }
   }
 
   &.is-selected {
