@@ -78,6 +78,9 @@ export const usePdfDownload = () => {
 
     const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' })
 
+    const pdfTitle = [branding?.title, infoData?.ambientName].filter(Boolean).join(' — ')
+    doc.setProperties({ title: pdfTitle })
+
     const PW = 297, PH = 210
     const ML = 12, MR = 12, MT = 10, MB = 10
     const CW = PW - ML - MR
