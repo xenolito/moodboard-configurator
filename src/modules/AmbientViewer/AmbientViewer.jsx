@@ -299,6 +299,8 @@ const AmbientViewer = ({
               e.stopPropagation()
               if (downloadingRef.current) return
               downloadingRef.current = true
+              // Abrir tab síncronamente antes de cualquier await para que iOS Safari no lo bloquee
+              const targetTab = window.open('', '_blank') ?? null
               try {
                 if (sliderActive) {
                   const sliderXStr = containerRef.current?.style.getPropertyValue('--slider-x') || '50%'
@@ -308,10 +310,10 @@ const AmbientViewer = ({
                     selectedUrl  || originalBaseUrl,
                     sliderXPct
                   )
-                  onDownload?.({ type: 'compare', url: compositeUrl })
+                  onDownload?.({ type: 'compare', url: compositeUrl, targetTab })
                   setTimeout(() => URL.revokeObjectURL(compositeUrl), 30000)
                 } else {
-                  onDownload?.({ type: 'single', url: selectedUrl || originalBaseUrl })
+                  onDownload?.({ type: 'single', url: selectedUrl || originalBaseUrl, targetTab })
                 }
               } finally {
                 downloadingRef.current = false
