@@ -54,15 +54,67 @@ const buildFooterText = (infoData) => {
   const fmt = (e) => [e.modelName, e.variantLabel].filter(Boolean).join(' — ')
   if (infoData.type === 'single') return fmt(infoData)
   if (infoData.type === 'combined') return infoData.zones.map(fmt).join('  ·  ')
-  if (infoData.type === 'compare') {
-    const fmtSide = (side) => (Array.isArray(side) ? side.map(fmt).join(' · ') : fmt(side))
-    return `Izquierda: ${fmtSide(infoData.left)}  |  Derecha: ${fmtSide(infoData.right)}`
-  }
-  if (infoData.type === 'compare-combined') {
-    const right = Array.isArray(infoData.right) ? infoData.right.map(fmt).join(' · ') : fmt(infoData.right)
-    return `Derecha: ${right}`
-  }
   return ''
+}
+
+const buildCompareTexts = (infoData) => {
+  const fmt = (e) => [e.modelName, e.variantLabel].filter(Boolean).join(' — ')
+  const fmtSide = (side) => (Array.isArray(side) ? side.map(fmt).join(' · ') : fmt(side))
+  return { leftText: fmtSide(infoData.left), rightText: fmtSide(infoData.right) }
+}
+
+// Draws a black rounded badge with white label text. Returns x after the badge.
+const drawBadge = (doc, label, x, baselineY) => {
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(8)
+  const padH = 1, badgeH = 3.4, yTop = baselineY - 2.8
+  const tw = doc.getTextWidth(label)
+  const bw = tw + padH * 2
+  doc.setFillColor(0, 0, 0)
+  doc.roundedRect(x, yTop, bw, badgeH, 0.5, 0.5, 'F')
+  doc.setTextColor(255, 255, 255)
+  doc.text(label, x + padH, baselineY)
+  return x + bw + 2
+}
+
+const drawPageFooter = (doc, branding, ML, PW, MR, footerY) => {
+  doc.setDrawColor(210, 210, 210)
+  doc.setLineWidth(0.25)
+  doc.line(ML, footerY - 2, PW - MR, footerY - 2)
+  doc.setFont('helvetica', 'normal')
+  doc.setFontSize(8)
+  doc.setTextColor(100, 100, 100)
+  const contactParts = [branding?.siteUrl, branding?.contactEmail].filter(Boolean)
+  if (contactParts.length) {
+    doc.text(contactParts.join('  ·  '), PW - MR, footerY + 4, { align: 'right' })
+  }
+}
+
+const drawPageHeader = (doc, logoResult, branding, infoData, ML, MT, HEADER_H, PW, MR) => {
+  if (logoResult?.dataUrl) {
+    const aspect = logoResult.aspect ?? 3
+    const maxLogoW = 55
+    let logoW = HEADER_H * aspect
+    let logoH = HEADER_H
+    if (logoW > maxLogoW) { logoW = maxLogoW; logoH = maxLogoW / aspect }
+    doc.addImage(logoResult.dataUrl, 'PNG', ML, MT, logoW, logoH)
+  }
+
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(11)
+  doc.setTextColor(40, 40, 40)
+  doc.text(branding?.title ?? '', PW - MR, MT + 5, { align: 'right' })
+
+  doc.setFont('helvetica', 'normal')
+  doc.setFontSize(9)
+  doc.setTextColor(110, 110, 110)
+  if (infoData?.ambientName) {
+    doc.text(infoData.ambientName, PW - MR, MT + 11, { align: 'right' })
+  }
+
+  doc.setDrawColor(210, 210, 210)
+  doc.setLineWidth(0.25)
+  doc.line(ML, MT + HEADER_H + 1, PW - MR, MT + HEADER_H + 1)
 }
 
 export const usePdfDownload = () => {
@@ -89,57 +141,128 @@ export const usePdfDownload = () => {
     const imgMaxH = PH - imgY - GAP2 - FOOTER_H - MB
     const footerY = PH - MB - FOOTER_H
 
-    // Logo
-    if (logoResult?.dataUrl) {
-      const aspect = logoResult.aspect ?? 3
-      const maxLogoW = 55
-      let logoW = HEADER_H * aspect
-      let logoH = HEADER_H
-      if (logoW > maxLogoW) { logoW = maxLogoW; logoH = maxLogoW / aspect }
-      doc.addImage(logoResult.dataUrl, 'PNG', ML, MT, logoW, logoH)
-    }
+    const type = infoData?.type
+    const isMultiZone = type === 'combined' || type === 'compare-combined'
+    const isCompare = type === 'compare' || type === 'compare-combined'
 
-    // Title + ambient name (right aligned)
-    doc.setFont('helvetica', 'bold')
-    doc.setFontSize(11)
-    doc.setTextColor(40, 40, 40)
-    doc.text(branding?.title ?? '', PW - MR, MT + 5, { align: 'right' })
+    // --- PAGE 1 ---
+    drawPageHeader(doc, logoResult, branding, infoData, ML, MT, HEADER_H, PW, MR)
 
-    doc.setFont('helvetica', 'normal')
-    doc.setFontSize(9)
-    doc.setTextColor(110, 110, 110)
-    if (infoData?.ambientName) {
-      doc.text(infoData.ambientName, PW - MR, MT + 11, { align: 'right' })
-    }
-
-    // Header separator
-    doc.setDrawColor(210, 210, 210)
-    doc.setLineWidth(0.25)
-    doc.line(ML, MT + HEADER_H + 1, PW - MR, MT + HEADER_H + 1)
-
-    // Render image (maintain aspect ratio, centered horizontally)
-    const aspect = renderResult.height / renderResult.width
+    const imgAspect = renderResult.height / renderResult.width
     let imgW = CW
-    let imgH = imgW * aspect
-    if (imgH > imgMaxH) { imgH = imgMaxH; imgW = imgH / aspect }
+    let imgH = imgW * imgAspect
+    if (imgH > imgMaxH) { imgH = imgMaxH; imgW = imgH / imgAspect }
     const imgX = ML + (CW - imgW) / 2
     doc.addImage(renderResult.dataUrl, 'JPEG', imgX, imgY, imgW, imgH)
 
-    // Footer separator
-    doc.setDrawColor(210, 210, 210)
-    doc.line(ML, footerY - 2, PW - MR, footerY - 2)
+    if (isMultiZone) {
+      // Multi-zone: page 1 has only the URL/email footer; product info goes to page 2
+      drawPageFooter(doc, branding, ML, PW, MR, footerY)
+    } else if (type === 'compare') {
+      // Single-zone compare: inline badges in the footer
+      const { leftText, rightText } = buildCompareTexts(infoData)
+      doc.setDrawColor(210, 210, 210)
+      doc.setLineWidth(0.25)
+      doc.line(ML, footerY - 2, PW - MR, footerY - 2)
+      doc.setFont('helvetica', 'normal')
+      doc.setFontSize(8)
+      const textY = footerY + 4
+      let x = ML
+      x = drawBadge(doc, 'IZQUIERDA', x, textY)
+      doc.setFont('helvetica', 'normal')
+      doc.setFontSize(8)
+      doc.setTextColor(60, 60, 60)
+      doc.text(leftText, x, textY)
+      x += doc.getTextWidth(leftText) + 4
+      doc.setTextColor(190, 190, 190)
+      doc.text('|', x, textY)
+      x += doc.getTextWidth('|') + 4
+      x = drawBadge(doc, 'DERECHA', x, textY)
+      doc.setFont('helvetica', 'normal')
+      doc.setFontSize(8)
+      doc.setTextColor(60, 60, 60)
+      doc.text(rightText, x, textY)
+      doc.setTextColor(100, 100, 100)
+      const contactParts = [branding?.siteUrl, branding?.contactEmail].filter(Boolean)
+      if (contactParts.length) {
+        doc.text(contactParts.join('  ·  '), PW - MR, textY, { align: 'right' })
+      }
+    } else {
+      // single: footer with product info + URL/email
+      doc.setDrawColor(210, 210, 210)
+      doc.setLineWidth(0.25)
+      doc.line(ML, footerY - 2, PW - MR, footerY - 2)
+      doc.setFont('helvetica', 'normal')
+      doc.setFontSize(10)
+      doc.setTextColor(60, 60, 60)
+      const footerMain = buildFooterText(infoData)
+      if (footerMain) doc.text(footerMain, ML, footerY + 4)
+      doc.setFontSize(8)
+      doc.setTextColor(100, 100, 100)
+      const contactParts = [branding?.siteUrl, branding?.contactEmail].filter(Boolean)
+      if (contactParts.length) {
+        doc.text(contactParts.join('  ·  '), PW - MR, footerY + 4, { align: 'right' })
+      }
+    }
 
-    // Footer: model info (left) + contact (right)
-    doc.setFont('helvetica', 'normal')
-    doc.setFontSize(8)
-    doc.setTextColor(60, 60, 60)
-    const footerMain = buildFooterText(infoData)
-    if (footerMain) doc.text(footerMain, ML, footerY + 4)
+    // --- PAGE 2: product info (multi-zone only) ---
+    if (isMultiZone) {
+      doc.addPage()
+      drawPageHeader(doc, logoResult, branding, infoData, ML, MT, HEADER_H, PW, MR)
 
-    doc.setTextColor(100, 100, 100)
-    const contactParts = [branding?.siteUrl, branding?.contactEmail].filter(Boolean)
-    if (contactParts.length) {
-      doc.text(contactParts.join('  ·  '), PW - MR, footerY + 4, { align: 'right' })
+      const fmt = (e) => [e.modelName, e.variantLabel].filter(Boolean).join(' — ')
+      const contentStartY = MT + HEADER_H + GAP1 + 4
+      const titleBaselineY = contentStartY + 12
+      const columnsStartY = titleBaselineY + 16
+      const zonesStartY = columnsStartY + 9
+      const lineH = 8
+
+      // Title
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(18)
+      doc.setTextColor(40, 40, 40)
+      doc.text('Tus productos', ML, titleBaselineY)
+
+      if (type === 'combined') {
+        doc.setFont('helvetica', 'normal')
+        doc.setFontSize(10)
+        doc.setTextColor(60, 60, 60)
+        infoData.zones.forEach((zone, i) => {
+          doc.text(`· ${fmt(zone)}`, ML, zonesStartY + i * lineH)
+        })
+      } else if (type === 'compare-combined') {
+        const colW = CW / 2
+        const colGap = 8
+        const col2X = ML + colW + colGap
+        const leftZones = Array.isArray(infoData.left) ? infoData.left : [infoData.left]
+        const rightZones = Array.isArray(infoData.right) ? infoData.right : [infoData.right]
+
+        // Vertical separator — height matches the taller column
+        const sepBottom = zonesStartY + (Math.max(leftZones.length, rightZones.length) - 1) * lineH + 6
+        doc.setDrawColor(210, 210, 210)
+        doc.setLineWidth(0.3)
+        doc.line(ML + colW, columnsStartY - 6, ML + colW, sepBottom)
+
+        // Left column
+        drawBadge(doc, 'IZQUIERDA', ML, columnsStartY)
+        doc.setFont('helvetica', 'normal')
+        doc.setFontSize(10)
+        doc.setTextColor(60, 60, 60)
+        leftZones.forEach((zone, i) => {
+          doc.text(`· ${fmt(zone)}`, ML + 3, zonesStartY + i * lineH)
+        })
+
+        // Right column
+        drawBadge(doc, 'DERECHA', col2X, columnsStartY)
+        doc.setFont('helvetica', 'normal')
+        doc.setFontSize(10)
+        doc.setTextColor(60, 60, 60)
+        rightZones.forEach((zone, i) => {
+          doc.text(`· ${fmt(zone)}`, col2X + 3, zonesStartY + i * lineH)
+        })
+      }
+
+      drawPageFooter(doc, branding, ML, PW, MR, footerY)
     }
 
     const blob = doc.output('blob')
