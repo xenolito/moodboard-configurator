@@ -626,7 +626,7 @@
     },
     {
       "id": "baldosas-1",
-      "name": "Baldosas 1",
+      "name": "Baldosas",
       "base": "ambients/baldosas-1/base.webp",
       "baseRender": {
         "modelId": "baldosa_tera_50x50",
@@ -1261,7 +1261,36 @@
                 }
               ],
               "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
-            },
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "baldosas-2",
+      "name": "Baldosas hidráulicas",
+      "baseRender": {
+        "modelId": "baldosa_hidraulica_40x40_petrea",
+        "groupName": "Color",
+        "variantId": "gris"
+      },
+      "autoHint": {
+        "timeToShow": 5
+      },
+      "autohidePanel": true,
+      "panelSelectorPosition": "right",
+      "panelOpenDelay": 1,
+      "mask": "ambients/baldosas-2/mask.webp",
+      "zones": [
+        {
+          "id": "z1",
+          "maskColor": [
+            0,
+            0,
+            0
+          ],
+          "label": "Pavimento",
+          "models": [
             {
               "id": "baldosa_hidraulica_20x20_4_pastillas",
               "name": "Hidráulica 4 Pastillas 20×20",
@@ -1615,21 +1644,118 @@
       ]
     },
     {
-      "id": "baldosas-2",
-      "name": "Baldosas 2",
-      "baseRender": {
-        "modelId": "baldosa_tabara_30x30",
-        "groupName": "Color",
-        "variantId": "tostado"
-      },
+      "id": "baldosa-tecnica",
+      "name": "Baldosa Técnica",
+      "base": "ambients/baldosa-tecnica/base.webp",
+      "baseRender": [
+        {
+          "zoneId": "z2",
+          "modelId": "baldosa_hidraulica_40x40_botones",
+          "variantId": "rojo"
+        },
+        {
+          "zoneId": "z3",
+          "modelId": "baldosa_hidraulica_40x40_guia",
+          "variantId": "rojo"
+        },
+        {
+          "zoneId": "z1",
+          "modelId": "baldosa_hidraulica_40x40_64_pastillas",
+          "variantId": "blanco"
+        }
+      ],
       "autoHint": {
-        "timeToShow": 5
+        "timeToShow": 2
       },
       "autohidePanel": true,
       "panelSelectorPosition": "right",
       "panelOpenDelay": 1,
-      "mask": "ambients/baldosas-2/mask.webp",
+      "hintSequenceDelay": 300,
+      "combinedRenders": true,
+      "mask": "ambients/baldosa-tecnica/mask.webp",
       "zones": [
+        {
+          "id": "z2",
+          "maskColor": [
+            255,
+            0,
+            0
+          ],
+          "label": "Botones",
+          "hintZone": {
+            "type": "layer",
+            "animationTime": 500
+          },
+          "models": [
+            {
+              "id": "baldosa_hidraulica_40x40_botones",
+              "name": "Baldosa Hidráulica 40×40 Botones",
+              "model_image": "thumb_baldosa_hidraulica_40x40_botones.webp",
+              "renderPrefix": "botones",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco",
+                  "variants": [
+                    {
+                      "id": "rojo",
+                      "name": "Rojo",
+                      "value": "b87c81"
+                    },
+                    {
+                      "id": "negro",
+                      "name": "Negro",
+                      "value": "6a6a6a"
+                    }
+                  ]
+                }
+              ],
+              "productFamilyURL": "productos/baldosa-hidraulica/"
+            }
+          ]
+        },
+        {
+          "id": "z3",
+          "maskColor": [
+            0,
+            255,
+            0
+          ],
+          "label": "Guía",
+          "hintZone": {
+            "type": "layer",
+            "animationTime": 500
+          },
+          "models": [
+            {
+              "id": "baldosa_hidraulica_40x40_guia",
+              "name": "Baldosa Hidráulica 40×40 Guía",
+              "model_image": "thumb_baldosa_hidraulica_40x40_guia.webp",
+              "renderPrefix": "guia",
+              "groups": [
+                {
+                  "name": "Color",
+                  "mode": "tint",
+                  "baseTexture": "blanco",
+                  "variants": [
+                    {
+                      "id": "rojo",
+                      "name": "Rojo",
+                      "value": "b87c81"
+                    },
+                    {
+                      "id": "negro",
+                      "name": "Negro",
+                      "value": "6a6a6a"
+                    }
+                  ]
+                }
+              ],
+              "productFamilyURL": "productos/baldosa-hidraulica/"
+            }
+          ]
+        },
         {
           "id": "z1",
           "maskColor": [
@@ -1637,699 +1763,17 @@
             0,
             0
           ],
-          "label": "Pavimento",
+          "label": "Pastillas",
+          "hintZone": {
+            "type": "invert",
+            "animationTime": 500
+          },
           "models": [
             {
-              "id": "baldosa_aliste_20x20",
-              "name": "Aliste 20×20",
-              "model_image": "thumb_baldosa_aliste_20x20.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "blanco",
-                  "variants": [
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "f1a99f"
-                    },
-                    {
-                      "id": "crema",
-                      "name": "Crema",
-                      "value": "fedd83"
-                    },
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "d2d2d2"
-                    },
-                    {
-                      "id": "blanco",
-                      "name": "Blanco",
-                      "value": ""
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "6a6a6a"
-                    },
-                    {
-                      "id": "tostado",
-                      "name": "Tostado",
-                      "value": "efc9ac"
-                    }
-                  ]
-                },
-                {
-                  "name": "Fusión®",
-                  "mode": "texture",
-                  "variants": [
-                    {
-                      "id": "fusion_jupiter",
-                      "name": "Jupiter"
-                    },
-                    {
-                      "id": "fusion_venus",
-                      "name": "Venus"
-                    },
-                    {
-                      "id": "fusion_saturno",
-                      "name": "Saturno"
-                    },
-                    {
-                      "id": "fusion_moon",
-                      "name": "Moon"
-                    },
-                    {
-                      "id": "fusion_mizar",
-                      "name": "Mizar"
-                    },
-                    {
-                      "id": "fusion_mercury",
-                      "name": "Mercury"
-                    },
-                    {
-                      "id": "fusion_mars",
-                      "name": "Mars"
-                    },
-                    {
-                      "id": "fusion_leonis",
-                      "name": "Leonis"
-                    },
-                    {
-                      "id": "fusion_altair",
-                      "name": "Altair"
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
-            },
-            {
-              "id": "baldosa_aliste_20x20_bisel",
-              "name": "Aliste 20×20 Bisel",
-              "model_image": "thumb_baldosa_aliste_20x20_bisel.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "blanco",
-                  "variants": [
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "f1a99f"
-                    },
-                    {
-                      "id": "crema",
-                      "name": "Crema",
-                      "value": "fedd83"
-                    },
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "d2d2d2"
-                    },
-                    {
-                      "id": "blanco",
-                      "name": "Blanco",
-                      "value": ""
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "6a6a6a"
-                    },
-                    {
-                      "id": "tostado",
-                      "name": "Tostado",
-                      "value": "efc9ac"
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
-            },
-            {
-              "id": "baldosa_colegiata_40x20",
-              "name": "Colegiata 40×20",
-              "model_image": "thumb_baldosa_colegiata_40x20.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "blanco",
-                  "variants": [
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "f1a99f"
-                    },
-                    {
-                      "id": "crema",
-                      "name": "Crema",
-                      "value": "fedd83"
-                    },
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "d2d2d2"
-                    },
-                    {
-                      "id": "blanco",
-                      "name": "Blanco",
-                      "value": "f5f2ec"
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "6a6a6a"
-                    },
-                    {
-                      "id": "tostado",
-                      "name": "Tostado",
-                      "value": "efc9ac"
-                    }
-                  ]
-                },
-                {
-                  "name": "Fusión®",
-                  "mode": "texture",
-                  "variants": [
-                    {
-                      "id": "fusion_jupiter",
-                      "name": "Jupiter"
-                    },
-                    {
-                      "id": "fusion_venus",
-                      "name": "Venus"
-                    },
-                    {
-                      "id": "fusion_saturno",
-                      "name": "Saturno"
-                    },
-                    {
-                      "id": "fusion_moon",
-                      "name": "Moon"
-                    },
-                    {
-                      "id": "fusion_mizar",
-                      "name": "Mizar"
-                    },
-                    {
-                      "id": "fusion_mercury",
-                      "name": "Mercury"
-                    },
-                    {
-                      "id": "fusion_mars",
-                      "name": "Mars"
-                    },
-                    {
-                      "id": "fusion_leonis",
-                      "name": "Leonis"
-                    },
-                    {
-                      "id": "fusion_altair",
-                      "name": "Altair"
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
-            },
-            {
-              "id": "baldosa_colegiata_40x20_bisel",
-              "name": "Colegiata 40×20 Bisel",
-              "model_image": "thumb_baldosa_colegiata_40x20_bisel.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "blanco",
-                  "variants": [
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "f1a99f"
-                    },
-                    {
-                      "id": "crema",
-                      "name": "Crema",
-                      "value": "fedd83"
-                    },
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "d2d2d2"
-                    },
-                    {
-                      "id": "blanco",
-                      "name": "Blanco",
-                      "value": "f5f2ec"
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "6a6a6a"
-                    },
-                    {
-                      "id": "tostado",
-                      "name": "Tostado",
-                      "value": "efc9ac"
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
-            },
-            {
-              "id": "baldosa_sanabria_60x40",
-              "name": "Sanabria 60×40",
-              "model_image": "thumb_baldosa_sanabria_60x40.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "blanco",
-                  "variants": [
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "f1a99f"
-                    },
-                    {
-                      "id": "crema",
-                      "name": "Crema",
-                      "value": "fedd83"
-                    },
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "d2d2d2"
-                    },
-                    {
-                      "id": "blanco",
-                      "name": "Blanco",
-                      "value": ""
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "6a6a6a"
-                    },
-                    {
-                      "id": "tostado",
-                      "name": "Tostado",
-                      "value": "efc9ac"
-                    }
-                  ]
-                },
-                {
-                  "name": "Fusión®",
-                  "mode": "texture",
-                  "variants": [
-                    {
-                      "id": "fusion_jupiter",
-                      "name": "Jupiter"
-                    },
-                    {
-                      "id": "fusion_venus",
-                      "name": "Venus"
-                    },
-                    {
-                      "id": "fusion_saturno",
-                      "name": "Saturno"
-                    },
-                    {
-                      "id": "fusion_moon",
-                      "name": "Moon"
-                    },
-                    {
-                      "id": "fusion_mizar",
-                      "name": "Mizar"
-                    },
-                    {
-                      "id": "fusion_mercury",
-                      "name": "Mercury"
-                    },
-                    {
-                      "id": "fusion_mars",
-                      "name": "Mars"
-                    },
-                    {
-                      "id": "fusion_leonis",
-                      "name": "Leonis"
-                    },
-                    {
-                      "id": "fusion_altair",
-                      "name": "Altair"
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
-            },
-            {
-              "id": "baldosa_sayago_40x40",
-              "name": "Sayago 40×40",
-              "model_image": "thumb_baldosa_sayago_40x40.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "blanco",
-                  "variants": [
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "f1a99f"
-                    },
-                    {
-                      "id": "crema",
-                      "name": "Crema",
-                      "value": "fedd83"
-                    },
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "d2d2d2"
-                    },
-                    {
-                      "id": "blanco",
-                      "name": "Blanco",
-                      "value": ""
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "6a6a6a"
-                    },
-                    {
-                      "id": "tostado",
-                      "name": "Tostado",
-                      "value": "efc9ac"
-                    }
-                  ]
-                },
-                {
-                  "name": "Fusión®",
-                  "mode": "texture",
-                  "variants": [
-                    {
-                      "id": "fusion_jupiter",
-                      "name": "Jupiter"
-                    },
-                    {
-                      "id": "fusion_venus",
-                      "name": "Venus"
-                    },
-                    {
-                      "id": "fusion_saturno",
-                      "name": "Saturno"
-                    },
-                    {
-                      "id": "fusion_moon",
-                      "name": "Moon"
-                    },
-                    {
-                      "id": "fusion_mizar",
-                      "name": "Mizar"
-                    },
-                    {
-                      "id": "fusion_mercury",
-                      "name": "Mercury"
-                    },
-                    {
-                      "id": "fusion_mars",
-                      "name": "Mars"
-                    },
-                    {
-                      "id": "fusion_leonis",
-                      "name": "Leonis"
-                    },
-                    {
-                      "id": "fusion_altair",
-                      "name": "Altair"
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
-            },
-            {
-              "id": "baldosa_tabara_30x30",
-              "name": "Tábara 30×30",
-              "model_image": "thumb_baldosa_tabara_30x30.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "blanco",
-                  "variants": [
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "f1a99f"
-                    },
-                    {
-                      "id": "crema",
-                      "name": "Crema",
-                      "value": "fedd83"
-                    },
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "d2d2d2"
-                    },
-                    {
-                      "id": "blanco",
-                      "name": "Blanco",
-                      "value": ""
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "6a6a6a"
-                    },
-                    {
-                      "id": "tostado",
-                      "name": "Tostado",
-                      "value": "efc9ac"
-                    }
-                  ]
-                },
-                {
-                  "name": "Fusión®",
-                  "mode": "texture",
-                  "variants": [
-                    {
-                      "id": "fusion_jupiter",
-                      "name": "Jupiter"
-                    },
-                    {
-                      "id": "fusion_venus",
-                      "name": "Venus"
-                    },
-                    {
-                      "id": "fusion_saturno",
-                      "name": "Saturno"
-                    },
-                    {
-                      "id": "fusion_moon",
-                      "name": "Moon"
-                    },
-                    {
-                      "id": "fusion_mizar",
-                      "name": "Mizar"
-                    },
-                    {
-                      "id": "fusion_mercury",
-                      "name": "Mercury"
-                    },
-                    {
-                      "id": "fusion_mars",
-                      "name": "Mars"
-                    },
-                    {
-                      "id": "fusion_leonis",
-                      "name": "Leonis"
-                    },
-                    {
-                      "id": "fusion_altair",
-                      "name": "Altair"
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
-            },
-            {
-              "id": "baldosa_tera_50x50",
-              "name": "Tera 50×50",
-              "model_image": "thumb_baldosa_tera_50x50.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "blanco",
-                  "variants": [
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "f1a99f"
-                    },
-                    {
-                      "id": "crema",
-                      "name": "Crema",
-                      "value": "fedd83"
-                    },
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "d2d2d2"
-                    },
-                    {
-                      "id": "blanco",
-                      "name": "Blanco",
-                      "value": ""
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "6a6a6a"
-                    },
-                    {
-                      "id": "tostado",
-                      "name": "Tostado",
-                      "value": "efc9ac"
-                    }
-                  ]
-                },
-                {
-                  "name": "Fusión®",
-                  "mode": "texture",
-                  "variants": [
-                    {
-                      "id": "fusion_jupiter",
-                      "name": "Jupiter"
-                    },
-                    {
-                      "id": "fusion_venus",
-                      "name": "Venus"
-                    },
-                    {
-                      "id": "fusion_saturno",
-                      "name": "Saturno"
-                    },
-                    {
-                      "id": "fusion_moon",
-                      "name": "Moon"
-                    },
-                    {
-                      "id": "fusion_mizar",
-                      "name": "Mizar"
-                    },
-                    {
-                      "id": "fusion_mercury",
-                      "name": "Mercury"
-                    },
-                    {
-                      "id": "fusion_mars",
-                      "name": "Mars"
-                    },
-                    {
-                      "id": "fusion_leonis",
-                      "name": "Leonis"
-                    },
-                    {
-                      "id": "fusion_altair",
-                      "name": "Altair"
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/adoquines-y-baldosas/baldosas/"
-            },
-            {
-              "id": "baldosa_hidraulica_20x20_4_pastillas",
-              "name": "Hidráulica 4 Pastillas 20×20",
-              "model_image": "thumb_baldosa_hidraulica_20x20_4_pastillas.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "blanco",
-                  "variants": [
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "ba7473"
-                    },
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "bbbbbb"
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "606060"
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/baldosa-hidraulica/"
-            },
-            {
-              "id": "baldosa_hidraulica_20x20_lisa",
-              "name": "Hidráulica Lisa 20×20",
-              "model_image": "thumb_baldosa_hidraulica_20x20_lisa.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "blanco",
-                  "variants": [
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "ba7473"
-                    },
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "bbbbbb"
-                    },
-                    {
-                      "id": "gris_perla",
-                      "name": "Gris Perla",
-                      "value": "cdd3da"
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "606060"
-                    },
-                    {
-                      "id": "crema",
-                      "name": "Crema",
-                      "value": "d9b489"
-                    },
-                    {
-                      "id": "blanco",
-                      "name": "Blanco",
-                      "value": ""
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/baldosa-hidraulica/"
-            },
-            {
               "id": "baldosa_hidraulica_40x40_64_pastillas",
-              "name": "Hidráulica 64 Pastillas 40×40",
+              "name": "Baldosa Hidráulica 40×40 64 Pastillas",
               "model_image": "thumb_baldosa_hidraulica_40x40_64_pastillas.webp",
+              "renderPrefix": "pastillas",
               "groups": [
                 {
                   "name": "Color",
@@ -2360,234 +1804,6 @@
                       "id": "crema",
                       "name": "Crema",
                       "value": "d9b489"
-                    },
-                    {
-                      "id": "blanco",
-                      "name": "Blanco",
-                      "value": ""
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/baldosa-hidraulica/"
-            },
-            {
-              "id": "baldosa_hidraulica_40x40_canto_lavado",
-              "name": "Hidráulica Canto Lavado 40×40",
-              "model_image": "thumb_baldosa_hidraulica_40x40_canto_lavado.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "texture",
-                  "variants": [
-                    {
-                      "id": "cantolavado_fondo_blanco",
-                      "name": "Fondo Blanco"
-                    },
-                    {
-                      "id": "cantolavado_fondo_gris",
-                      "name": "Fondo Gris"
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/baldosa-hidraulica/"
-            },
-            {
-              "id": "baldosa_hidraulica_40x40_granitor",
-              "name": "Hidráulica Granallada 40×40",
-              "model_image": "thumb_baldosa_hidraulica_40x40_granitor.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "texture",
-                  "variants": [
-                    {
-                      "id": "granitor_gris_perla",
-                      "name": "Gris Perla"
-                    },
-                    {
-                      "id": "granitor_negro",
-                      "name": "Negro"
-                    },
-                    {
-                      "id": "granitor_rojo",
-                      "name": "Rojo"
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/baldosa-hidraulica/"
-            },
-            {
-              "id": "baldosa_hidraulica_40x40_pergamino",
-              "name": "Hidráulica Pergamino 40×40",
-              "model_image": "thumb_baldosa_hidraulica_40x40_pergamino.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "pergamino",
-                  "variants": [
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "bbbbbb"
-                    },
-                    {
-                      "id": "gris_perla",
-                      "name": "Gris Perla",
-                      "value": "cdd3da"
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "7f7f7f"
-                    },
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "ba7473"
-                    },
-                    {
-                      "id": "crema",
-                      "name": "Crema",
-                      "value": "efc8a3"
-                    },
-                    {
-                      "id": "blanco",
-                      "name": "Blanco",
-                      "value": ""
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/baldosa-hidraulica/"
-            },
-            {
-              "id": "baldosa_hidraulica_40x40_petrea",
-              "name": "Hidráulica Pétrea 40×40",
-              "model_image": "thumb_baldosa_hidraulica_40x40_petrea.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "petrea",
-                  "variants": [
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "bbbbbb"
-                    },
-                    {
-                      "id": "gris_perla",
-                      "name": "Gris Perla",
-                      "value": "cdd3da"
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "7f7f7f"
-                    },
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "ba7473"
-                    },
-                    {
-                      "id": "crema",
-                      "name": "Crema",
-                      "value": "efc8a3"
-                    },
-                    {
-                      "id": "blanco",
-                      "name": "Blanco",
-                      "value": ""
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/baldosa-hidraulica/"
-            },
-            {
-              "id": "baldosa_hidraulica_40x40_petreofin",
-              "name": "Hidráulica Petreofín 40×40",
-              "model_image": "thumb_baldosa_hidraulica_40x40_petreofin.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "petreofin",
-                  "variants": [
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "bbbbbb"
-                    },
-                    {
-                      "id": "gris_perla",
-                      "name": "Gris Perla",
-                      "value": "cdd3da"
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "7f7f7f"
-                    },
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "ba7473"
-                    },
-                    {
-                      "id": "crema",
-                      "name": "Crema",
-                      "value": "efc8a3"
-                    },
-                    {
-                      "id": "blanco",
-                      "name": "Blanco",
-                      "value": ""
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/baldosa-hidraulica/"
-            },
-            {
-              "id": "baldosa_hidraulica_40x40_pizarra",
-              "name": "Hidráulica Pizarra 40×40",
-              "model_image": "thumb_baldosa_hidraulica_40x40_pizarra.webp",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "pizarra",
-                  "variants": [
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "bbbbbb"
-                    },
-                    {
-                      "id": "gris_perla",
-                      "name": "Gris Perla",
-                      "value": "cdd3da"
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "7f7f7f"
-                    },
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "ba7473"
-                    },
-                    {
-                      "id": "crema",
-                      "name": "Crema",
-                      "value": "efc8a3"
                     },
                     {
                       "id": "blanco",
@@ -2830,182 +2046,6 @@
                 }
               ],
               "productFamilyURL": "productos/bloques/"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "baldosa-tecnica",
-      "name": "Baldosa Técnica",
-      "base": "ambients/baldosa-tecnica/base.webp",
-      "baseRender": [
-        {
-          "zoneId": "z2",
-          "modelId": "baldosa_hidraulica_40x40_botones",
-          "variantId": "rojo"
-        },
-        {
-          "zoneId": "z3",
-          "modelId": "baldosa_hidraulica_40x40_guia",
-          "variantId": "rojo"
-        },
-        {
-          "zoneId": "z1",
-          "modelId": "baldosa_hidraulica_40x40_64_pastillas",
-          "variantId": "blanco"
-        }
-      ],
-      "autoHint": {
-        "timeToShow": 2
-      },
-      "autohidePanel": true,
-      "panelSelectorPosition": "right",
-      "panelOpenDelay": 1,
-      "hintSequenceDelay": 300,
-      "combinedRenders": true,
-      "mask": "ambients/baldosa-tecnica/mask.webp",
-      "zones": [
-        {
-          "id": "z2",
-          "maskColor": [
-            255,
-            0,
-            0
-          ],
-          "label": "Botones",
-          "hintZone": {
-            "type": "layer",
-            "animationTime": 500
-          },
-          "models": [
-            {
-              "id": "baldosa_hidraulica_40x40_botones",
-              "name": "Baldosa Hidráulica 40×40 Botones",
-              "model_image": "thumb_baldosa_hidraulica_40x40_botones.webp",
-              "renderPrefix": "botones",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "blanco",
-                  "variants": [
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "b87c81"
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "6a6a6a"
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/baldosa-hidraulica/"
-            }
-          ]
-        },
-        {
-          "id": "z3",
-          "maskColor": [
-            0,
-            255,
-            0
-          ],
-          "label": "Guía",
-          "hintZone": {
-            "type": "layer",
-            "animationTime": 500
-          },
-          "models": [
-            {
-              "id": "baldosa_hidraulica_40x40_guia",
-              "name": "Baldosa Hidráulica 40×40 Guía",
-              "model_image": "thumb_baldosa_hidraulica_40x40_guia.webp",
-              "renderPrefix": "guia",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "blanco",
-                  "variants": [
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "b87c81"
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "6a6a6a"
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/baldosa-hidraulica/"
-            }
-          ]
-        },
-        {
-          "id": "z1",
-          "maskColor": [
-            0,
-            0,
-            0
-          ],
-          "label": "Pastillas",
-          "hintZone": {
-            "type": "invert",
-            "animationTime": 500
-          },
-          "models": [
-            {
-              "id": "baldosa_hidraulica_40x40_64_pastillas",
-              "name": "Baldosa Hidráulica 40×40 64 Pastillas",
-              "model_image": "thumb_baldosa_hidraulica_40x40_64_pastillas.webp",
-              "renderPrefix": "pastillas",
-              "groups": [
-                {
-                  "name": "Color",
-                  "mode": "tint",
-                  "baseTexture": "blanco",
-                  "variants": [
-                    {
-                      "id": "rojo",
-                      "name": "Rojo",
-                      "value": "b87c81"
-                    },
-                    {
-                      "id": "gris",
-                      "name": "Gris",
-                      "value": "948d8b"
-                    },
-                    {
-                      "id": "gris_perla",
-                      "name": "Gris Perla",
-                      "value": "d9d9d9"
-                    },
-                    {
-                      "id": "negro",
-                      "name": "Negro",
-                      "value": "6a6a6a"
-                    },
-                    {
-                      "id": "crema",
-                      "name": "Crema",
-                      "value": "d9b489"
-                    },
-                    {
-                      "id": "blanco",
-                      "name": "Blanco",
-                      "value": ""
-                    }
-                  ]
-                }
-              ],
-              "productFamilyURL": "productos/baldosa-hidraulica/"
             }
           ]
         }

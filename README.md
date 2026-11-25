@@ -339,8 +339,8 @@ Vite 8 con Rolldown y Oxc:
 | ID | Nombre | Assets |
 |---|---|---|
 | `adoquines` | Adoquines | base.webp + mask.webp + renders completos; 1 zona |
-| `baldosas-1` | Baldosas 1 | base.webp + mask.webp; renders pendientes |
-| `baldosas-2` | Baldosas 2 | base.webp + mask.webp; renders pendientes |
+| `baldosas-1` | Baldosas | base.webp + mask.webp; solo baldosas (sin hidráulicas) |
+| `baldosas-2` | Baldosas hidráulicas | base.webp + mask.webp; solo baldosas hidráulicas |
+| `baldosa-tecnica` | Baldosa Técnica | base.webp + mask.webp; 3 zonas (Pastillas, Botones, Direccional); renders pendientes |
 | `bloques-1` | Bloques 1 | base.webp + mask.webp; renders pendientes |
 | `bloques-2` | Bloques 2 | base.webp + mask.webp; renders pendientes |
-| `baldosa-tecnica` | Baldosa Técnica | base.webp + mask.webp; 3 zonas (Pastillas, Botones, Direccional); renders pendientes |
